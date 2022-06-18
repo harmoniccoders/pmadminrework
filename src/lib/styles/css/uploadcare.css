@@ -1,0 +1,22 @@
+.uploadcare--widget__button_type_open {
+	background: rgba(248, 248, 248, 1);
+	height: 71px;
+	width: 71px;
+	border-radius: 6px;
+	color: transparent;
+	position: relative;
+	cursor: pointer;
+}
+.uploadcare--widget__button_type_open::after {
+	content: "+";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: black;
+	font-size: 18px;
+}
+.uploadcare--widget__button_type_open:hover {
+	background: rgba(248, 248, 248, 1);
+	color: transparent;
+}
