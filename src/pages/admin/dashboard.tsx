@@ -4,8 +4,6 @@ import {
 	AdminService,
 	MetricsView,
 	MetricsViewStandardResponse,
-	UserService,
-	UserViewPagedCollectionStandardResponse,
 } from "Services";
 
 interface DashboardProps {
