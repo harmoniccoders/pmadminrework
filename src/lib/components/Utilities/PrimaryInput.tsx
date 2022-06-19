@@ -64,7 +64,7 @@ export const PrimaryInput = <TFormValues extends Record<string, any>>({
 	return (
 		<>
 			<FormControl isInvalid={!!error}>
-				<FormLabel color="brand.100" fontSize="1rem">
+				<FormLabel color="brand.500" fontSize="1rem">
 					{label}
 				</FormLabel>
 				<InputGroup>
@@ -81,6 +81,7 @@ export const PrimaryInput = <TFormValues extends Record<string, any>>({
 						disabled={disableLabel}
 						padding={padding}
 						variant="filled"
+						borderRadius="0"
 					/>
 					<InputRightElement
 						pointerEvents="none"
