@@ -1,9 +1,12 @@
 import {
+	Box,
 	Button,
-	FormControl,
-	FormLabel,
+	Flex,
+	Image,
+	AspectRatio,
 	GridItem,
 	HStack,
+	Icon,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -16,16 +19,212 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { LoginModel } from "types/AppTypes";
 import { PrimaryInput } from "../Utilities/PrimaryInput";
 import { Widget } from "@uploadcare/react-widget";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useToasts } from "react-toast-notifications";
+import { useRouter } from "next/router";
+import { useOperationMethod } from "react-openapi-client";
+import { VscDeviceCameraVideo } from "react-icons/vsc";
+import { BiImage, BiPlus } from "react-icons/bi";
+import { SRLWrapper } from "simple-react-lightbox";
+import Geocode from "react-geocode";
+import { Parameters } from "openapi-client-axios";
+import {
+	MediaModel,
+	PropertyModel,
+	PropertyTitle,
+	PropertyType,
+} from "Services";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { PrimarySelect } from "../Utilities/PrimarySelect";
+import { PrimaryEditor } from "../Utilities/PrimaryEditor";
+import { CurrencyField } from "../Utilities/CurrencyInput";
 
-function AddMatch({ isOpen, onClose }: { isOpen: boolean; onClose: any }) {
+type Props = {
+	isOpen: boolean;
+	onClose: any;
+	propertyTitles: PropertyType[];
+	propertyTypes: PropertyTitle[];
+	getStates: any;
+	item: any;
+};
+
+function AddMatch({
+	isOpen,
+	onClose,
+	propertyTitles,
+	propertyTypes,
+	getStates,
+	item,
+}: Props) {
+	const [PropertyCreate, { loading, data, error }] =
+		useOperationMethod("Propertycreate");
+	const [removeMatch, { loading: isLoading, data: isData, error: isError }] =
+		useOperationMethod("PropertyRequestmatchadd{propertyId}{requestId}");
+	const [uploadedMedia, setUploadedMedia] = useState<MediaModel[]>([]);
+	const schema = yup.object().shape({
+		address: yup.string().required(),
+		description: yup.string().required(),
+		title: yup.string().required(),
+		area: yup.string().required(),
+		lga: yup.string().required(),
+		state: yup.string().required(),
+		propertyTypeId: yup.number().required(),
+		name: yup.string().required(),
+		numberOfBathrooms: yup.string().required(),
+		numberOfBedrooms: yup.string().required(),
+		price: yup.string().required(),
+	});
+
 	const {
-		handleSubmit,
 		register,
+		handleSubmit,
+		control,
+		watch,
+		getValues,
+		setValue,
 		formState: { errors, isValid },
-	} = useForm<LoginModel>();
+	} = useForm<PropertyModel>({
+		resolver: yupResolver(schema),
+		mode: "all",
+		defaultValues: {
+			sellMyself: false,
+		},
+	});
+
+	const widgetApi = useRef();
+	const widgetApis = useRef();
+
+	const [lgas, setLgas] = useState([]);
+
+	useEffect(() => {
+		const getLga = async (state: string) => {
+			const result = (
+				await axios.get(
+					`http://locationsng-api.herokuapp.com/api/v1/states/${state}/lgas`
+				)
+			).data;
+
+			if (Array.isArray(result) === true) {
+				setLgas(
+					result.map((value: string) => {
+						return { name: value };
+					})
+				);
+			}
+		};
+		getLga(getValues("state") as unknown as string);
+	}, [watch("state")]);
+
+	let uploaded;
+	const onChangeImg = async (info: any, type: boolean) => {
+		console.log("Upload completed:", info);
+		uploaded = await groupInfo(info.uuid);
+
+		let newArr = [info.count];
+
+		console.log(newArr.length);
+		console.log({ uploaded });
+		let medias: MediaModel[] = [];
+
+		uploaded.files.forEach((file: any) => {
+			let newMedia: MediaModel = {
+				url: file.original_file_url,
+				isImage: type ? true : false,
+				isVideo: !type ? true : false,
+				name: "",
+				extention: "",
+				base64String: "",
+			};
+
+			medias.push(newMedia);
+		});
+
+		setUploadedMedia([...uploadedMedia, ...medias]);
+	};
+
+	const groupInfo = async (uuid: string) => {
+		const result = await fetch(`https://api.uploadcare.com/groups/${uuid}/`, {
+			headers: {
+				Accept: "application/vnd.uploadcare-v0.5+json",
+				authorization:
+					"Uploadcare.Simple fda3a71102659f95625f:dcdc4ba3595b6be5fc0d",
+			},
+		});
+
+		let res = await result.json();
+		return res;
+	};
+
+	const { addToast } = useToasts();
+	const router = useRouter();
+	Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string);
+	Geocode.setRegion("ng");
+	//@ts-ignore
+	Geocode.setLocationType("ROOFTOP");
+	Geocode.enableDebug();
+
+	const getLongAndLat = async (values: PropertyModel) => {
+		console.log("here");
+		try {
+			const { results } = await Geocode.fromAddress(values.address);
+			console.log(results);
+			values.latitude = results[0].geometry.location.lat;
+			values.longitude = results[0].geometry.location.lng;
+			return values;
+		} catch (error) {
+			return values;
+		}
+	};
+	const onSubmit = async (data: PropertyModel) => {
+		await getLongAndLat(data);
+		data.sellMyself = data.sellMyself as boolean;
+		data.mediaFiles = uploadedMedia;
+		try {
+			const result = await (await PropertyCreate(undefined, data)).data;
+
+			if (result.status) {
+				const AddMatch = async () => {
+					const params: Parameters = {
+						propertyId: result.data.id,
+						requestId: item.id,
+					};
+
+					try {
+						const result = await (await removeMatch(params)).data;
+
+						if (result.status) {
+							addToast(result.message, {
+								appearance: "success",
+								autoDismiss: true,
+							});
+							onClose();
+							router.reload();
+							return;
+						}
+						addToast(result.message, {
+							appearance: "error",
+							autoDismiss: true,
+						});
+					} catch (err) {
+						console.log(err);
+					}
+				};
+				AddMatch();
+				return;
+			}
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+			onClose();
+			return;
+		} catch (err) {}
+	};
+
 	return (
 		<Modal
 			motionPreset="slideInBottom"
@@ -35,12 +234,12 @@ function AddMatch({ isOpen, onClose }: { isOpen: boolean; onClose: any }) {
 		>
 			<ModalOverlay
 				bg="blackAlpha.300"
-				backdropFilter="blur(10px) hue-rotate(90deg)"
+				backdropFilter="blur(10px) hue-rotate(10deg)"
 			/>
 			<ModalContent
 				py={5}
 				borderRadius="0"
-				w={["88%", "48%"]}
+				w={["88%", "80%"]}
 				overflow="hidden"
 				maxH="100vh"
 				maxWidth="80%"
@@ -61,217 +260,273 @@ function AddMatch({ isOpen, onClose }: { isOpen: boolean; onClose: any }) {
 				</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody>
-					<form>
-						<VStack maxH="80vh" overflowY="auto" px={5}>
-							<VStack spacing="1rem" alignItems="flex-start" w="full">
-								<form>
-									<HStack align="flex-start" justify="space-between">
-										<SimpleGrid columns={2} gap={4}>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Name"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Property Title"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="No of Bedrooms"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="No of Toilets"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Price"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="State"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<Select
-													placeholder="Status"
-													w="full"
-													borderBottom="2px solid black"
-													border="0"
-													borderRadius="0"
-													bgColor="rgba(25,25,25,.03)"
-													color="rgba(37,36,39,1)"
-													fontSize="16px"
-													fontWeight="600"
-													my="1rem"
+					<VStack maxH="80vh" overflowY="auto" px={5}>
+						<VStack spacing="1rem" alignItems="flex-start" w="full">
+							<form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+								<HStack align="flex-start" justify="space-between">
+									<Box w="full">
+										<PrimaryInput<PropertyModel>
+											label="Property Name"
+											name="name"
+											error={errors.name}
+											placeholder=""
+											defaultValue=""
+											register={register}
+										/>
+
+										<PrimarySelect<PropertyModel>
+											register={register}
+											error={errors.title}
+											label="Legal Title"
+											placeholder=""
+											name="title"
+											options={
+												<>
+													{propertyTitles.map((x: PropertyType) => {
+														return (
+															<option value={x.name as string}>{x.name}</option>
+														);
+													})}
+												</>
+											}
+										/>
+										<PrimarySelect<PropertyModel>
+											register={register}
+											error={errors.propertyTypeId}
+											label="Type"
+											placeholder=""
+											name="propertyTypeId"
+											options={
+												<>
+													{propertyTypes.map((x: PropertyType) => {
+														return <option value={x.id}>{x.name}</option>;
+													})}
+												</>
+											}
+										/>
+										<PrimaryInput<PropertyModel>
+											label="No. of Bedrooms"
+											name="numberOfBedrooms"
+											error={errors.numberOfBedrooms}
+											placeholder=""
+											defaultValue=""
+											register={register}
+										/>
+										<PrimaryInput<PropertyModel>
+											label="No. of Toilets"
+											name="numberOfBathrooms"
+											error={errors.numberOfBathrooms}
+											placeholder=""
+											defaultValue=""
+											register={register}
+										/>
+										<CurrencyField<PropertyModel>
+											placeholder=""
+											defaultValue=""
+											register={register}
+											error={errors.price}
+											name={"price"}
+											control={control}
+											label="Price"
+										/>
+										<PrimarySelect<PropertyModel>
+											register={register}
+											error={errors.state}
+											label="State"
+											placeholder="Which state in Nigeria is your property located"
+											name="state"
+											options={
+												<>
+													{getStates.map((x: any) => {
+														return <option value={x.name}>{x.name}</option>;
+													})}
+												</>
+											}
+										/>
+										{getValues("state") !== undefined ? (
+											<PrimarySelect<PropertyModel>
+												register={register}
+												error={errors.lga}
+												label="LGA"
+												placeholder="Local Government Area"
+												name="lga"
+												options={
+													<>
+														{lgas.map((x: any) => {
+															return <option value={x.name}>{x.name}</option>;
+														})}
+													</>
+												}
+											/>
+										) : null}
+										<PrimaryInput<PropertyModel>
+											label="Landmark"
+											name="area"
+											placeholder="Nearest Landmark"
+											error={errors.area}
+											defaultValue=""
+											register={register}
+										/>
+									</Box>
+									<Box w="full">
+										<PrimaryInput<PropertyModel>
+											label="Address"
+											name="address"
+											error={errors.address}
+											defaultValue=""
+											register={register}
+										/>
+										<PrimaryEditor<PropertyModel>
+											name="description"
+											control={control}
+											label="Description"
+											register={register}
+											defaultValue=""
+											error={errors.description}
+										/>
+										<Box>
+											<Text fontWeight="500">Add Image</Text>
+											<Widget
+												publicKey="fda3a71102659f95625f"
+												multiple
+												imageShrink="640x480"
+												multipleMax={9}
+												imagePreviewMaxSize={9}
+												imagesOnly
+												onChange={(info) => onChangeImg(info, true)}
+												//@ts-ignore
+												ref={widgetApi}
+											/>
+											<HStack my="1rem" align="center" spacing="1rem">
+												<Flex
+													w="80px"
+													h="80px"
+													borderRadius="5px"
+													bgColor="#DCE1E7"
+													flexShrink={0}
+													justifyContent="center"
+													align="center"
+													//@ts-ignore
+													onClick={() => widgetApi.current.openDialog()}
 												>
-													<option value="option1">Option 1</option>
-													<option value="option2">Option 2</option>
-													<option value="option3">Option 3</option>
-												</Select>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<FormControl>
-													<FormLabel color="brand.100" fontSize="1rem">
-														Add Images
-													</FormLabel>
-													<Widget
-														publicKey="fda3a71102659f95625f"
-														// onChange={onChange}
-													/>
-												</FormControl>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<FormControl>
-													<FormLabel color="brand.100" fontSize="1rem">
-														Add Interactive 3D Tour
-													</FormLabel>
-													<Widget
-														publicKey="fda3a71102659f95625f"
-														// onChange={onChange}
-													/>
-												</FormControl>
-											</GridItem>
-										</SimpleGrid>
-										<SimpleGrid columns={2} gap={4}>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Locality"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Area"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Seller's Price"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Commission"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Seller Mobile Number"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<PrimaryInput<LoginModel>
-													register={register}
-													name="password"
-													error={errors.password}
-													defaultValue=""
-													type="text"
-													label="Seller Email"
-													placeholder=""
-												/>
-											</GridItem>
-											<GridItem colSpan={2}>
-												<Select
-													placeholder="Assign Rep"
-													w="full"
-													borderBottom="2px solid black"
-													border="0"
-													borderRadius="0"
-													bgColor="rgba(25,25,25,.03)"
-													color="rgba(37,36,39,1)"
-													fontSize="16px"
-													fontWeight="600"
-													my="1rem"
+													<Icon as={BiPlus} />
+												</Flex>
+												{uploadedMedia.length > 0 && (
+													<>
+														<HStack w="full" spacing="1rem" overflow="auto">
+															{uploadedMedia
+																.filter((m) => m.isImage)
+																.map((item: any) => {
+																	return (
+																		<SRLWrapper>
+																			<Box
+																				w="80px"
+																				h="80px"
+																				borderRadius="5px"
+																				bgColor="brand.50"
+																				flexShrink={0}
+																				overflow="hidden"
+																			>
+																				<Image
+																					src={item.url}
+																					alt="propery-image"
+																					w="100%"
+																					height="100%"
+																					objectFit="cover"
+																				/>
+																			</Box>
+																		</SRLWrapper>
+																	);
+																})}
+														</HStack>
+													</>
+												)}
+											</HStack>
+										</Box>
+										<Box>
+											<Text fontWeight="500">Add Video</Text>
+											<Widget
+												publicKey="fda3a71102659f95625f"
+												//@ts-ignore
+												id="file"
+												multiple
+												imageShrink="640x480"
+												multipleMax={3}
+												imagePreviewMaxSize={9}
+												inputAcceptTypes={"video/*"}
+												onChange={(info) => onChangeImg(info, false)}
+												//@ts-ignore
+												ref={widgetApis}
+											/>
+											<HStack my="1rem" align="center" spacing="1rem">
+												<Flex
+													w="80px"
+													h="80px"
+													borderRadius="5px"
+													bgColor="#DCE1E7"
+													flexShrink={0}
+													justifyContent="center"
+													align="center"
+													//@ts-ignore
+													onClick={() => widgetApis.current.openDialog()}
 												>
-													<option value="option1">Option 1</option>
-													<option value="option2">Option 2</option>
-													<option value="option3">Option 3</option>
-												</Select>
-											</GridItem>
-										</SimpleGrid>
-									</HStack>
-									<SimpleGrid columns={4}>
-										<GridItem colSpan={2} gridColumnStart={2} gridColumnEnd={4}>
-											<Button w="full" mt="4rem" height="3rem" type="submit">
-												Update
-											</Button>
-										</GridItem>
-									</SimpleGrid>
-								</form>
-							</VStack>
+													<Icon as={BiPlus} />
+												</Flex>
+												{uploadedMedia.length > 0 && (
+													<>
+														<HStack w="full" spacing="1rem" overflow="auto">
+															{uploadedMedia
+																.filter((m) => m.isVideo)
+																.map((item: any) => {
+																	return (
+																		<SRLWrapper>
+																			<Box
+																				w="80px"
+																				h="80px"
+																				borderRadius="5px"
+																				bgColor="brand.50"
+																				flexShrink={0}
+																				overflow="hidden"
+																			>
+																				<AspectRatio
+																					maxW="150px"
+																					w="full"
+																					ratio={1}
+																				>
+																					<iframe
+																						title="Interactive videp"
+																						src={item.url as string}
+																						allowFullScreen
+																					/>
+																				</AspectRatio>
+																			</Box>
+																		</SRLWrapper>
+																	);
+																})}
+														</HStack>
+													</>
+												)}
+											</HStack>
+										</Box>
+									</Box>
+								</HStack>
+								<SimpleGrid columns={4}>
+									<GridItem colSpan={2} gridColumnStart={2} gridColumnEnd={4}>
+										<Button
+											w="full"
+											mt="4rem"
+											height="3rem"
+											type="submit"
+											isLoading={loading}
+											disabled={!isValid}
+										>
+											Add Match
+										</Button>
+									</GridItem>
+								</SimpleGrid>
+							</form>
 						</VStack>
-					</form>
+					</VStack>
 				</ModalBody>
 			</ModalContent>
 		</Modal>

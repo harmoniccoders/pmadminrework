@@ -17,9 +17,9 @@ function Tab({ tabname, currentTab }: tabTypes) {
 			fontSize=".9rem"
 			textTransform="capitalize"
 			borderRadius="2px 16px 0 0"
-			bgColor={currentTab == tabname ? "black" : "rgba(36,68,115,0.03)"}
+			bgColor={currentTab == tabname ? "brand.100" : "rgba(36,68,115,0.03)"}
 			transition="all .2s ease"
-			_hover={{ color: "white", bgColor: "black" }}
+			_hover={{ color: "white", bgColor: "brand.100" }}
 		>
 			{tabname}
 		</Text>

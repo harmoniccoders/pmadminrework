@@ -4,6 +4,7 @@ import {
 	FaArrowRight,
 	FaTimes,
 	FaTimesCircle,
+	FaTrash,
 } from "react-icons/fa";
 
 export function TableHead({ title }: { title: string }) {
@@ -23,7 +24,17 @@ export function TableHead({ title }: { title: string }) {
 
 export function TableData({ name }: { name: string }) {
 	return (
-		<Td fontSize="14px" fontWeight="500" color="black" pl="1rem">
+		<Td
+			fontSize="14px"
+			fontWeight="500"
+			color="black"
+			pl="1rem"
+			py="1.3rem"
+			textTransform="capitalize"
+			maxW="130px"
+			overflow="hidden"
+			textOverflow="ellipsis"
+		>
 			{name}
 		</Td>
 	);
@@ -53,12 +64,13 @@ export function TableStatus({ name }: { name: string }) {
 			fontSize="14px"
 			fontWeight="500"
 			pl="1rem"
+			textTransform="capitalize"
 			color={
 				name === "APPROVED" || name === "RESOLVED"
-					? "rgba(47,223,132,1)"
+					? "#2FDF84"
 					: name === "PENDING"
-					? "rgba(227,188,106,1)"
-					: "rgba(255,41,41,1)"
+					? "#E3BC6A"
+					: "#FF2929"
 			}
 		>
 			{name}
@@ -94,6 +106,15 @@ export function TableActions() {
 				<Circle color="white" bgColor="rgba(47,223,132,1)" size="30px">
 					<FaArrowRight />
 				</Circle>
+			</HStack>
+		</Td>
+	);
+}
+export function TableDelete({ onClick, loading }: any) {
+	return (
+		<Td fontSize="14px" fontWeight="500" pl="1rem" onClick={onClick}>
+			<HStack spacing={5}>
+				{loading ? <div className="loader" /> : <FaTrash />}
 			</HStack>
 		</Td>
 	);

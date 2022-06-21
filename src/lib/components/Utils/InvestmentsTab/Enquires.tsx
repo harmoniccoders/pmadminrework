@@ -15,11 +15,11 @@ import Pagination from "lib/components/Utilities/Pagination";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
 import { BsSearch } from "react-icons/bs";
+import { UserEnquiryView } from "Services";
 const moment = require("moment");
 
-function Enquires() {
-	// const complaints = complains.value;
-
+function Enquires({ result }: any) {
+	const data = result.value;
 	return (
 		<>
 			<HStack
@@ -68,43 +68,50 @@ function Enquires() {
 					<Table variant="simple">
 						<Thead>
 							<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
-								<TableHead title="Type" />
+								<TableHead title="Property Name" />
 								<TableHead title="User" />
 								<TableHead title="State" />
 								<TableHead title="Locality" />
 								<TableHead title="Area" />
-								<TableHead title="Budget" />
+								<TableHead title="Inspection" />
 								<TableHead title="Status" />
 							</Tr>
 						</Thead>
 
 						<Tbody>
-							<Link href={"/admin/investments/" + 1} key={1}>
-								<Tr>
-									{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-									<TableData name="3 Bedroom Terrace" />
-									<TableData name="Pade Omotosho" />
-									<TableData name="Lagos" />
-									<TableData name="Lekki" />
-									<TableData name="Sangotedo" />
-									<TableData name="₦40,000,000" />
-									<TableData name="Pending" />
-								</Tr>
-							</Link>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<TableData name="3 Bedroom Terrace" />
-								<TableData name="Pade Omotosho" />
-								<TableData name="Lagos" />
-								<TableData name="Lekki" />
-								<TableData name="Sangotedo" />
-								<TableData name="₦40,000,000" />
-								<TableData name="Pending" />
-							</Tr>
+							{data.map((item: any) => {
+								return (
+									<Link
+										href={"/admin/listings/enquires/" + item.propertyId}
+										key={item.propertyId}
+									>
+										<Tr>
+											{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
+											<TableData name={item.propertyName} />
+											<TableData name={item.fullName} />
+											<TableData name={item.state} />
+											<TableData name={item.lga} />
+											<TableData name={item.area} />
+											<TableData
+												name={`${
+													item.inspection?.length > 0
+														? moment(item.inspection[0].date).format("D/MM/YY")
+														: "No data"
+												} - ${
+													item.inspection?.length > 0
+														? moment(item.inspection[0].time).format("LT")
+														: ""
+												}`}
+											/>
+											<TableData name="Pending" />
+										</Tr>
+									</Link>
+								);
+							})}
 						</Tbody>
 					</Table>
 				</TableContainer>
-				{/* <Pagination data={complains} /> */}
+				<Pagination data={result} />
 			</Box>
 		</>
 	);

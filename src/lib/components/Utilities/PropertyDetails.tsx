@@ -10,10 +10,24 @@ import {
 	Text,
 	Image,
 	Center,
+	Heading,
+	Grid,
+	AspectRatio,
+	GridItem,
+	Icon,
+	Divider,
 } from "@chakra-ui/react";
+import { PropertyView } from "Services";
 import Features from "./Features";
+import { SRLWrapper } from "simple-react-lightbox";
+import parse from "html-react-parser";
+import Icons from "./Icons";
+import { MdVerified } from "react-icons/md";
 
-function PropertyDetails() {
+const iconStyle = {
+	color: "#0042ff",
+};
+function PropertyDetails({ data }: { data: PropertyView }) {
 	return (
 		<Box w="full">
 			<Box
@@ -24,7 +38,29 @@ function PropertyDetails() {
 				borderRadius="6px"
 				bgColor="gray"
 			>
-				<Image src="" w="full" h="full" objectFit="cover" borderRadius="6px" />
+				<>
+					{data.mediaFiles && data.mediaFiles?.length > 0 ? (
+						<>
+							{data.mediaFiles[0].isImage && (
+								<Image
+									src={data.mediaFiles[0].url as string}
+									alt="propery-image"
+									w="100%"
+									height="100%"
+									objectFit="cover"
+								/>
+							)}
+						</>
+					) : (
+						<Image
+							src="/assets/nb.webp"
+							alt="propery-image"
+							w="100%"
+							height="100%"
+							objectFit="cover"
+						/>
+					)}
+				</>
 				<Box
 					pos="absolute"
 					minW="99px"
@@ -39,7 +75,7 @@ function PropertyDetails() {
 					right="0"
 				>
 					<Text fontSize="12px" fontWeight="500">
-						Lekki Phase 1
+						{data.lga}
 					</Text>
 				</Box>
 			</Box>
@@ -57,81 +93,148 @@ function PropertyDetails() {
 			>
 				<VStack align="flex-start" spacing={4}>
 					<Flex justifyContent="space-between" w="full">
-						<Text fontSize="16px" fontWeight="500" w="60%">
-							4 Bedroom Terrace with Pool
-						</Text>
-						<Button
-							bgColor="rgba(47,223,132,1)"
-							width="73px"
-							color="white"
-							fontSize="14px"
-							fontWeight="bold"
+						<Text
+							fontSize="18px"
+							fontWeight="700"
+							w="60%"
+							overflow="hidden"
+							textOverflow="ellipsis"
 						>
-							Enquire
-						</Button>
-					</Flex>
-					<HStack justifyContent="space-between" w="full">
-						<Features text="4 Bedrooms" icon="bed" />
-						<Features text="5 Bathrooms" icon="shower" />
-						<Features text="124 Sq ft" icon="tape" />
-					</HStack>
-					<Flex justifyContent="space-between" w="full">
-						<Text fontSize="20px" fontWeight="600">
-							₦145M
+							{data.name}
 						</Text>
-						<Flex align="center">
-							<i
-								className="fal fa-award"
-								style={{
-									paddingRight: ".8rem",
-									fontSize: "12px",
-									color: "rgba(227,188,106,1)",
-								}}
-							></i>
-							<Text fontSize="14px" fontWeight="500">
-								Governor’s Consent
-							</Text>
-						</Flex>
+						{!data.sellMyself ? (
+							<Icon as={MdVerified} w="20px" h="20px" color="brand.100" />
+						) : (
+							<Icons iconClass="fa-exclamation-triangle" />
+						)}
 					</Flex>
+					<Grid w="100%" templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)"]}>
+						<GridItem mb="5px" display="flex" alignItems="center">
+							<Icons iconClass="fa-bed" style={iconStyle} />
+							<Text fontSize="13px" ml="4px">
+								{`${data.numberOfBedrooms} ${
+									data.numberOfBedrooms
+										? data.numberOfBedrooms > 1
+											? "Bedrooms"
+											: "Bedroom"
+										: null
+								}`}
+							</Text>
+						</GridItem>
+						<GridItem mb="5px" display="flex" alignItems="center">
+							<Icons iconClass="fa-toilet" style={iconStyle} />
+							<Text fontSize="13px" ml="4px">
+								{`${data.numberOfBathrooms} ${
+									data.numberOfBathrooms
+										? data.numberOfBathrooms > 1
+											? "Bathrooms"
+											: "Bathroom"
+										: null
+								}`}
+							</Text>
+						</GridItem>
+						<GridItem mb="5px" display="flex" alignItems="center">
+							<Icons iconClass="fa-tags" style={iconStyle} />
+							<Text fontSize="13px" ml="4px">
+								&#8358;
+								{data.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+							</Text>
+						</GridItem>
+						<GridItem mb="5px" display="flex" alignItems="center">
+							<Icons iconClass="fa-award" style={iconStyle} />
+							<Text fontSize="13px" ml="4px">
+								{data.title}
+							</Text>
+						</GridItem>
+					</Grid>
+					<Divider />
 					<Box>
 						<Text fontSize="14px" fontWeight="500" mb="1rem">
 							Description
 						</Text>
-						<UnorderedList fontSize="12px">
-							<ListItem>Fully-fitted kitchen cabinets</ListItem>
-							<ListItem>Complete Kitchen appliances</ListItem>
-							<ListItem>Fully-fitted kitchen cabinets</ListItem>
-							<ListItem>Complete Kitchen appliances</ListItem>
-							<ListItem>Fully-fitted kitchen cabinets</ListItem>
-							<ListItem>Complete Kitchen appliances</ListItem>
-							<ListItem>Fully-fitted kitchen cabinets</ListItem>
-							<ListItem>Complete Kitchen appliances</ListItem>
-							<ListItem>Fully-fitted kitchen cabinets</ListItem>
-							<ListItem>Complete Kitchen appliances</ListItem>
-						</UnorderedList>
+						<Text fontSize="14px" lineHeight={1.5}>
+							{parse(data.description as string)}
+						</Text>
 					</Box>
 					<Box w="full">
 						<Text fontSize="14px" fontWeight="500" mb="1rem">
 							Pictures
 						</Text>
-						<HStack spacing={4} overflowX="auto" h="auto" pb="1rem" w="100%">
-							<Square size="157px" bg="gray" overflow="hidden">
-								<Image src="" w="full" h="full" objectFit="cover" />
-							</Square>
-							<Square size="157px" bg="gray" overflow="hidden">
-								<Image src="" w="full" h="full" objectFit="cover" />
-							</Square>
-						</HStack>
+						<>
+							{data.mediaFiles && data.mediaFiles?.length > 0 ? (
+								<HStack
+									spacing={4}
+									overflowX="auto"
+									h="auto"
+									pb="1rem"
+									w="100%"
+								>
+									<>
+										{data.mediaFiles?.map((media) => {
+											return (
+												<>
+													{media.isImage && (
+														<SRLWrapper>
+															<Square size="157px" bg="gray" overflow="hidden">
+																<Image
+																	src={media.url as unknown as string}
+																	alt="propery-image"
+																	w="100%"
+																	height="100%"
+																	objectFit="cover"
+																/>
+															</Square>
+														</SRLWrapper>
+													)}
+												</>
+											);
+										})}
+									</>
+								</HStack>
+							) : (
+								"No Images found"
+							)}
+						</>
 					</Box>
 					<Box w="full">
 						<Text fontSize="14px" fontWeight="500" mb="1rem">
 							Interactive 3D Tour
 						</Text>
-						<HStack spacing={4} overflowX="auto" h="auto" pb="1rem" w="100%">
-							<Center w="100%" h="157px" bg="gray" overflow="hidden">
-								<Image src="" w="full" h="full" objectFit="cover" />
-							</Center>
-						</HStack>
+						<>
+							{data.mediaFiles && data.mediaFiles?.length > 0 ? (
+								<HStack
+									spacing={4}
+									overflowX="auto"
+									h="auto"
+									pb="1rem"
+									w="100%"
+								>
+									<>
+										{data.mediaFiles?.map((media) => {
+											return (
+												<>
+													{media.isVideo && (
+														<AspectRatio
+															maxH={["70px", "150px"]}
+															w="full"
+															ratio={1}
+														>
+															<iframe
+																title="Interactive videp"
+																src={media.url as string}
+																allowFullScreen
+															/>
+														</AspectRatio>
+													)}
+												</>
+											);
+										})}
+									</>
+								</HStack>
+							) : (
+								"No Images found"
+							)}
+						</>
 					</Box>
 				</VStack>
 			</Box>

@@ -1,22 +1,53 @@
 .uploadcare--widget__button_type_open {
-	background: rgba(248, 248, 248, 1);
-	height: 71px;
-	width: 71px;
-	border-radius: 6px;
-	color: transparent;
-	position: relative;
-	cursor: pointer;
+	background: white !important;
+	color: black !important;
+	width: 100% !important;
+	display: block !important;
+	border: 1px solid grey !important;
+	height: 3rem;
+	margin: 1.5rem 0 0;
+	text-align: left;
+	font-weight: 500;
+	padding-left: 3rem !important;
+	opacity: 0;
+	display: none;
 }
-.uploadcare--widget__button_type_open::after {
-	content: "+";
+.uploadcare--widget {
+	width: 100%;
+	display: none;
+}
+.uploadcare--powered-by {
+	display: none !important;
+}
+.uploadcare--dialog__panel {
+	width: 50% !important;
+	margin: auto !important;
+}
+.uploadcare--menu {
+	/* display: none !important; */
+	padding-right: 0 !important;
+}
+.uploadcare--text {
+	font-family: '"Baloo Bhai 2", cursive';
+	text-transform: capitalize;
+}
+.uploadcare--menu__icon
+	uploadcare--panel__icon
+	uploadcare--progress
+	uploadcare--progress_type_canvas {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	color: black;
-	font-size: 18px;
+	display: block !important;
+	right: 0%;
+	top: 0%;
 }
-.uploadcare--widget__button_type_open:hover {
-	background: rgba(248, 248, 248, 1);
-	color: transparent;
+.uploadcare--menu__items {
+	padding-right: 0 !important;
+	width: 1px;
+}
+.uploadcare--menu__item {
+	display: none;
+}
+.uploadcare--dialog__panel .uploadcare--menu,
+.uploadcare--dialog__panel .uploadcare--menu__item {
+	width: 0 !important;
 }

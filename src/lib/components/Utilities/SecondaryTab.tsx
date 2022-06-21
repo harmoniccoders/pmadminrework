@@ -38,7 +38,7 @@ function SecondaryTab({ tabname, currentTab, icon, num }: tabTypes) {
 				alignItems="center"
 				justifyContent="center"
 				color="white"
-				bgColor="black"
+				bgColor="brand.100"
 			>
 				{num}
 			</Text>

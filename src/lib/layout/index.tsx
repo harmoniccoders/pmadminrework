@@ -33,14 +33,7 @@ const Layout = ({ children }: LayoutProps) => {
 								ml="auto"
 							>
 								<TopNav />
-								<Box
-									as="div"
-									w="95%"
-									mx="auto"
-									minH="100vh"
-									mt="1rem"
-									mb="3rem"
-								>
+								<Box as="div" w="95%" mx="auto" minH="80vh" mt="1rem" mb="3rem">
 									{children}
 								</Box>
 							</Box>

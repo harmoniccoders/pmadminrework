@@ -22,14 +22,15 @@ import {
 } from "lib/components/Utilities/Tables";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
+import {
+	TransactionPagedCollectionStandardResponse,
+	Transaction,
+} from "Services";
 const moment = require("moment");
 
-function AdminTransaction() {
-	// const complaints = complains.value;
-	const [checkedItems, setCheckedItems] = useState([false, false]);
-
-	const allChecked = checkedItems.every(Boolean);
-	const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
+function AdminTransaction({ data }: any) {
+	const result = data?.value;
+	console.log({ result });
 
 	return (
 		<>
@@ -53,7 +54,7 @@ function AdminTransaction() {
 						placeholder="Search"
 						height="2.5rem"
 						bgColor="white"
-						border="2px solid black"
+						border="2px solid black !important"
 						borderRadius="4px"
 						boxShadow="0"
 						fontSize="14px"
@@ -89,7 +90,7 @@ function AdminTransaction() {
 						color="rgba(0, 0, 0, 1)"
 						fontSize="12px"
 						fontWeight="500"
-						border="2px solid black"
+						border="2px solid black !important"
 					>
 						<option value="option1">Option 1</option>
 						<option value="option2">Option 2</option>
@@ -97,11 +98,12 @@ function AdminTransaction() {
 					</Select>
 					<Select
 						w="99px"
-						bgColor="black"
+						bgColor="white"
 						borderRadius="3px"
-						color="white"
+						color="black"
 						placeholder="Filter"
 						fontSize="12px"
+						border="2px solid black !important"
 						fontWeight="500"
 					>
 						<option value="option1">Option 1</option>
@@ -116,7 +118,7 @@ function AdminTransaction() {
 				bgColor="white"
 				// boxShadow="0px 20px 30px rgba(0, 0, 0, 0.07)"
 				borderRadius="5"
-				p=" 1rem 0"
+				p=" 1rem 0 1.5rem"
 			>
 				<TableContainer h="500px" overflowY="hidden">
 					<Table variant="simple">
@@ -146,54 +148,63 @@ function AdminTransaction() {
 						</Thead>
 
 						<Tbody>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<td>
-									<Checkbox
-										colorScheme="transparent"
-										iconColor="black"
-										pl="1rem"
-										iconSize=".5rem"
-										size="lg"
-										borderColor="black"
-									></Checkbox>
-								</td>
-								<TableData name="Pade Omotosho" />
-								<TableData name="₦4,320" />
-								<TableData name="Fund Goal" />
-								<TableData name="Bill Payment" />
-								<TableData name="Google Gsuites" />
-								<TableData name="Interswitch" />
-								<TableData name="SLIPCARD" />
-								<TableData name="5/08/20 - 4:48PM" />
-								<TableStatus name="Succesful" />
-							</Tr>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<td>
-									<Checkbox
-										colorScheme="transparent"
-										iconColor="black"
-										pl="1rem"
-										iconSize=".5rem"
-										size="lg"
-										borderColor="black"
-									></Checkbox>
-								</td>
-								<TableData name="Pade Omotosho" />
-								<TableData name="₦4,320" />
-								<TableData name="Fund Goal" />
-								<TableData name="Bill Payment" />
-								<TableData name="Google Gsuites" />
-								<TableData name="Interswitch" />
-								<TableData name="SLIPCARD" />
-								<TableData name="5/08/20 - 4:48PM" />
-								<TableStatus name="Succesful" />
-							</Tr>
+							{result?.map((item: Transaction) => {
+								return (
+									<Tr>
+										<td>
+											<Checkbox
+												colorScheme="transparent"
+												iconColor="black"
+												pl="1rem"
+												iconSize=".5rem"
+												size="lg"
+												borderColor="black"
+											></Checkbox>
+										</td>
+										<TableData
+											name={`${item.user?.firstName as string} ${
+												item.user?.lastName as string
+											}`}
+										/>
+										<TableData name="₦4,320" />
+										<TableData
+											name={
+												item.property?.isForSale
+													? "Buy Property"
+													: item.property?.isForRent
+													? "Pay Rent"
+													: item.installment
+													? "Repay Loan"
+													: "Other actions"
+											}
+										/>
+										<TableData
+											name={
+												item.property?.isForSale
+													? "Buy"
+													: item.property?.isForRent
+													? "Rent"
+													: item.installment
+													? "RentRelief"
+													: "Other actions"
+											}
+										/>
+										<TableData name="PropertyMataaz" />
+										<TableData name="Flutterwave" />
+										<TableData name="Card" />
+										<TableData
+											name={`${moment(item.dateCreated).format(
+												"D/MM/YY"
+											)} - ${moment(item.dateCreated).format("LT")}`}
+										/>
+										<TableStatus name={item.status?.name as string} />
+									</Tr>
+								);
+							})}
 						</Tbody>
 					</Table>
 				</TableContainer>
-				{/* <Pagination data={complains} /> */}
+				<Pagination data={data} />
 			</Box>
 		</>
 	);

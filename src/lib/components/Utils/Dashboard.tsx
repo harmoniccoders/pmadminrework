@@ -26,8 +26,8 @@ function Dashboard({ data }: DashboardProps) {
 
 	return (
 		<VStack spacing="2rem" align="flex-start">
-			{/* <Box w="full">
-				<SimpleGrid columns={3} gap="1rem" mt="3rem">
+			<Box w="full">
+				<SimpleGrid columns={3} gap="1rem" mt="2rem">
 					<GridItem colSpan={1}>
 						<MiniCards label="All Users" value={data.users} />
 					</GridItem>
@@ -38,8 +38,8 @@ function Dashboard({ data }: DashboardProps) {
 						<MiniCards label="New Users" value={data.newUsers} />
 					</GridItem>
 				</SimpleGrid>
-			</Box> */}
-			<Box w="full">
+			</Box>
+			<Box w="full" display="none">
 				<Flex justifyContent="space-between" mb="1rem">
 					<Text fontSize="1rem" fontWeight="bold">
 						Transactions
@@ -93,7 +93,7 @@ function Dashboard({ data }: DashboardProps) {
 					</GridItem>
 				</SimpleGrid>
 			</Box>
-			<Box w="full">
+			<Box w="full" display="none">
 				<SimpleGrid columns={4} gap="1rem">
 					<GridItem colSpan={1}>
 						<Box

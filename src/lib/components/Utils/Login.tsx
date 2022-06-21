@@ -50,7 +50,8 @@ function Login() {
 					appearance: "success",
 					autoDismiss: true,
 				});
-				Cookies.set("userData", JSON.stringify(result.data));
+				Cookies.set("user", JSON.stringify(result.data));
+				Cookies.set("userIn", "true");
 				result.data && Cookies.set("token", result.data.token as string);
 				window.location.href = "/admin/dashboard";
 				return;
@@ -105,7 +106,7 @@ function Login() {
 							w={["100%", "100%"]}
 							lineHeight="1"
 							textAlign="center"
-							mb="3rem"
+							mb="2rem"
 							color="brand.100"
 						>
 							Login
@@ -114,7 +115,7 @@ function Login() {
 							<Image src="/assets/padlock.png" />
 						</Box> */}
 						<form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-							<VStack w="full" spacing=".7rem">
+							<VStack w="full" spacing="0">
 								<PrimaryInput<LoginModel>
 									register={register}
 									name="email"
@@ -141,6 +142,7 @@ function Login() {
 									w="full"
 									p="1.5rem 0"
 									borderRadius="0"
+									mt="2rem !important"
 									// mt={["2rem", "0"]}
 								>
 									Login

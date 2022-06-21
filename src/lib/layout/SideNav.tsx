@@ -27,7 +27,7 @@ function SideNav() {
 			transition="all .3s ease-in-out"
 			left={[opened ? "-100%" : "0", "unset"]}
 		>
-			<Flex w="106px" ml="2rem" my="1.5rem">
+			<Flex w="148px" ml="2rem" my="2rem">
 				<Image src="/assets/logo.png" w="auto" />
 			</Flex>
 			<Circle
@@ -55,16 +55,21 @@ function SideNav() {
 					url="/admin/transactions"
 					icon="fa-history"
 				/>
-				<AdminMenu text="Savings" url="/admin/savings" icon="fa-piggy-bank" />
-				<AdminMenu text="Loans" url="/admin/loans" icon="fa-percentage" />
+				<AdminMenu text="Listings" url="/admin/listings" icon="fa-building" />
+				<AdminMenu text="Cleaning" url="/admin/cleaning" icon="fa-vacuum" />
+				<AdminMenu text="Rent" url="/admin/rent" icon="fa-house-user" />
 				<AdminMenu
-					text="Investments"
-					url="/admin/investments"
-					icon="fa-building"
+					text="Rent Relief"
+					url="/admin/rent-relief"
+					icon="fa-percentage"
+				/>
+				<AdminMenu
+					text="Verification"
+					url="/admin/verification"
+					icon="fa-file-search"
 				/>
 				<AdminMenu text="Payments" url="/admin/payments" icon="fa-money-bill" />
-				<AdminMenu text="Services" url="/admin/services" icon="fa-window" />
-				<AdminMenu text="Settings" url="/admin/settings" icon="fa-cog" />
+				<AdminMenu text="Admin" url="/admin/admin" icon="fa-cog" />
 			</VStack>
 		</Box>
 	);

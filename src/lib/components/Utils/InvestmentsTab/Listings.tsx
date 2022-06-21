@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	HStack,
 	Input,
 	InputGroup,
@@ -10,15 +11,20 @@ import {
 	Text,
 	Thead,
 	Tr,
+	useDisclosure,
 } from "@chakra-ui/react";
+import AddProperty from "lib/components/Modals/AddProperty";
+import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
 import { BsSearch } from "react-icons/bs";
 const moment = require("moment");
 
-function Listings() {
-	// const complaints = complains.value;
+function Listings({ data, propertyTitles, propertyTypes, getStates }: any) {
+	const result = data.value;
+	console.log({ data });
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
 		<>
@@ -55,6 +61,17 @@ function Listings() {
 						}}
 					/>
 				</InputGroup>
+				<Button
+					bg="brand.100"
+					onClick={onOpen}
+					width="fit-content"
+					px="3rem"
+					height="3rem"
+					color="#fff"
+					borderRadius="8px"
+				>
+					+ &nbsp; Add Property
+				</Button>
 			</HStack>
 			<Box
 				w="full"
@@ -68,43 +85,49 @@ function Listings() {
 					<Table variant="simple">
 						<Thead>
 							<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
-								<TableHead title="Type" />
-								<TableHead title="User" />
-								<TableHead title="State" />
+								<TableHead title="Name" />
+								<TableHead title="Seller" />
+								<TableHead title="Location" />
 								<TableHead title="Locality" />
-								<TableHead title="Area" />
-								<TableHead title="Budget" />
-								<TableHead title="Status" />
+								<TableHead title="Price" />
+								<TableHead title="Date Added" />
+								<TableHead title="Sale Type" />
 							</Tr>
 						</Thead>
 
 						<Tbody>
-							<Link href={"/admin/investments/listings/" + 1} key={1}>
-								<Tr>
-									{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-									<TableData name="3 Bedroom Terrace" />
-									<TableData name="Pade Omotosho" />
-									<TableData name="Lagos" />
-									<TableData name="Lekki" />
-									<TableData name="Sangotedo" />
-									<TableData name="₦40,000,000" />
-									<TableData name="Pending" />
-								</Tr>
-							</Link>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<TableData name="3 Bedroom Terrace" />
-								<TableData name="Pade Omotosho" />
-								<TableData name="Lagos" />
-								<TableData name="Lekki" />
-								<TableData name="Sangotedo" />
-								<TableData name="₦40,000,000" />
-								<TableData name="Pending" />
-							</Tr>
+							{result.map((item: any) => {
+								return (
+									<Link
+										href={"/admin/listings/listings/" + item.id}
+										key={item.id}
+									>
+										<Tr>
+											<TableData name={item.name} />
+											<TableData name={item.createdByUser.fullName} />
+											<TableData name={item.state} />
+											<TableData name={item.lga} />
+											<TableData name={Naira(item.price)} />
+											<TableData
+												name={moment(item.dateCreated).format("D/MM/YY")}
+											/>
+											<TableData name={item.sellMyself ? "Self-sale" : "PM"} />
+										</Tr>
+									</Link>
+								);
+							})}
 						</Tbody>
 					</Table>
 				</TableContainer>
-				{/* <Pagination data={complains} /> */}
+				<Pagination data={data} />
+				<AddProperty
+					isOpen={isOpen}
+					onClose={onClose}
+					propertyTypes={propertyTypes}
+					propertyTitles={propertyTitles}
+					getStates={getStates}
+					item={data}
+				/>
 			</Box>
 		</>
 	);

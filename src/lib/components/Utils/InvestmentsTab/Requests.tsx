@@ -11,14 +11,15 @@ import {
 	Thead,
 	Tr,
 } from "@chakra-ui/react";
+import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
 import { BsSearch } from "react-icons/bs";
 const moment = require("moment");
 
-function Requests() {
-	// const complaints = complains.value;
+function Requests({ data }: any) {
+	const result = data.value;
 
 	return (
 		<>
@@ -74,37 +75,35 @@ function Requests() {
 								<TableHead title="Locality" />
 								<TableHead title="Area" />
 								<TableHead title="Budget" />
-								<TableHead title="Status" />
+								<TableHead title="Matching Status" />
 							</Tr>
 						</Thead>
 
 						<Tbody>
-							<Link href={"/admin/investments/requests/" + 1} key={1}>
-								<Tr>
-									{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-									<TableData name="3 Bedroom Terrace" />
-									<TableData name="Pade Omotosho" />
-									<TableData name="Lagos" />
-									<TableData name="Lekki" />
-									<TableData name="Sangotedo" />
-									<TableData name="₦40,000,000" />
-									<TableData name="Pending" />
-								</Tr>
-							</Link>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<TableData name="3 Bedroom Terrace" />
-								<TableData name="Pade Omotosho" />
-								<TableData name="Lagos" />
-								<TableData name="Lekki" />
-								<TableData name="Sangotedo" />
-								<TableData name="₦40,000,000" />
-								<TableData name="Pending" />
-							</Tr>
+							{result.map((item: any) => {
+								return (
+									<Link
+										href={"/admin/listings/requests/" + item.id}
+										key={item.id}
+									>
+										<Tr>
+											<TableData name={item.comment} />
+											<TableData
+												name={`${item.user.firstName} ${item.user.lastName}`}
+											/>
+											<TableData name={item.state} />
+											<TableData name={item.lga} />
+											<TableData name={item?.area || "-"} />
+											<TableData name={Naira(item.budget)} />
+											<TableData name={item.status.toLowerCase()} />
+										</Tr>
+									</Link>
+								);
+							})}
 						</Tbody>
 					</Table>
 				</TableContainer>
-				{/* <Pagination data={complains} /> */}
+				<Pagination data={data} />
 			</Box>
 		</>
 	);
