@@ -17,13 +17,13 @@ function ForRent({
 	propertyTitles,
 	propertyTypes,
 	getStates,
+	allrent,
 }: any) {
 	const [currentTab, setCurrentTab] = useState("for rent");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
 		router.push(tabname);
 	};
-	console.log({ rent });
 
 	return (
 		<Box w="100%" p="0rem" minH="90vh">
@@ -54,7 +54,8 @@ function ForRent({
 				</Box>
 			</Flex>
 			<ForRents
-				result={rent}
+				result={allrent}
+				page={rent}
 				propertyTitles={propertyTitles}
 				propertyTypes={propertyTypes}
 				getStates={getStates}
@@ -93,6 +94,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			.data;
 		const rent = (await _dataAccess.get(`/api/Property/list/rent?${url}`)).data;
 		const tenancy = (await _dataAccess.get(`/api/Admin/tenancies?${url}`)).data;
+		const allrent = (await _dataAccess.get(`/api/Property/list`)).data;
 		const propertyTypes = (await _dataAccess.get("/api/Property/types")).data;
 		const propertyTitles = (await _dataAccess.get("/api/Property/titles")).data;
 		const getStates = (
@@ -104,6 +106,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				data,
 				rent,
 				tenancy,
+				allrent,
 				propertyTypes,
 				propertyTitles,
 				getStates,

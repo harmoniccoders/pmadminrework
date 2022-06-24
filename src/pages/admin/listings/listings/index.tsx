@@ -16,6 +16,7 @@ function Listing({
 	propertyTitles,
 	propertyTypes,
 	getStates,
+	allrent,
 }: any) {
 	const [currentTab, setCurrentTab] = useState("listings");
 	const router = useRouter();
@@ -56,6 +57,7 @@ function Listing({
 			</Flex>
 			<Listings
 				data={listings}
+				result={allrent}
 				propertyTitles={propertyTitles}
 				propertyTypes={propertyTypes}
 				getStates={getStates}
@@ -96,6 +98,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			.data;
 		const listings = (await _dataAccess.get(`/api/Property/list/sales?${url}`))
 			.data;
+		const allrent = (await _dataAccess.get(`/api/Property/list`)).data;
 		const propertyTypes = (await _dataAccess.get("/api/Property/types")).data;
 		const propertyTitles = (await _dataAccess.get("/api/Property/titles")).data;
 		const getStates = (
@@ -110,6 +113,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				propertyTypes,
 				propertyTitles,
 				getStates,
+				allrent,
 			},
 		};
 	} catch (error) {

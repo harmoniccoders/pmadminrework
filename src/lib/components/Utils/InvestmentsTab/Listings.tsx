@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	Flex,
 	HStack,
 	Input,
 	InputGroup,
@@ -16,20 +17,65 @@ import {
 import AddProperty from "lib/components/Modals/AddProperty";
 import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
+import Tab from "lib/components/Utilities/Tab";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
+import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
-import { PropertyModel } from "Services";
 const moment = require("moment");
 
-function Listings({ data, propertyTitles, propertyTypes, getStates }: any) {
+function Listings({
+	data,
+	propertyTitles,
+	result,
+	propertyTypes,
+	getStates,
+}: any) {
 	// const result = data.value.filter((i: PropertyModel) => i.isForSale);
-	const result = data.value;
-	console.log({ data });
+	const lists = result.value.filter((x: any) => x.isForSale);
+	const [items, setItems] = useState(lists);
+	// const result = data.value;
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const [currentTab, setCurrentTab] = useState("all");
+	const navigateTabs = (tabname: string) => {
+		setCurrentTab(tabname);
+		if (tabname === "pending") {
+			setItems(
+				result.value.filter((x: any) => x.isForSale && x.status == "PENDING")
+			);
+			console.log({ data });
+		} else if (tabname === "live") {
+			setItems(
+				result.value.filter((x: any) => x.isForSale && x.status == "VERIFIED")
+			);
+		} else if (tabname === "drafts") {
+			setItems(result.value.filter((x: any) => x.isDraft));
+		} else {
+			setItems(result.value.filter((x: any) => x.isForSale));
+		}
+	};
 
 	return (
 		<>
+			<HStack bg="white" pt="2rem">
+				<Box bg="gray.100" p=".2rem .3rem">
+					<Flex>
+						<Box onClick={() => navigateTabs("all")}>
+							<Tab tabname="all" currentTab={currentTab} />
+						</Box>
+						<Box onClick={() => navigateTabs("pending")}>
+							<Tab tabname="pending" currentTab={currentTab} />
+						</Box>
+						<Box onClick={() => navigateTabs("live")}>
+							<Tab tabname="live" currentTab={currentTab} />
+						</Box>
+						<Box onClick={() => navigateTabs("drafts")}>
+							<Tab tabname="drafts" currentTab={currentTab} />
+						</Box>
+					</Flex>
+				</Box>
+			</HStack>
 			<HStack
 				bgColor="white"
 				pt="1.5rem"
@@ -98,7 +144,7 @@ function Listings({ data, propertyTitles, propertyTypes, getStates }: any) {
 						</Thead>
 
 						<Tbody>
-							{result.map((item: any) => {
+							{items.map((item: any) => {
 								return (
 									<Link
 										href={"/admin/listings/listings/" + item.id}
@@ -138,3 +184,6 @@ function Listings({ data, propertyTitles, propertyTypes, getStates }: any) {
 }
 
 export default Listings;
+function setItems(arg0: any) {
+	throw new Error("Function not implemented.");
+}

@@ -29,7 +29,9 @@ function SingleSession({ list, id }: any) {
 		(singleUser: any) => singleUser.id == id
 	);
 	const data = SingleData[0];
-	console.log({ data });
+	// console.log({ data });
+	const quote = data.cleaningQuotes[data.cleaningQuotes.length - 1];
+	// console.log({ quote });
 
 	const [currentTab, setCurrentTab] = useState("sessions");
 	const router = useRouter();
@@ -154,8 +156,8 @@ function SingleSession({ list, id }: any) {
 								</Text>
 
 								<VStack w="full" spacing="1.5rem">
-									{data.cleaningQuote !== null && (
-										<ApplicationBox label={""} detail={data.cleaningQuote} />
+									{data.cleaningQuotes.length > 0 && (
+										<ApplicationBox label={""} detail={Naira(quote?.quote)} />
 									)}
 									<CurrencyField<CleaningQuoteModel>
 										placeholder=""

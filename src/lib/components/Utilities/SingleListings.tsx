@@ -278,7 +278,7 @@ function SingleListings({ data }: { data: PropertyView }) {
 							px="2.6rem"
 							isLoading={isLoading}
 							onClick={Approve}
-							disabled={data.status === "APPROVED"}
+							disabled={data.status === "VERIFIED"}
 						>
 							Approve
 						</Button>

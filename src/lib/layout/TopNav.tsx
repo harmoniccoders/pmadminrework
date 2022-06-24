@@ -57,7 +57,7 @@ export default function TopNav() {
 					</Text>
 					<Circle size="50px" overflow="hidden" bg="gray">
 						<Image
-							src={user?.profilePicture || "/assets/user-icon.png"}
+							src={user?.profilePicture}
 							w="full"
 							h="full"
 							objectFit="cover"

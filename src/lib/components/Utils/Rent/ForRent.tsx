@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	Flex,
 	HStack,
 	Input,
 	InputGroup,
@@ -16,16 +17,58 @@ import {
 import AddProperty from "lib/components/Modals/AddProperty";
 import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
+import Tab from "lib/components/Utilities/Tab";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
+import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 const moment = require("moment");
 
-function ForRents({ result, propertyTitles, propertyTypes, getStates }: any) {
-	const data = result.value;
+function ForRents({
+	result,
+	page,
+	propertyTitles,
+	propertyTypes,
+	getStates,
+}: any) {
+	const data = result.value.filter((x: any) => x.isForRent);
+	const [items, setItems] = useState(data);
+
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const [currentTab, setCurrentTab] = useState("all");
+	const navigateTabs = (tabname: string) => {
+		setCurrentTab(tabname);
+		if (tabname === "pending") {
+			setItems(
+				result.value.filter((x: any) => x.isForRent && x.status == "PENDING")
+			);
+			console.log({ data });
+		} else if (tabname === "live") {
+			setItems(
+				result.value.filter((x: any) => x.isForRent && x.status == "VERIFIED")
+			);
+		} else {
+			setItems(result.value.filter((x: any) => x.isForRent));
+		}
+	};
 	return (
 		<>
+			<HStack bg="white" pt="2rem">
+				<Box bg="gray.100" p=".2rem .3rem">
+					<Flex>
+						<Box onClick={() => navigateTabs("all")}>
+							<Tab tabname="all" currentTab={currentTab} />
+						</Box>
+						<Box onClick={() => navigateTabs("pending")}>
+							<Tab tabname="pending" currentTab={currentTab} />
+						</Box>
+						<Box onClick={() => navigateTabs("live")}>
+							<Tab tabname="live" currentTab={currentTab} />
+						</Box>
+					</Flex>
+				</Box>
+			</HStack>
 			<HStack
 				bgColor="white"
 				pt="1.5rem"
@@ -94,7 +137,7 @@ function ForRents({ result, propertyTitles, propertyTypes, getStates }: any) {
 						</Thead>
 
 						<Tbody>
-							{data.map((item: any) => {
+							{items.map((item: any) => {
 								return (
 									<Link
 										href={"/admin/rent/for-rent/" + item.id}
@@ -117,7 +160,7 @@ function ForRents({ result, propertyTitles, propertyTypes, getStates }: any) {
 						</Tbody>
 					</Table>
 				</TableContainer>
-				<Pagination data={result} />
+				<Pagination data={page} />
 			</Box>
 			<AddProperty
 				isOpen={isOpen}
