@@ -13,18 +13,89 @@ import {
 	Thead,
 	Tr,
 } from "@chakra-ui/react";
+import CountdownTimer from "lib/components/Utilities/DateTerm";
+import dateTerm from "lib/components/Utilities/DateTerm";
+import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
 import {
 	TableActions,
 	TableData,
 	TableDataWithAvatar,
 	TableHead,
+	TableStatus,
 } from "lib/components/Utilities/Tables";
+import { useRouter } from "next/router";
 import { BsSearch } from "react-icons/bs";
+import { useOperationMethod } from "react-openapi-client";
+import { useToasts } from "react-toast-notifications";
+import { Parameters } from "openapi-client-axios";
 const moment = require("moment");
 
-function Review() {
-	// const complaints = complains.value;
+function Reviews({ data }: any) {
+	const result = data.value;
+	console.log({ data });
+
+	const { addToast } = useToasts();
+	const router = useRouter();
+
+	const [approveProperty, { loading: isLoading, data: isData, error }] =
+		useOperationMethod("Applicationaccept{id}");
+
+	const Approve = async (selected: any) => {
+		const params: Parameters = {
+			id: selected,
+		};
+		// console.log({ params });
+
+		try {
+			const result = await (await approveProperty(params)).data;
+
+			if (result.status) {
+				addToast(result.message, {
+					appearance: "success",
+					autoDismiss: true,
+				});
+				console.log({ result });
+
+				router.reload();
+				return;
+			}
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const [deleteProperty, { loading, data: dData, error: eError }] =
+		useOperationMethod("Applicationreject{id}");
+
+	const Reject = async (selected: any) => {
+		const params: Parameters = {
+			id: selected,
+		};
+
+		try {
+			const result = await (await deleteProperty(params)).data;
+
+			if (result.status) {
+				addToast("Succesful", {
+					appearance: "success",
+					autoDismiss: true,
+				});
+				router.reload();
+				return;
+			}
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<>
@@ -79,7 +150,7 @@ function Review() {
 
 					<Select
 						w="99px"
-						bgColor="black"
+						bgColor="brand.100"
 						borderRadius="3px"
 						color="white"
 						placeholder="Filter"
@@ -106,45 +177,46 @@ function Review() {
 							<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
 								<TableHead title="User" />
 								<TableHead title="Amount" />
-								<TableHead title="Term" />
+								{/* <TableHead title="Term" /> */}
 								<TableHead title="Type" />
-								<TableHead title="Schedule" />
-								<TableHead title="Time" />
+								{/* <TableHead title="Schedule" /> */}
+								<TableHead title="Date Added" />
 								<TableHead title="Status" />
 								<TableHead title="" />
 							</Tr>
 						</Thead>
 
 						<Tbody>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<TableDataWithAvatar name="Pade Omotosho" />
-								<TableData name="₦4,320" />
-								<TableData name="6 Months" />
-								<TableData name="Personal" />
-								<TableData name="Monthly" />
-								<TableData name="1D 21H (2/02/21)" />
-								<TableData name="Pending" />
-								<TableActions />
-							</Tr>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<TableDataWithAvatar name="Pade Omotosho" />
-								<TableData name="₦4,320" />
-								<TableData name="6 Months" />
-								<TableData name="Personal" />
-								<TableData name="Monthly" />
-								<TableData name="1D 21H (2/02/21)" />
-								<TableData name="Pending" />
-								<TableActions />
-							</Tr>
+							{result.map((x: any) => {
+								return (
+									<Tr>
+										<TableDataWithAvatar
+											name={`${x.user.firstName} ${x.user.lastName}`}
+										/>
+										<TableData name={Naira(x.reliefAmount)} />
+
+										<TableData name={x.applicationType} />
+										<TableData
+											name={moment(x.dateCreated).format("DD/MM/YY - LT")}
+										/>
+
+										<TableData name={x.status} />
+										<TableActions
+											approve={() => Approve(x.id)}
+											reject={() => Reject(x.id)}
+											aLoading={isLoading}
+											rLoading={loading}
+										/>
+									</Tr>
+								);
+							})}
 						</Tbody>
 					</Table>
 				</TableContainer>
-				{/* <Pagination data={complains} /> */}
+				<Pagination data={data} />
 			</Box>
 		</>
 	);
 }
 
-export default Review;
+export default Reviews;

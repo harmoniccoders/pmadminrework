@@ -19,9 +19,11 @@ import Pagination from "lib/components/Utilities/Pagination";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
 import { BsSearch } from "react-icons/bs";
+import { PropertyModel } from "Services";
 const moment = require("moment");
 
 function Listings({ data, propertyTitles, propertyTypes, getStates }: any) {
+	// const result = data.value.filter((i: PropertyModel) => i.isForSale);
 	const result = data.value;
 	console.log({ data });
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -109,7 +111,7 @@ function Listings({ data, propertyTitles, propertyTypes, getStates }: any) {
 											<TableData name={item.lga} />
 											<TableData name={Naira(item.price)} />
 											<TableData
-												name={moment(item.dateCreated).format("D/MM/YY")}
+												name={moment(item.dateCreated).format("DD/MM/YY")}
 											/>
 											<TableData name={item.sellMyself ? "Self-sale" : "PM"} />
 										</Tr>
@@ -127,6 +129,8 @@ function Listings({ data, propertyTitles, propertyTypes, getStates }: any) {
 					propertyTitles={propertyTitles}
 					getStates={getStates}
 					item={data}
+					isRent={false}
+					isSale={true}
 				/>
 			</Box>
 		</>

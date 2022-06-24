@@ -51,6 +51,8 @@ type Props = {
 	propertyTypes: PropertyTitle[];
 	getStates: any;
 	item: any;
+	isRent?: boolean;
+	isSale?: boolean;
 };
 
 function AddProperty({
@@ -60,6 +62,8 @@ function AddProperty({
 	propertyTypes,
 	getStates,
 	item,
+	isRent,
+	isSale,
 }: Props) {
 	const [PropertyCreate, { loading, data, error }] = useOperationMethod(
 		"Adminpropertycreate"
@@ -92,6 +96,8 @@ function AddProperty({
 		mode: "all",
 		defaultValues: {
 			sellMyself: false,
+			isForRent: isRent,
+			isForSale: isSale,
 		},
 	});
 
@@ -171,7 +177,7 @@ function AddProperty({
 		console.log("here");
 		try {
 			const { results } = await Geocode.fromAddress(values.address);
-			console.log(results);
+			// console.log(results);
 			values.latitude = results[0].geometry.location.lat;
 			values.longitude = results[0].geometry.location.lng;
 			return values;
@@ -183,6 +189,8 @@ function AddProperty({
 		await getLongAndLat(data);
 		data.sellMyself = data.sellMyself as boolean;
 		data.mediaFiles = uploadedMedia;
+		console.log({ data });
+
 		try {
 			const result = await (await PropertyCreate(undefined, data)).data;
 

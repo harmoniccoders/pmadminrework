@@ -22,6 +22,8 @@ function ViewListings({
 	onClose: any;
 	data: PropertyView;
 }) {
+	console.log({ data });
+
 	return (
 		<Modal
 			motionPreset="slideInBottom"

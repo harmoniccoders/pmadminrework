@@ -7,6 +7,7 @@ import { DataAccess } from "lib/Utils/Api";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { PropertyModel } from "Services";
 
 function Listing({
 	data,
@@ -24,6 +25,7 @@ function Listing({
 	const navigateTabs = (tabname: string) => {
 		router.push(tabname);
 	};
+	const lists = listings.value.filter((i: PropertyModel) => i.isForSale);
 	return (
 		<Box w="100%" p="0rem" minH="90vh">
 			<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
@@ -92,9 +94,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			.data;
 		const requests = (await _dataAccess.get(`/api/Admin/requests/list?${url}`))
 			.data;
-		const listings = (
-			await _dataAccess.get(`/api/Admin/properties/list?${url}`)
-		).data;
+		const listings = (await _dataAccess.get(`/api/Property/list/sales?${url}`))
+			.data;
 		const propertyTypes = (await _dataAccess.get("/api/Property/types")).data;
 		const propertyTitles = (await _dataAccess.get("/api/Property/titles")).data;
 		const getStates = (

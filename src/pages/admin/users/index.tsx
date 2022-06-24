@@ -127,7 +127,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	}
 	try {
 		const data = (await _dataAccess.get(`/api/User/list?${url}`)).data;
-		// console.log({ data });
 
 		return {
 			props: {

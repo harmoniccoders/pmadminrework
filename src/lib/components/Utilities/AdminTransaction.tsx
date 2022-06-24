@@ -194,7 +194,7 @@ function AdminTransaction({ data }: any) {
 										<TableData name="Card" />
 										<TableData
 											name={`${moment(item.dateCreated).format(
-												"D/MM/YY"
+												"DD/MM/YY"
 											)} - ${moment(item.dateCreated).format("LT")}`}
 										/>
 										<TableStatus name={item.status?.name as string} />

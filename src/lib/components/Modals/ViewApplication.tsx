@@ -13,8 +13,9 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import { MdClose } from "react-icons/md";
-import { PropertyView } from "Services";
+import { ApplicationView } from "Services";
 import ApplicationBox from "../Utilities/ApplicationBox";
+const moment = require("moment");
 
 function ViewApplication({
 	isOpen,
@@ -23,8 +24,10 @@ function ViewApplication({
 }: {
 	isOpen: boolean;
 	onClose: any;
-	data: PropertyView;
+	data: ApplicationView;
 }) {
+	console.log({ data });
+
 	return (
 		<Modal
 			motionPreset="slideInBottom"
@@ -69,53 +72,51 @@ function ViewApplication({
 							<Box w="full">
 								<ApplicationBox
 									label="First name"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.firstName}
 								/>
 								<ApplicationBox
 									label="Middle name"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.lastName}
 								/>
+
 								<ApplicationBox
-									label="Surname"
-									detail={data.createdByUser?.firstName}
+									label="Mobile number"
+									detail={data.user?.phoneNumber}
 								/>
 								<ApplicationBox
 									label="Mobile number"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.phoneNumber1 || "-"}
 								/>
-								<ApplicationBox
-									label="Email"
-									detail={data.createdByUser?.firstName}
-								/>
+								<ApplicationBox label="Email" detail={data.user?.email} />
 								<ApplicationBox
 									label="Residential Address"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.address}
 								/>
 								<ApplicationBox
 									label="Date of Birth"
-									detail={data.createdByUser?.firstName}
+									detail={moment(data.user?.dateOfBirth).format("DD/MM/YY")}
 								/>
 								<ApplicationBox
 									label="Nationality"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.nationality}
 								/>
 								<ApplicationBox
 									label="Marital status"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.maritalStatus}
 								/>
 								<ApplicationBox
 									label="Occupation"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.occupation}
 								/>
 							</Box>
 							<Box w="full">
 								<ApplicationBox
 									label="Employer"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.companyName}
 								/>
 								<ApplicationBox
 									label="Work Address"
-									detail={data.createdByUser?.firstName}
+									detail={data.user?.address}
 								/>
 
 								<Text
@@ -130,27 +131,24 @@ function ViewApplication({
 								</Text>
 								<ApplicationBox
 									label="First name"
-									detail={data.createdByUser?.firstName}
+									detail={data.nextOfKin?.firstName}
 								/>
 								<ApplicationBox
 									label="Surname"
-									detail={data.createdByUser?.firstName}
+									detail={data.nextOfKin?.lastName}
 								/>
 								<ApplicationBox
 									label="Mobile number"
-									detail={data.createdByUser?.firstName}
+									detail={data.nextOfKin?.phoneNumber}
 								/>
-								<ApplicationBox
-									label="Email"
-									detail={data.createdByUser?.firstName}
-								/>
+								<ApplicationBox label="Email" detail={data.nextOfKin?.email} />
 								<ApplicationBox
 									label="Address"
-									detail={data.createdByUser?.firstName}
+									detail={data.nextOfKin?.address}
 								/>
 								<ApplicationBox
 									label="Relationship"
-									detail={data.createdByUser?.firstName}
+									detail={data.nextOfKin?.relationship}
 								/>
 							</Box>
 						</HStack>

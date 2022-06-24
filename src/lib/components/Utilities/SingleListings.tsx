@@ -268,7 +268,7 @@ function SingleListings({ data }: { data: PropertyView }) {
 							w="fit-content"
 							px="3rem"
 							onClick={onOpen}
-							disabled={data.status !== "PENDING"}
+							disabled={data.status === "REJECTED"}
 						>
 							Reject
 						</Button>
@@ -278,7 +278,7 @@ function SingleListings({ data }: { data: PropertyView }) {
 							px="2.6rem"
 							isLoading={isLoading}
 							onClick={Approve}
-							disabled={data.status !== "PENDING"}
+							disabled={data.status === "APPROVED"}
 						>
 							Approve
 						</Button>

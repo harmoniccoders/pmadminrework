@@ -6,7 +6,7 @@ interface AppProps {
 }
 const ApplicationBox = ({ label, detail }: AppProps) => {
 	return (
-		<Box>
+		<Box w="full">
 			<FormLabel
 				htmlFor={label}
 				textTransform="capitalize"
@@ -30,6 +30,7 @@ const ApplicationBox = ({ label, detail }: AppProps) => {
 				alignItems="center"
 				border="1px solid #DCE1E7"
 				py="1rem"
+				textTransform="capitalize"
 			>
 				<Text>{detail}</Text>
 			</Flex>

@@ -18,7 +18,7 @@ import Pagination from "lib/components/Utilities/Pagination";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
 import { BsSearch } from "react-icons/bs";
-import { CleaningView } from "Services";
+import { CleaningView } from "types/api";
 const moment = require("moment");
 
 function Sessions({ data, types }: any) {
@@ -96,16 +96,18 @@ function Sessions({ data, types }: any) {
 										key={item.id}
 									>
 										<Tr>
-											<TableData name={item.buildingType as string} />
+											<TableData
+												name={(item.buildingType as string).toLowerCase()}
+											/>
 											<TableData name={item.user?.fullName as string} />
 											<TableData name={item.propertyType as string} />
 											<TableData name={item.buildingState as string} />
 											<TableData
 												name={item.numberOfFloors as unknown as string}
 											/>
-											<TableData name={item.status as string} />
+											<TableData name={item.location as string} />
 											<TableData
-												name={moment(item.dateNeeded).format("D/MM/YY")}
+												name={moment(item.dateNeeded).format("DD/MM/YY")}
 											/>
 										</Tr>
 									</Link>

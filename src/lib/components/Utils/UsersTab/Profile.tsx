@@ -53,7 +53,7 @@ function Profile({ user }: { user: UserView }) {
 						All-time RentRelief
 					</Text>
 					<Text fontSize="14px" fontWeight="600" color="rgba(15,15,15,1)">
-						{`₦${90}`}
+						{`₦0`}
 					</Text>
 				</Box>
 				<Box>
@@ -61,7 +61,7 @@ function Profile({ user }: { user: UserView }) {
 						Current RentRelief
 					</Text>
 					<Text fontSize="14px" fontWeight="600" color="rgba(15,15,15,1)">
-						₦450,000
+						₦0
 					</Text>
 				</Box>
 				<Box>
@@ -69,7 +69,7 @@ function Profile({ user }: { user: UserView }) {
 						Total Listings
 					</Text>
 					<Text fontSize="14px" fontWeight="600" color="rgba(15,15,15,1)">
-						00853739234
+						0
 					</Text>
 				</Box>
 				<Box>
@@ -77,7 +77,7 @@ function Profile({ user }: { user: UserView }) {
 						Total Purchases
 					</Text>
 					<Text fontSize="14px" fontWeight="600" color="rgba(15,15,15,1)">
-						00853739234
+						0
 					</Text>
 				</Box>
 				<Box>
@@ -85,7 +85,7 @@ function Profile({ user }: { user: UserView }) {
 						Active Tenancy
 					</Text>
 					<Text fontSize="14px" fontWeight="600" color="rgba(15,15,15,1)">
-						00853739234
+						0
 					</Text>
 				</Box>
 				<Box>
@@ -93,7 +93,7 @@ function Profile({ user }: { user: UserView }) {
 						Total Sessions
 					</Text>
 					<Text fontSize="14px" fontWeight="600" color="rgba(15,15,15,1)">
-						00853739234
+						0
 					</Text>
 				</Box>
 			</VStack>

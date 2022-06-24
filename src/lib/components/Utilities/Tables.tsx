@@ -12,7 +12,7 @@ export function TableHead({ title }: { title: string }) {
 		<Th
 			pl="1rem"
 			fontSize="14px"
-			fontWeight="600"
+			fontWeight="bold"
 			color="black"
 			textTransform="capitalize"
 			fontFamily="body"
@@ -48,8 +48,15 @@ export function TableDataWithAvatar({ name }: { name: string }) {
 			pl="1rem"
 			display="flex"
 			alignItems="center"
+			textTransform="capitalize"
 		>
-			<Circle bg="black" size="39px" mr=".5rem" color="white">
+			<Circle
+				bg="brand.100"
+				size="39px"
+				mr=".5rem"
+				color="white"
+				textTransform="uppercase"
+			>
 				{name
 					.split(/\s/)
 					.reduce((response, word) => (response += word.slice(0, 1)), "")}
@@ -96,20 +103,38 @@ export function TableStatusSlider({ name }: { name: string }) {
 		</Td>
 	);
 }
-export function TableActions() {
+export function TableActions({
+	reject,
+	approve,
+	aLoading,
+	rLoading,
+	hide,
+}: any) {
 	return (
 		<Td fontSize="14px" fontWeight="500" pl="1rem">
 			<HStack spacing={5}>
-				<Circle color="white" bgColor="rgba(223,57,47,1)" size="30px">
-					<FaTimes />
+				<Circle
+					color="white"
+					bgColor="rgba(223,57,47,1)"
+					size="30px"
+					onClick={reject}
+				>
+					{<FaTimes />}
 				</Circle>
-				<Circle color="white" bgColor="rgba(47,223,132,1)" size="30px">
-					<FaArrowRight />
+				<Circle
+					color="white"
+					bgColor="rgba(47,223,132,1)"
+					size="30px"
+					onClick={approve}
+					display={hide}
+				>
+					{<FaArrowRight />}
 				</Circle>
 			</HStack>
 		</Td>
 	);
 }
+
 export function TableDelete({ onClick, loading }: any) {
 	return (
 		<Td fontSize="14px" fontWeight="500" pl="1rem" onClick={onClick}>

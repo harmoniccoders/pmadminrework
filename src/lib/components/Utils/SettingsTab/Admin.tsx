@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Circle,
 	Flex,
 	HStack,
@@ -13,12 +14,13 @@ import Tab from "lib/components/Utilities/Tab";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import AdminProfile from "./AdminProfile";
-import Permission from "./Permission";
+import { useRouter } from "next/router";
 
 function Admin() {
 	const [currentTab, setCurrentTab] = useState("profile");
+	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
-		setCurrentTab(tabname);
+		router.push(`/admin/admin/${tabname}`);
 	};
 	const [successOpen, setsuccessOpen] = useState(false);
 	const openModal = () => {
@@ -91,25 +93,21 @@ function Admin() {
 				</Flex>
 			</Box>
 			<Box w="80%" bgColor="white" p="1.5rem" minH="90vh">
-				<Box w="20%" onClick={openModal} ml="auto">
-					<Flex
-						as="button"
-						w="full"
-						h="2.3rem"
-						borderRadius="3px"
-						border="2px solid rgba(25,25,25,1)"
-						align="center"
-						justify="center"
-						fontSize="14.5px"
-						fontWeight="bold"
-					>
-						Add New Admin
-					</Flex>
-				</Box>
-				<Flex alignItems="center" fontWeight="bold">
+				<Flex alignItems="center" fontWeight="bold" justify="space-between">
 					<Box>
 						<Text fontSize="1.5rem">Pade Omotosho</Text>
 					</Box>
+					<Button
+						bg="brand.100"
+						onClick={openModal}
+						width="fit-content"
+						px="2rem"
+						height="3rem"
+						color="#fff"
+						borderRadius="8px"
+					>
+						+ &nbsp; Add New Admin
+					</Button>
 				</Flex>
 				<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt="2rem">
 					<Box onClick={() => navigateTabs("profile")}>
@@ -119,8 +117,7 @@ function Admin() {
 						<Tab tabname="permissions" currentTab={currentTab} />
 					</Box>
 				</Flex>
-				{currentTab == "profile" && <AdminProfile />}
-				{currentTab == "permissions" && <Permission />}
+				<AdminProfile />
 			</Box>
 			<AddNewAdmin isOpen={successOpen} onClose={closeModal} />
 		</HStack>

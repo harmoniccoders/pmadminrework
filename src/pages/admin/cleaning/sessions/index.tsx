@@ -11,12 +11,12 @@ function SessionsIndex({ data, types }: any) {
 	const [currentTab, setCurrentTab] = useState("sessions");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
-		router.push(tabname);
+		router.push(`/admin/cleaning/${tabname}`);
 	};
 	return (
 		<Box w="100%" p="0rem" minH="90vh">
 			<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
-				<Box onClick={() => navigateTabs("/admin/cleaning/sessions")}>
+				<Box onClick={() => navigateTabs("sessions")}>
 					<SecondaryTab
 						tabname="sessions"
 						num={data.size}
@@ -24,7 +24,7 @@ function SessionsIndex({ data, types }: any) {
 						currentTab={currentTab}
 					/>
 				</Box>
-				<Box onClick={() => navigateTabs("/admin/cleaning/cleaners")}>
+				<Box onClick={() => navigateTabs("cleaners")}>
 					<SecondaryTab
 						tabname="cleaner"
 						num={9}

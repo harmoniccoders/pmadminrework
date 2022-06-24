@@ -6,22 +6,59 @@ import {
 	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
+import Cookies from "js-cookie";
 import ViewApplication from "lib/components/Modals/ViewApplication";
 import ViewListings from "lib/components/Modals/ViewListings";
 import NameTag from "lib/components/NameTag";
 import TimeDisplay from "lib/components/Utilities/TimeDisplay";
+import { DataAccess } from "lib/Utils/Api";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { FaChevronLeft } from "react-icons/fa";
-import { PropertyModel, PropertyView } from "Services";
+import { PropertyModel, PropertyView, UserEnquiryView } from "Services";
+const moment = require("moment");
 
 interface Eprops {
-	data: PropertyView;
+	data: any;
 }
 function EnquirySingle({ data }: Eprops) {
-	console.log({ data });
+	const [property, setProperty] = useState<any>();
+	const [user, setUser] = useState<any>();
+	useEffect(() => {
+		const fetchProperty = async () => {
+			const getProperty = async () => {
+				const bearer = `Bearer ${Cookies.get("token")}`;
+				const _dataAccess = new DataAccess(bearer);
+				const result = await _dataAccess.get(
+					`/api/Property/get/${data.propertyId}`
+				);
+				if (result.status) {
+					setProperty(result.data);
+				}
+			};
+			getProperty();
+			const getUser = async () => {
+				const bearer = `Bearer ${Cookies.get("token")}`;
+				const _dataAccess = new DataAccess(bearer);
+				const result = await _dataAccess.get(
+					`/api/Application/list/${data.propertyId}`
+				);
+				if (result.status) {
+					setUser(result.data.value);
+				}
+			};
+			getUser();
+		};
+		fetchProperty();
+	}, []);
+
+	let singleUser;
+	if (user !== undefined) {
+		singleUser = user.filter((x: any) => x.user.id == data.userId)[0];
+	}
+	console.log({ singleUser });
 
 	const router = useRouter();
 	const goBack = () => {
@@ -39,22 +76,39 @@ function EnquirySingle({ data }: Eprops) {
 		<Box bgColor="white" p="1rem" minH="80vh">
 			<Flex align="center" my="1rem" cursor="pointer" onClick={goBack}>
 				<FaChevronLeft fontSize="20px" />
-				<Text fontSize="24px" fontWeight="bold" pl="1rem" mb="0 !important">
-					{data.name}
+				<Text
+					fontSize="24px"
+					fontWeight="bold"
+					pl="1rem"
+					mb="0 !important"
+					textTransform="capitalize"
+				>
+					{data.propertyName}
 				</Text>
 			</Flex>
 			<HStack spacing={8} align="flex-start">
 				<Flex w="70%" justify="space-between" mt="0.5rem">
 					<VStack spacing="1rem" alignItems="flex-start">
+						<NameTag title="User" name={data.fullName as string} />
 						<NameTag
-							title="User"
-							name={data.createdByUser?.fullName as string}
+							title="Status"
+							name={data.active ? "Active" : "Inactive"}
 						/>
-						<NameTag title="Status" name={data.status as string} />
 						<NameTag title="State" name={data.state as string} />
 						<NameTag title="Locality" name={data.lga as string} />
 						<NameTag title="Area" name={data.area as string} />
-						<NameTag title="Inspection" name="₦40,000,000" />
+						<NameTag
+							title="Inspection"
+							name={
+								data.inspection?.length > 0
+									? moment(data.inspection[0].date).format("DD/MM/YY - LT")
+									: "No data"
+							}
+						/>
+						<NameTag
+							title="Date Applied"
+							name={moment(data.dateCreated).format("DD/MM/YY - LT")}
+						/>
 					</VStack>
 					<VStack spacing="1.5rem" alignItems="flex-start">
 						<Box w="180px" onClick={openModal}>
@@ -105,12 +159,14 @@ function EnquirySingle({ data }: Eprops) {
 					</VStack>
 				</Flex>
 				<Box w="30%">
-					<Calendar />
-					<TimeDisplay />
+					<Calendar value={new Date(data.dateCreated)} />
+					<TimeDisplay data={data} />
 				</Box>
 			</HStack>
-			<ViewListings isOpen={open} onClose={closeModal} data={data} />
-			<ViewApplication isOpen={isOpen} onClose={onClose} data={data} />
+			<ViewListings isOpen={open} onClose={closeModal} data={property} />
+			{singleUser !== undefined && (
+				<ViewApplication isOpen={isOpen} onClose={onClose} data={singleUser} />
+			)}
 		</Box>
 	);
 }

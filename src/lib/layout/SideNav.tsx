@@ -43,7 +43,7 @@ function SideNav() {
 			>
 				<Icon as={FiChevronRight} color="white" />
 			</Circle>
-			<VStack align="flex-start" onClick={() => openMobileMenu()}>
+			<VStack align="flex-start" onClick={() => openMobileMenu()} spacing={4}>
 				<AdminMenu
 					text="Dashboard"
 					url="/admin/dashboard"
@@ -60,15 +60,16 @@ function SideNav() {
 				<AdminMenu text="Rent" url="/admin/rent" icon="fa-house-user" />
 				<AdminMenu
 					text="Rent Relief"
-					url="/admin/rent-relief"
+					url="/admin/relief"
 					icon="fa-percentage"
 				/>
-				<AdminMenu
+				{/* <AdminMenu
 					text="Verification"
 					url="/admin/verification"
 					icon="fa-file-search"
-				/>
-				<AdminMenu text="Payments" url="/admin/payments" icon="fa-money-bill" />
+				/> */}
+				<AdminMenu text="Complaints" url="/admin/complaints" icon="fa-unlink" />
+				{/* <AdminMenu text="Payments" url="/admin/payments" icon="fa-money-bill" /> */}
 				<AdminMenu text="Admin" url="/admin/admin" icon="fa-cog" />
 			</VStack>
 		</Box>

@@ -1,7 +1,41 @@
-import { Box, Flex, VStack, Text, Switch } from "@chakra-ui/react";
-import React from "react";
+import { Box, Flex, VStack, Text, Switch, Button } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useOperationMethod } from "react-openapi-client";
+import { useToasts } from "react-toast-notifications";
+import { Parameters } from "openapi-client-axios";
 
 function AdminProfile() {
+	const { addToast } = useToasts();
+	const router = useRouter();
+
+	const [deleteadmin, { loading, data: dData, error: eError }] =
+		useOperationMethod("Admindelete{email}");
+
+	const DeleteAdmin = async (selected: any) => {
+		const params: Parameters = {
+			email: selected,
+		};
+
+		try {
+			const result = await (await deleteadmin(params)).data;
+
+			if (result.status) {
+				addToast("Succesful", {
+					appearance: "success",
+					autoDismiss: true,
+				});
+				router.push("admin");
+				return;
+			}
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<Flex justify="space-between" mt="2rem" pr="5rem">
 			<VStack spacing="1rem" alignItems="flex-start">
@@ -36,6 +70,26 @@ function AdminProfile() {
 					<Text fontSize="14px" fontWeight="medium" color="rgba(15,15,15,1)">
 						080765432435
 					</Text>
+				</Box>
+				<Box
+					w="full"
+					ml="auto"
+					onClick={() => DeleteAdmin("braingram40@gmail.com")}
+				>
+					<Button
+						as="button"
+						w="full"
+						h="2.3rem"
+						borderRadius="3px"
+						border="2px solid rgba(25,25,25,1)"
+						fontSize="14.5px"
+						fontWeight="bold"
+						color="black"
+						bgColor="transparent"
+						isLoading={loading}
+					>
+						Delete Admin
+					</Button>
 				</Box>
 			</VStack>
 			<VStack spacing="1rem" alignItems="flex-start">

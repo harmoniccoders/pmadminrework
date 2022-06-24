@@ -9,10 +9,8 @@ import {
 	Button,
 } from "@chakra-ui/react";
 import { PrimaryInput } from "lib/components/Utilities/PrimaryInput";
-import NextLink from "next/link";
 import { useForm } from "react-hook-form";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "lib/Utils/MainContext";
+import { useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginModel } from "types/AppTypes";

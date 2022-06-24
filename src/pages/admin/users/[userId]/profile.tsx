@@ -32,10 +32,10 @@ export default function UserProfile({
 	const result = data.value;
 	const userProfile: any = result.filter(
 		(singleUser: any) => singleUser.id == userId
-	);
+	)[0];
 	// console.log(userProfile[0]);
 	const navigateTabs = (tabname: string) => {
-		router.push(`/admin/users/${userProfile[0].id}/${tabname}`);
+		router.push(`/admin/users/${userProfile.id}/${tabname}`);
 	};
 	return (
 		<>
@@ -96,10 +96,10 @@ export default function UserProfile({
 				<Box w="80%" bgColor="white" p="1.5rem" minH="90vh">
 					<Flex alignItems="center" fontWeight="bold">
 						<Circle bgColor="brand.100" color="white" size="3rem" mr="1rem">
-							{`${userProfile[0].firstName[0]}${userProfile[0].lastName[0]}`}
+							{`${userProfile.firstName[0]}${userProfile.lastName[0]}`}
 						</Circle>
 						<Box>
-							<Text fontSize="1.5rem">{userProfile[0].fullName}</Text>
+							<Text fontSize="1.5rem">{userProfile.fullName}</Text>
 						</Box>
 					</Flex>
 					<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt="2rem">

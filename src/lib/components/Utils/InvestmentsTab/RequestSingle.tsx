@@ -27,6 +27,7 @@ import { FaChevronLeft } from "react-icons/fa";
 import { useOperationMethod } from "react-openapi-client";
 import { Parameters } from "openapi-client-axios";
 import { useToasts } from "react-toast-notifications";
+import { PropertyRequestMatchView } from "Services";
 
 function RequestSingle({
 	data,
@@ -55,18 +56,14 @@ function RequestSingle({
 		setIsMatchOpen(false);
 	};
 	const { addToast } = useToasts();
-	const [selected, setSelected] = useState<any>();
 
 	const [removeMatch, { loading, data: isData, error }] = useOperationMethod(
 		"PropertyRequestmatchremove{matchId}"
 	);
 
-	console.log({ selected });
-
-	const DeleteMatch = async () => {
-		await selected.id;
+	const DeleteMatch = async (match: any) => {
 		const params: Parameters = {
-			matchId: selected.id as number,
+			matchId: match,
 		};
 
 		try {
@@ -84,7 +81,7 @@ function RequestSingle({
 				appearance: "error",
 				autoDismiss: true,
 			});
-		} catch (err) {
+	} catch (err) {
 			console.log(err);
 		}
 	};
@@ -100,8 +97,16 @@ function RequestSingle({
 						py="1rem"
 					>
 						<FaChevronLeft fontSize="20px" />
-						<Text fontSize="24px" fontWeight="bold" pl="1rem" mb="0 !important">
-							{data.comment}
+						<Text
+							fontSize="24px"
+							fontWeight="bold"
+							pl="1rem"
+							mb="0 !important"
+							textTransform="capitalize"
+						>
+							{`${
+								data.numberOfBedRooms
+							} Bedroom ${data.propertyType.name.toLowerCase()}`}
 						</Text>
 					</Flex>
 					<Flex w="100%" justify="space-between">
@@ -169,7 +174,7 @@ function RequestSingle({
 											</Tr>
 										</Thead>
 										<Tbody>
-											{matches.map((match: any) => {
+											{matches.map((match: PropertyRequestMatchView) => {
 												return (
 													<>
 														<Tr key={match.id}>
@@ -195,8 +200,7 @@ function RequestSingle({
 															/>
 															<TableDelete
 																onClick={() => {
-																	setSelected(match);
-																	DeleteMatch();
+																	DeleteMatch(match.id);
 																}}
 																loading={loading}
 															/>
@@ -226,7 +230,6 @@ function RequestSingle({
 				getStates={getStates}
 				item={data}
 			/>
-			{/* <RequestStatus isOpen={isOpen} onClose={closeModal} /> */}
 		</Box>
 	);
 }

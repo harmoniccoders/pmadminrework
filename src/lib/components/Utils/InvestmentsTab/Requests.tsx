@@ -87,7 +87,11 @@ function Requests({ data }: any) {
 										key={item.id}
 									>
 										<Tr>
-											<TableData name={item.comment} />
+											<TableData
+												name={`${
+													item.numberOfBedRooms
+												} Bedroom ${item.propertyType.name.toLowerCase()}`}
+											/>
 											<TableData
 												name={`${item.user.firstName} ${item.user.lastName}`}
 											/>

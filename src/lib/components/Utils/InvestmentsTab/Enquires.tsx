@@ -82,7 +82,7 @@ function Enquires({ result }: any) {
 							{data.map((item: any) => {
 								return (
 									<Link
-										href={"/admin/listings/enquires/" + item.propertyId}
+										href={"/admin/listings/enquires/" + item.id}
 										key={item.propertyId}
 									>
 										<Tr>
@@ -93,15 +93,13 @@ function Enquires({ result }: any) {
 											<TableData name={item.lga} />
 											<TableData name={item.area} />
 											<TableData
-												name={`${
+												name={
 													item.inspection?.length > 0
-														? moment(item.inspection[0].date).format("D/MM/YY")
+														? moment(item.inspection[0].date).format(
+																"DD/MM/YY - LT"
+														  )
 														: "No data"
-												} - ${
-													item.inspection?.length > 0
-														? moment(item.inspection[0].time).format("LT")
-														: ""
-												}`}
+												}
 											/>
 											<TableData name="Pending" />
 										</Tr>

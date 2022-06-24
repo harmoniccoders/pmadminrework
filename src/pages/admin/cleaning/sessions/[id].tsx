@@ -17,12 +17,20 @@ import * as yup from "yup";
 import { useToasts } from "react-toast-notifications";
 import { CurrencyField } from "lib/components/Utilities/CurrencyInput";
 import { PrimaryDate } from "lib/components/Utilities/PrimaryDate";
+import ApplicationBox from "lib/components/Utilities/ApplicationBox";
+const moment = require("moment");
 
 const schema = yup.object().shape({
 	quote: yup.string().required(),
 	proposedDate: yup.string().required(),
 });
-function SingleSession({ data, id }: any) {
+function SingleSession({ list, id }: any) {
+	const SingleData = list.value.filter(
+		(singleUser: any) => singleUser.id == id
+	);
+	const data = SingleData[0];
+	console.log({ data });
+
 	const [currentTab, setCurrentTab] = useState("sessions");
 	const router = useRouter();
 	const goBack = () => {
@@ -78,7 +86,7 @@ function SingleSession({ data, id }: any) {
 				<Box onClick={() => navigateTabs("/admin/cleaning/sessions")}>
 					<SecondaryTab
 						tabname="sessions"
-						num={data.size}
+						num={list.size}
 						icon="fa-arrow-down"
 						currentTab={currentTab}
 					/>
@@ -92,35 +100,49 @@ function SingleSession({ data, id }: any) {
 					/>
 				</Box>
 			</Flex>
-			<HStack align="flex-start" h="70vh" bgColor="white" py="1rem" px="2.5rem">
+			<HStack
+				align="flex-start"
+				minH="70vh"
+				bgColor="white"
+				py="2rem"
+				px="2.5rem"
+			>
 				<Box w="30%">
 					<Flex
 						align="center"
-						my="1rem"
+						// my="1rem"
 						cursor="pointer"
 						onClick={goBack}
-						py="1rem"
+						pb="1rem"
 					>
 						<FaChevronLeft fontSize="20px" />
-						<Text fontSize="24px" fontWeight="bold" pl="1rem" mb="0 !important">
-							{/* {data.comment} */}
+						<Text
+							fontSize="24px"
+							fontWeight="bold"
+							pl="1rem"
+							mb="0 !important"
+							textTransform="capitalize"
+						>
+							{data.propertyType.toLowerCase()}
 						</Text>
 					</Flex>
 					<Flex w="100%" justify="space-between">
-						{/* <VStack spacing="1rem" alignItems="flex-start">
+						<VStack spacing="1rem" alignItems="flex-start">
+							<NameTag title="User" name={data?.user?.fullName} />
 							<NameTag
-								title="User"
-								name={`${data?.user?.firstName} ${data?.user?.lastName}`}
+								title="Mobile Number"
+								name={data?.user?.phoneNumber || "-"}
 							/>
-							<NameTag title="State" name={data.state} />
-							<NameTag title="Locality" name={data.lga} />
-							<NameTag title="Area" name={data?.area || "-"} />
-							<NameTag title="Budget" name={Naira(data.budget)} />
+							<NameTag title="Email" name={data?.user?.email} />
+							<NameTag title="Purpose" name={data?.buildingType} />
+							<NameTag title="State" name={data.buildingState} />
+							<NameTag title="Floors" name={data?.numberOfFloors} />
+							<NameTag title="Location" name={data?.lga || "-"} />
 							<NameTag
-								title="Payment Status"
-								name={data.status.toLowerCase()}
+								title="Preferred Date"
+								name={moment(data.dateNeeded).format("DD/MM/YY - LT")}
 							/>
-						</VStack> */}
+						</VStack>
 					</Flex>
 				</Box>
 				<Box w="70%">
@@ -132,6 +154,9 @@ function SingleSession({ data, id }: any) {
 								</Text>
 
 								<VStack w="full" spacing="1.5rem">
+									{data.cleaningQuote !== null && (
+										<ApplicationBox label={""} detail={data.cleaningQuote} />
+									)}
 									<CurrencyField<CleaningQuoteModel>
 										placeholder=""
 										defaultValue=""
@@ -200,10 +225,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		// const data = (await _dataAccess.get(`/api/Admin/clean/requests/get/${id}`))
 		// 	.data;
 
-		const data = await _dataAccess.get(`/api/Admin/clean/requests/list`);
+		const list = (await _dataAccess.get(`/api/Admin/clean/requests/list`)).data;
 		return {
 			props: {
-				data,
+				list,
 				id,
 			},
 		};
