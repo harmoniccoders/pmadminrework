@@ -7,7 +7,7 @@ export interface tabTypes {
 function Tab({ tabname, currentTab }: tabTypes) {
 	return (
 		<>
-			<Text
+			{/* <Text
 				color={currentTab == tabname ? "black" : "gray.500"}
 				h="2.2rem"
 				display="flex"
@@ -23,24 +23,24 @@ function Tab({ tabname, currentTab }: tabTypes) {
 				_hover={{ color: "black", bgColor: "white" }}
 			>
 				{tabname}
-			</Text>
-			{/* <Text
+			</Text> */}
+			<Text
 				color={currentTab == tabname ? "white" : "black"}
 				h="2.2rem"
 				display="flex"
 				alignItems="center"
-				px="1.1rem"
+				px="2rem"
 				cursor="pointer"
 				fontWeight="medium"
 				fontSize=".9rem"
 				textTransform="capitalize"
-				borderRadius="2px 16px 0 0"
+				borderRadius="2px 22px 0 0"
 				bgColor={currentTab == tabname ? "brand.100" : "rgba(36,68,115,0.03)"}
 				transition="all .2s ease"
 				_hover={{ color: "white", bgColor: "brand.100" }}
 			>
 				{tabname}
-			</Text> */}
+			</Text>
 		</>
 	);
 }

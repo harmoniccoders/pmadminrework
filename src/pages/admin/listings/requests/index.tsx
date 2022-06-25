@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			.data;
 		const requests = (await _dataAccess.get(`/api/Admin/requests/list?${url}`))
 			.data;
-		const listings = (await _dataAccess.get(`/api/Property/list/sales?${url}`))
+		const listings = (await _dataAccess.get(`api/Admin/properties/list?${url}`))
 			.data;
 
 		return {

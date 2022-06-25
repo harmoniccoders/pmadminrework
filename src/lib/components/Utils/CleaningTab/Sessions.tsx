@@ -23,7 +23,7 @@ const moment = require("moment");
 
 function Sessions({ data, types }: any) {
 	const result = data.value;
-	console.log({ data });
+	// console.log({ data });
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (

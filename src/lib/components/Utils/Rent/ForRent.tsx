@@ -24,13 +24,7 @@ import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 const moment = require("moment");
 
-function ForRents({
-	result,
-	page,
-	propertyTitles,
-	propertyTypes,
-	getStates,
-}: any) {
+function ForRents({ result, page, propertyTitles, propertyTypes }: any) {
 	const data = result.value.filter((x: any) => x.isForRent);
 	const [items, setItems] = useState(data);
 
@@ -167,7 +161,6 @@ function ForRents({
 				onClose={onClose}
 				propertyTypes={propertyTypes}
 				propertyTitles={propertyTitles}
-				getStates={getStates}
 				item={data}
 				isRent={true}
 				isSale={false}

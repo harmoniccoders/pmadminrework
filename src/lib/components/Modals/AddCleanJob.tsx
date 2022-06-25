@@ -26,6 +26,7 @@ import { MdClose } from "react-icons/md";
 import { PrimarySelect } from "../Utilities/PrimarySelect";
 import { buildingState } from "../Utilities/BuildingStates";
 import { PrimaryDate } from "../Utilities/PrimaryDate";
+import PrimaryState from "../Utilities/PrimaryState";
 
 const schema = yup.object().shape({
 	buildingType: yup.string(),
@@ -55,6 +56,7 @@ const AddCleanJob = ({
 		setValue,
 		getValues,
 		reset,
+		watch,
 		formState: { errors, isValid },
 	} = useForm<CleaningModel>({
 		resolver: yupResolver(schema),
@@ -185,6 +187,13 @@ const AddCleanJob = ({
 										})}
 									</>
 								}
+							/>
+							<PrimaryState
+								register={register}
+								error={errors.location}
+								name="location"
+								getValues={getValues}
+								watch={watch}
 							/>
 
 							<PrimaryDate<CleaningModel>

@@ -15,18 +15,12 @@ function Listing({
 	requests,
 	propertyTitles,
 	propertyTypes,
-	getStates,
-	allrent,
 }: any) {
 	const [currentTab, setCurrentTab] = useState("listings");
 	const router = useRouter();
-	// const navigateTabs = (tabname: string) => {
-	// 	setCurrentTab(tabname);
-	// };
 	const navigateTabs = (tabname: string) => {
 		router.push(tabname);
 	};
-	const lists = listings.value.filter((i: PropertyModel) => i.isForSale);
 	return (
 		<Box w="100%" p="0rem" minH="90vh">
 			<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
@@ -56,11 +50,9 @@ function Listing({
 				</Box>
 			</Flex>
 			<Listings
-				data={listings}
-				result={allrent}
+				result={listings}
 				propertyTitles={propertyTitles}
 				propertyTypes={propertyTypes}
-				getStates={getStates}
 			/>
 		</Box>
 	);
@@ -82,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		};
 	const bearer = `Bearer ${ctx.req.cookies.token}`;
 	const _dataAccess = new DataAccess(bearer);
-	let { url, search } = ctx.query;
+	let { url, search, filter } = ctx.query;
 	if (url == "" || undefined || null) {
 		url = "limit=8&offset=0&";
 	}
@@ -91,19 +83,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	if (search) {
 		url = `${url}search=${search}`;
 	}
+	if (filter) {
+		url = `${url}filter=${filter}`;
+	}
 	try {
 		const data = (await _dataAccess.get(`/api/Admin/enquiries/list?${url}`))
 			.data;
 		const requests = (await _dataAccess.get(`/api/Admin/requests/list?${url}`))
 			.data;
-		const listings = (await _dataAccess.get(`/api/Property/list/sales?${url}`))
+		const listings = (await _dataAccess.get(`api/Admin/properties/list?${url}`))
 			.data;
-		const allrent = (await _dataAccess.get(`/api/Property/list`)).data;
 		const propertyTypes = (await _dataAccess.get("/api/Property/types")).data;
 		const propertyTitles = (await _dataAccess.get("/api/Property/titles")).data;
-		const getStates = (
-			await axios.get("http://locationsng-api.herokuapp.com/api/v1/states")
-		).data;
 
 		return {
 			props: {
@@ -112,8 +103,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				listings,
 				propertyTypes,
 				propertyTitles,
-				getStates,
-				allrent,
 			},
 		};
 	} catch (error) {

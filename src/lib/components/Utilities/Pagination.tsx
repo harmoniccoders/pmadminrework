@@ -36,6 +36,7 @@ function Pagination({ data }: { data: PagedCollection }) {
 			router.push({
 				query: {
 					url: link,
+					// userId: 15,
 				},
 			});
 		}

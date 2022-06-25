@@ -15,45 +15,35 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import AddProperty from "lib/components/Modals/AddProperty";
+import FilterTab from "lib/components/Utilities/FilterTab";
 import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
+import SearchComponent from "lib/components/Utilities/SearchComponent";
 import Tab from "lib/components/Utilities/Tab";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 const moment = require("moment");
 
-function Listings({
-	data,
-	propertyTitles,
+export default function Listings({
 	result,
+	propertyTitles,
 	propertyTypes,
-	getStates,
 }: any) {
-	// const result = data.value.filter((i: PropertyModel) => i.isForSale);
-	const lists = result.value.filter((x: any) => x.isForSale);
-	const [items, setItems] = useState(lists);
-	// const result = data.value;
 	const { isOpen, onOpen, onClose } = useDisclosure();
-
-	const [currentTab, setCurrentTab] = useState("all");
+	const router = useRouter();
+	// console.log({ result });
+	const data = result.value;
+	const [currentTab, setCurrentTab] = useState("");
 	const navigateTabs = (tabname: string) => {
 		setCurrentTab(tabname);
-		if (tabname === "pending") {
-			setItems(
-				result.value.filter((x: any) => x.isForSale && x.status == "PENDING")
-			);
-			console.log({ data });
-		} else if (tabname === "live") {
-			setItems(
-				result.value.filter((x: any) => x.isForSale && x.status == "VERIFIED")
-			);
-		} else if (tabname === "drafts") {
-			setItems(result.value.filter((x: any) => x.isDraft));
-		} else {
-			setItems(result.value.filter((x: any) => x.isForSale));
-		}
+		router.push({
+			query: {
+				filter: tabname,
+			},
+		});
 	};
 
 	return (
@@ -61,17 +51,29 @@ function Listings({
 			<HStack bg="white" pt="2rem">
 				<Box bg="gray.100" p=".2rem .3rem">
 					<Flex>
-						<Box onClick={() => navigateTabs("all")}>
-							<Tab tabname="all" currentTab={currentTab} />
+						<Box onClick={() => navigateTabs("")}>
+							<FilterTab tabname="" currentTab={currentTab} title="all" />
 						</Box>
 						<Box onClick={() => navigateTabs("pending")}>
-							<Tab tabname="pending" currentTab={currentTab} />
+							<FilterTab
+								tabname="pending"
+								currentTab={currentTab}
+								title="pending"
+							/>
 						</Box>
-						<Box onClick={() => navigateTabs("live")}>
-							<Tab tabname="live" currentTab={currentTab} />
+						<Box onClick={() => navigateTabs("verified")}>
+							<FilterTab
+								tabname="verified"
+								currentTab={currentTab}
+								title="active"
+							/>
 						</Box>
-						<Box onClick={() => navigateTabs("drafts")}>
-							<Tab tabname="drafts" currentTab={currentTab} />
+						<Box onClick={() => navigateTabs("sold")}>
+							<FilterTab
+								tabname="sold"
+								currentTab={currentTab}
+								title="closed"
+							/>
 						</Box>
 					</Flex>
 				</Box>
@@ -86,29 +88,7 @@ function Listings({
 				cursor="pointer"
 				px="1rem"
 			>
-				<InputGroup w="330px">
-					<InputLeftElement
-						h="42px"
-						w="42px"
-						children={<BsSearch color="rgba(0, 0, 0, 01)" />}
-					/>
-					<Input
-						placeholder="Search"
-						height="2.5rem"
-						bgColor="white"
-						border="2px solid black"
-						borderRadius="4px"
-						boxShadow="0"
-						fontSize="14px"
-						fontWeight="medium"
-						padding="0 3rem"
-						color="black !important"
-						_focus={{
-							borderColor: "unset",
-							border: "0",
-						}}
-					/>
-				</InputGroup>
+				<SearchComponent />
 				<Button
 					bg="brand.100"
 					onClick={onOpen}
@@ -144,7 +124,7 @@ function Listings({
 						</Thead>
 
 						<Tbody>
-							{items.map((item: any) => {
+							{data.map((item: any) => {
 								return (
 									<Link
 										href={"/admin/listings/listings/" + item.id}
@@ -167,13 +147,12 @@ function Listings({
 						</Tbody>
 					</Table>
 				</TableContainer>
-				<Pagination data={data} />
+				<Pagination data={result} />
 				<AddProperty
 					isOpen={isOpen}
 					onClose={onClose}
 					propertyTypes={propertyTypes}
 					propertyTitles={propertyTitles}
-					getStates={getStates}
 					item={data}
 					isRent={false}
 					isSale={true}
@@ -181,9 +160,4 @@ function Listings({
 			</Box>
 		</>
 	);
-}
-
-export default Listings;
-function setItems(arg0: any) {
-	throw new Error("Function not implemented.");
 }

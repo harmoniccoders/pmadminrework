@@ -33,7 +33,7 @@ export default function UserProfile({
 	const userProfile: any = result.filter(
 		(singleUser: any) => singleUser.id == userId
 	)[0];
-	// console.log(userProfile[0]);
+	console.log({ data });
 	const navigateTabs = (tabname: string) => {
 		router.push(`/admin/users/${userProfile.id}/${tabname}`);
 	};

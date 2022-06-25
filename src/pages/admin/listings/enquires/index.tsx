@@ -7,12 +7,13 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-function Listings({ data, listings, requests }: any) {
+export default function Enquiry({ data, listings, requests }: any) {
 	const [currentTab, setCurrentTab] = useState("enquires");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
 		router.push(tabname);
 	};
+	console.log({ requests });
 
 	return (
 		<Box w="100%" p="0rem" minH="90vh">
@@ -47,8 +48,6 @@ function Listings({ data, listings, requests }: any) {
 	);
 }
 
-export default Listings;
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const {
 		data: { user, redirect },
@@ -77,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			.data;
 		const requests = (await _dataAccess.get(`/api/Admin/requests/list?${url}`))
 			.data;
-		const listings = (await _dataAccess.get(`/api/Property/list/sales?${url}`))
+		const listings = (await _dataAccess.get(`api/Admin/properties/list?${url}`))
 			.data;
 
 		return {
