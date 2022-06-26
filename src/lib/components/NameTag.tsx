@@ -6,7 +6,12 @@ function NameTag({ title, name }: { title: string; name: string }) {
 			<Text fontSize="12px" fontWeight="medium" color="rgba(15,15,15,.5)">
 				{title}
 			</Text>
-			<Text fontSize="14px" fontWeight="medium" color="rgba(15,15,15,1)">
+			<Text
+				fontSize="14px"
+				fontWeight="medium"
+				color="rgba(15,15,15,1)"
+				textTransform="capitalize"
+			>
 				{name}
 			</Text>
 		</Box>

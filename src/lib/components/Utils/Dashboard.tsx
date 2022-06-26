@@ -15,98 +15,29 @@ import {
 	HStack,
 } from "@chakra-ui/react";
 import React from "react";
+import { MetricsView } from "Services";
 import MiniCards from "../Utilities/MiniCards";
 
-function Dashboard() {
+interface DashboardProps {
+	data: MetricsView;
+}
+function Dashboard({ data }: DashboardProps) {
 	return (
 		<VStack spacing="2rem" align="flex-start">
 			<Box w="full">
-				<Flex justifyContent="space-between" mb="1rem" align="center">
-					<Text fontSize="1rem" fontWeight="bold">
-						User
-					</Text>
-					<HStack
-						justifyContent="flex-end"
-						align="center"
-						spacing={6}
-						cursor="pointer"
-					>
-						<Flex
-							w="180px"
-							h="36px"
-							bgColor="rgba(0,0,0,.03)"
-							justify="space-between"
-							alignItems="center"
-							px="1.1rem"
-						>
-							<Text color="black" fontSize="14px" fontWeight="600">
-								Generate Report
-							</Text>
-							<i
-								className="far fa-file-export"
-								style={{ color: "rgba(0, 0, 0, 0.3)" }}
-							></i>
-						</Flex>
-
-						<Select
-							placeholder="Weekly"
-							borderRadius="3px"
-							w="95px"
-							color="rgba(0, 0, 0, 0.4)"
-							border="1px solid rgba(0,0,0,0.8)"
-							fontSize="12px"
-							bgColor="white"
-							fontWeight="500"
-						>
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
-						</Select>
-					</HStack>
-				</Flex>
-				<SimpleGrid columns={6} gap="1rem">
+				<SimpleGrid columns={3} gap="1rem" mt="2rem">
 					<GridItem colSpan={1}>
-						<MiniCards label="All Users" increase="12%" value="41,456" />
+						<MiniCards label="All Users" value={data.users} />
 					</GridItem>
 					<GridItem colSpan={1}>
-						<MiniCards label="New Users" increase="12%" value="398" />
+						<MiniCards label="Active Users" value={data.activeUsers} />
 					</GridItem>
 					<GridItem colSpan={1}>
-						<MiniCards label="Returning Users" increase="12%" value="1,798" />
-					</GridItem>
-					<GridItem colSpan={2}>
-						<Box
-							bgColor="white"
-							fontWeight="semibold"
-							borderRadius="6px"
-							boxShadow="0 2px 2px 0 rgba(0,0,0,0.12)"
-							h="10rem"
-							padding="1rem"
-						>
-							<Flex justifyContent="space-between" mb=".5rem">
-								<Text fontSize="12px">Active Users</Text>
-							</Flex>
-							<Box width="full" h="6rem"></Box>
-						</Box>
-					</GridItem>
-					<GridItem colSpan={1}>
-						<Box
-							bgColor="white"
-							fontWeight="semibold"
-							borderRadius="6px"
-							boxShadow="0 2px 2px 0 rgba(0,0,0,0.12)"
-							h="10rem"
-							padding="1rem"
-						>
-							<Flex justifyContent="space-between" mb=".5rem">
-								<Text fontSize="12px">Devices</Text>
-							</Flex>
-							<Box width="full" h="6rem"></Box>
-						</Box>
+						<MiniCards label="New Users" value={data.newUsers} />
 					</GridItem>
 				</SimpleGrid>
 			</Box>
-			<Box w="full">
+			<Box w="full" display="none">
 				<Flex justifyContent="space-between" mb="1rem">
 					<Text fontSize="1rem" fontWeight="bold">
 						Transactions
@@ -160,7 +91,7 @@ function Dashboard() {
 					</GridItem>
 				</SimpleGrid>
 			</Box>
-			<Box w="full">
+			<Box w="full" display="none">
 				<SimpleGrid columns={4} gap="1rem">
 					<GridItem colSpan={1}>
 						<Box

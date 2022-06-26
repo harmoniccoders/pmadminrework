@@ -16,6 +16,7 @@ import {
 	Thead,
 	Tr,
 } from "@chakra-ui/react";
+import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
 import {
 	TableActions,
@@ -24,10 +25,77 @@ import {
 	TableHead,
 } from "lib/components/Utilities/Tables";
 import { BsSearch } from "react-icons/bs";
+import { useOperationMethod } from "react-openapi-client";
+import { useToasts } from "react-toast-notifications";
 const moment = require("moment");
+import { useRouter } from "next/router";
+import { Parameters } from "openapi-client-axios";
 
-function Sourcing() {
-	// const complaints = complains.value;
+function Sourcing({ data }: any) {
+	const result = data.value;
+	console.log({ result });
+
+	const { addToast } = useToasts();
+	const router = useRouter();
+
+	const [approveProperty, { loading: isLoading, data: isData, error }] =
+		useOperationMethod("Applicationapprove{id}");
+
+	const Approve = async (selected: any) => {
+		const params: Parameters = {
+			id: selected,
+		};
+		// console.log({ params });
+
+		try {
+			const result = await (await approveProperty(params)).data;
+
+			if (result.status) {
+				addToast(result.message, {
+					appearance: "success",
+					autoDismiss: true,
+				});
+				console.log({ result });
+
+				router.reload();
+				return;
+			}
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const [deleteProperty, { loading, data: dData, error: eError }] =
+		useOperationMethod("Applicationreject{id}");
+
+	const Reject = async (selected: any) => {
+		const params: Parameters = {
+			id: selected,
+		};
+
+		try {
+			const result = await (await deleteProperty(params)).data;
+
+			if (result.status) {
+				addToast("Succesful", {
+					appearance: "success",
+					autoDismiss: true,
+				});
+				router.reload();
+				return;
+			}
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<>
@@ -94,29 +162,6 @@ function Sourcing() {
 				cursor="pointer"
 				px="1rem"
 			>
-				<InputGroup w="330px">
-					<InputLeftElement
-						h="42px"
-						w="42px"
-						children={<BsSearch color="rgba(0, 0, 0, 01)" />}
-					/>
-					<Input
-						placeholder="Search"
-						height="2.5rem"
-						bgColor="white"
-						border="2px solid black"
-						borderRadius="4px"
-						boxShadow="0"
-						fontSize="14px"
-						fontWeight="medium"
-						padding="0 3rem"
-						color="black !important"
-						_focus={{
-							borderColor: "unset",
-							border: "0",
-						}}
-					/>
-				</InputGroup>
 				<HStack>
 					<Flex
 						w="142px"
@@ -161,43 +206,39 @@ function Sourcing() {
 						<Thead>
 							<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
 								<TableHead title="User" />
-								<TableHead title="Amount" />
+								<TableHead title="Property Name" />
 								<TableHead title="Term" />
 								<TableHead title="Type" />
-								<TableHead title="Schedule" />
-								<TableHead title="Time" />
+								{/* <TableHead title="Schedule" /> */}
+								<TableHead title="Date" />
 								<TableHead title="Status" />
 								<TableHead title="" />
 							</Tr>
 						</Thead>
 
 						<Tbody>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<TableDataWithAvatar name="Pade Omotosho" />
-								<TableData name="₦4,320" />
-								<TableData name="6 Months" />
-								<TableData name="Personal" />
-								<TableData name="Monthly" />
-								<TableData name="1D 21H (2/02/21)" />
-								<TableData name="Pending" />
-								<TableActions />
-							</Tr>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<TableDataWithAvatar name="Pade Omotosho" />
-								<TableData name="₦4,320" />
-								<TableData name="6 Months" />
-								<TableData name="Personal" />
-								<TableData name="Monthly" />
-								<TableData name="1D 21H (2/02/21)" />
-								<TableData name="Pending" />
-								<TableActions />
-							</Tr>
+							{result.map((item: any) => {
+								return (
+									<Tr>
+										<TableDataWithAvatar name={item?.user.fullName} />
+										<TableData name={item.property?.name} />
+										<TableData name={Naira(item.reliefAmount)} />
+										<TableData name={item.applicationType} />
+										<TableData
+											name={moment(item.dateCreated).format("DD/MM/YY - LT")}
+										/>
+										<TableData name={item.status} />
+										<TableActions
+											reject={() => Reject(item.id)}
+											approve={() => Approve(item.id)}
+										/>
+									</Tr>
+								);
+							})}
 						</Tbody>
 					</Table>
 				</TableContainer>
-				{/* <Pagination data={complains} /> */}
+				<Pagination data={data} />
 			</Box>
 		</>
 	);

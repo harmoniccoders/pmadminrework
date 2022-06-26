@@ -1,0 +1,19 @@
+.st-theme-default > .nav .nav-link.active {
+	height: 4rem;
+	background-color: #0042ff;
+	color: white !important;
+}
+.st-theme-default > .nav .nav-link.active p {
+	color: white;
+}
+.st > .nav {
+	width: 40%;
+	height: 70vh;
+	border-right: 1px solid #eee;
+}
+.st-theme-default.st-vertical > ul.nav {
+	box-shadow: none !important;
+}
+.st-theme-default {
+	border: none !important;
+}

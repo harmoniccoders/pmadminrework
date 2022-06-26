@@ -122,7 +122,7 @@ function UsersPage() {
 						<Tab tabname="security" currentTab={currentTab} />
 					</Box>
 				</Flex>
-				{currentTab == "profile" && <Profile />}
+				{currentTab == "profile" && <></>}
 				{currentTab == "savings" && <Savings />}
 				{currentTab == "transactions" && <Transactions />}
 				{currentTab == "SLIPCARD" && <SlipCard />}

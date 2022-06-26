@@ -1,6 +1,10 @@
 import { Flex, HStack, Text } from "@chakra-ui/react";
+const moment = require("moment");
 
-function TimeDisplay() {
+function TimeDisplay({ data }: any) {
+	const time = moment(data.dateCreated).format("LT");
+	const lt = time.split(" ")[1];
+
 	return (
 		<Flex justify="space-between" align="center" mt="1rem">
 			<Text fontSize="20px" fontWeight="600">
@@ -16,7 +20,7 @@ function TimeDisplay() {
 					fontSize="22px"
 					borderRadius="6px"
 				>
-					04:00
+					{time.replace(/PM|AM/g, "")}
 				</Flex>
 				<Flex
 					fontSize="13px"
@@ -30,7 +34,7 @@ function TimeDisplay() {
 					fontWeight="600"
 				>
 					<Text
-						// bg="white"
+						bg={lt === "AM" ? "white" : "unset"}
 						// border="0.5px solid rgba(0,0,0,0.04)"
 						borderRadius="6.93px"
 						h="33px"
@@ -38,12 +42,16 @@ function TimeDisplay() {
 						display="flex"
 						justifyContent="center"
 						alignItems="center"
-						// boxShadow="0 3px 8px 0 rgba(0,0,0,0.12), 0 3px 1px 0 rgba(0,0,0,0.04)"
+						boxShadow={
+							lt === "AM"
+								? "0 3px 8px 0 rgba(0,0,0,0.12), 0 3px 1px 0 rgba(0,0,0,0.04)"
+								: "unset"
+						}
 					>
 						AM
 					</Text>
 					<Text
-						bg="white"
+						bg={lt === "PM" ? "white" : "unset"}
 						border="0.5px solid rgba(0,0,0,0.04)"
 						borderRadius="6.93px"
 						h="33px"
@@ -51,7 +59,11 @@ function TimeDisplay() {
 						display="flex"
 						justifyContent="center"
 						alignItems="center"
-						boxShadow="0 3px 8px 0 rgba(0,0,0,0.12), 0 3px 1px 0 rgba(0,0,0,0.04)"
+						boxShadow={
+							lt === "PM"
+								? "0 3px 8px 0 rgba(0,0,0,0.12), 0 3px 1px 0 rgba(0,0,0,0.04)"
+								: "unset"
+						}
 					>
 						PM
 					</Text>

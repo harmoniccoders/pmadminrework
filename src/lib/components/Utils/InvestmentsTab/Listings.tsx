@@ -1,27 +1,78 @@
 import {
 	Box,
+	Button,
+	Flex,
 	HStack,
-	Input,
-	InputGroup,
-	InputLeftElement,
 	Table,
 	TableContainer,
 	Tbody,
-	Text,
 	Thead,
 	Tr,
+	useDisclosure,
 } from "@chakra-ui/react";
+import AddProperty from "lib/components/Modals/AddProperty";
+import FilterTab from "lib/components/Utilities/FilterTab";
+import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
+import SearchComponent from "lib/components/Utilities/SearchComponent";
+import Tab from "lib/components/Utilities/Tab";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 const moment = require("moment");
 
-function Listings() {
-	// const complaints = complains.value;
+export default function Listings({
+	result,
+	propertyTitles,
+	propertyTypes,
+}: any) {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const router = useRouter();
+	const data = result.value;
+	const [currentTab, setCurrentTab] = useState("");
+	const navigateTabs = (tabname: string) => {
+		setCurrentTab(tabname);
+		router.push({
+			query: {
+				filter: tabname,
+			},
+		});
+	};
 
 	return (
 		<>
+			<HStack bg="white" pt="2rem">
+				<Box bg="gray.100" p=".2rem .3rem">
+					<Flex>
+						<Box onClick={() => navigateTabs("")}>
+							<FilterTab tabname="" currentTab={currentTab} title="all" />
+						</Box>
+						<Box onClick={() => navigateTabs("pending")}>
+							<FilterTab
+								tabname="pending"
+								currentTab={currentTab}
+								title="pending"
+							/>
+						</Box>
+						<Box onClick={() => navigateTabs("verified")}>
+							<FilterTab
+								tabname="verified"
+								currentTab={currentTab}
+								title="active"
+							/>
+						</Box>
+						<Box onClick={() => navigateTabs("sold")}>
+							<FilterTab
+								tabname="sold"
+								currentTab={currentTab}
+								title="closed"
+							/>
+						</Box>
+					</Flex>
+				</Box>
+			</HStack>
 			<HStack
 				bgColor="white"
 				pt="1.5rem"
@@ -32,29 +83,18 @@ function Listings() {
 				cursor="pointer"
 				px="1rem"
 			>
-				<InputGroup w="330px">
-					<InputLeftElement
-						h="42px"
-						w="42px"
-						children={<BsSearch color="rgba(0, 0, 0, 01)" />}
-					/>
-					<Input
-						placeholder="Search"
-						height="2.5rem"
-						bgColor="white"
-						border="2px solid black"
-						borderRadius="4px"
-						boxShadow="0"
-						fontSize="14px"
-						fontWeight="medium"
-						padding="0 3rem"
-						color="black !important"
-						_focus={{
-							borderColor: "unset",
-							border: "0",
-						}}
-					/>
-				</InputGroup>
+				<SearchComponent />
+				<Button
+					bg="brand.100"
+					onClick={onOpen}
+					width="fit-content"
+					px="3rem"
+					height="3rem"
+					color="#fff"
+					borderRadius="8px"
+				>
+					+ &nbsp; Add Property
+				</Button>
 			</HStack>
 			<Box
 				w="full"
@@ -68,46 +108,51 @@ function Listings() {
 					<Table variant="simple">
 						<Thead>
 							<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
-								<TableHead title="Type" />
-								<TableHead title="User" />
-								<TableHead title="State" />
+								<TableHead title="Name" />
+								<TableHead title="Seller" />
+								<TableHead title="Location" />
 								<TableHead title="Locality" />
-								<TableHead title="Area" />
-								<TableHead title="Budget" />
-								<TableHead title="Status" />
+								<TableHead title="Price" />
+								<TableHead title="Date Added" />
+								<TableHead title="Sale Type" />
 							</Tr>
 						</Thead>
 
 						<Tbody>
-							<Link href={"/admin/investments/listings/" + 1} key={1}>
-								<Tr>
-									{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-									<TableData name="3 Bedroom Terrace" />
-									<TableData name="Pade Omotosho" />
-									<TableData name="Lagos" />
-									<TableData name="Lekki" />
-									<TableData name="Sangotedo" />
-									<TableData name="₦40,000,000" />
-									<TableData name="Pending" />
-								</Tr>
-							</Link>
-							<Tr>
-								{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}
-								<TableData name="3 Bedroom Terrace" />
-								<TableData name="Pade Omotosho" />
-								<TableData name="Lagos" />
-								<TableData name="Lekki" />
-								<TableData name="Sangotedo" />
-								<TableData name="₦40,000,000" />
-								<TableData name="Pending" />
-							</Tr>
+							{data.map((item: any) => {
+								return (
+									<Link
+										href={"/admin/listings/listings/" + item.id}
+										key={item.id}
+									>
+										<Tr>
+											<TableData name={item.name} />
+											<TableData name={item.createdByUser.fullName} />
+											<TableData name={item.state} />
+											<TableData name={item.lga} />
+											<TableData name={Naira(item.price)} />
+											<TableData
+												name={moment(item.dateCreated).format("DD/MM/YY")}
+											/>
+											<TableData name={item.sellMyself ? "Self-sale" : "PM"} />
+										</Tr>
+									</Link>
+								);
+							})}
 						</Tbody>
 					</Table>
 				</TableContainer>
-				{/* <Pagination data={complains} /> */}
+				<Pagination data={result} />
+				<AddProperty
+					isOpen={isOpen}
+					onClose={onClose}
+					propertyTypes={propertyTypes}
+					propertyTitles={propertyTitles}
+					item={data}
+					isRent={false}
+					isSale={true}
+				/>
 			</Box>
 		</>
 	);
 }
-
-export default Listings;

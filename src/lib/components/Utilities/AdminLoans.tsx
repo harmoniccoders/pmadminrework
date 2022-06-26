@@ -14,22 +14,6 @@ function AdminLoans() {
 
 	return (
 		<Box w="100%" p="0rem" minH="90vh">
-			<Flex justify="flex-end">
-				<Flex
-					as="button"
-					w="132px"
-					h="2.3rem"
-					borderRadius="3px"
-					border="2px solid rgba(25,25,25,1)"
-					align="center"
-					bgColor="white"
-					justify="center"
-					fontSize="14.5px"
-					fontWeight="bold"
-				>
-					Loans Setup
-				</Flex>
-			</Flex>
 			<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt="2rem">
 				<Box onClick={() => navigateTabs("requests")}>
 					<SecondaryTab

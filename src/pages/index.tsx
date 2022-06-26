@@ -1,6 +1,17 @@
-import axios from 'axios';
-import Home from 'lib/pages/Home';
+import { GetServerSideProps } from "next";
 
-const index = () => <Home />;
+function Sessions() {
+	return <>Index</>;
+}
 
-export default index;
+export default Sessions;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	return {
+		redirect: {
+			permanent: false,
+			destination: "/admin",
+		},
+		props: {},
+	};
+};

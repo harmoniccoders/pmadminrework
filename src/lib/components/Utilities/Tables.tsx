@@ -4,6 +4,7 @@ import {
 	FaArrowRight,
 	FaTimes,
 	FaTimesCircle,
+	FaTrash,
 } from "react-icons/fa";
 
 export function TableHead({ title }: { title: string }) {
@@ -11,7 +12,7 @@ export function TableHead({ title }: { title: string }) {
 		<Th
 			pl="1rem"
 			fontSize="14px"
-			fontWeight="600"
+			fontWeight="bold"
 			color="black"
 			textTransform="capitalize"
 			fontFamily="body"
@@ -23,7 +24,17 @@ export function TableHead({ title }: { title: string }) {
 
 export function TableData({ name }: { name: string }) {
 	return (
-		<Td fontSize="14px" fontWeight="500" color="black" pl="1rem">
+		<Td
+			fontSize="14px"
+			fontWeight="500"
+			color="black"
+			pl="1rem"
+			py="1.3rem"
+			textTransform="capitalize"
+			maxW="130px"
+			overflow="hidden"
+			textOverflow="ellipsis"
+		>
 			{name}
 		</Td>
 	);
@@ -37,8 +48,15 @@ export function TableDataWithAvatar({ name }: { name: string }) {
 			pl="1rem"
 			display="flex"
 			alignItems="center"
+			textTransform="capitalize"
 		>
-			<Circle bg="black" size="39px" mr=".5rem" color="white">
+			<Circle
+				bg="brand.100"
+				size="39px"
+				mr=".5rem"
+				color="white"
+				textTransform="uppercase"
+			>
 				{name
 					.split(/\s/)
 					.reduce((response, word) => (response += word.slice(0, 1)), "")}
@@ -53,12 +71,13 @@ export function TableStatus({ name }: { name: string }) {
 			fontSize="14px"
 			fontWeight="500"
 			pl="1rem"
+			textTransform="capitalize"
 			color={
 				name === "APPROVED" || name === "RESOLVED"
-					? "rgba(47,223,132,1)"
+					? "#2FDF84"
 					: name === "PENDING"
-					? "rgba(227,188,106,1)"
-					: "rgba(255,41,41,1)"
+					? "#E3BC6A"
+					: "#FF2929"
 			}
 		>
 			{name}
@@ -84,16 +103,43 @@ export function TableStatusSlider({ name }: { name: string }) {
 		</Td>
 	);
 }
-export function TableActions() {
+export function TableActions({
+	reject,
+	approve,
+	aLoading,
+	rLoading,
+	hide,
+}: any) {
 	return (
 		<Td fontSize="14px" fontWeight="500" pl="1rem">
 			<HStack spacing={5}>
-				<Circle color="white" bgColor="rgba(223,57,47,1)" size="30px">
-					<FaTimes />
+				<Circle
+					color="white"
+					bgColor="rgba(223,57,47,1)"
+					size="30px"
+					onClick={reject}
+				>
+					{<FaTimes />}
 				</Circle>
-				<Circle color="white" bgColor="rgba(47,223,132,1)" size="30px">
-					<FaArrowRight />
+				<Circle
+					color="white"
+					bgColor="rgba(47,223,132,1)"
+					size="30px"
+					onClick={approve}
+					display={hide}
+				>
+					{<FaArrowRight />}
 				</Circle>
+			</HStack>
+		</Td>
+	);
+}
+
+export function TableDelete({ onClick, loading }: any) {
+	return (
+		<Td fontSize="14px" fontWeight="500" pl="1rem" onClick={onClick}>
+			<HStack spacing={5}>
+				{loading ? <div className="loader" /> : <FaTrash />}
 			</HStack>
 		</Td>
 	);

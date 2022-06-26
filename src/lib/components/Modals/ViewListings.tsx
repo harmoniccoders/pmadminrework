@@ -1,5 +1,6 @@
 import {
 	Box,
+	Icon,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -8,9 +9,21 @@ import {
 	ModalOverlay,
 	Text,
 } from "@chakra-ui/react";
+import { MdClose } from "react-icons/md";
+import { PropertyView } from "Services";
 import PropertyDetails from "../Utilities/PropertyDetails";
 
-function ViewListings({ isOpen, onClose }: { isOpen: boolean; onClose: any }) {
+function ViewListings({
+	isOpen,
+	onClose,
+	data,
+}: {
+	isOpen: boolean;
+	onClose: any;
+	data: PropertyView;
+}) {
+	console.log({ data });
+
 	return (
 		<Modal
 			motionPreset="slideInBottom"
@@ -20,7 +33,7 @@ function ViewListings({ isOpen, onClose }: { isOpen: boolean; onClose: any }) {
 		>
 			<ModalOverlay
 				bg="blackAlpha.300"
-				backdropFilter="blur(10px) hue-rotate(90deg)"
+				backdropFilter="blur(10px) hue-rotate(5deg)"
 			/>
 			<ModalContent
 				py={5}
@@ -32,7 +45,11 @@ function ViewListings({ isOpen, onClose }: { isOpen: boolean; onClose: any }) {
 				mb="0"
 				boxShadow="0 2px 13px 0 rgba(0,0,0,0.17)"
 			>
-				<ModalHeader>
+				<ModalHeader
+					display="flex"
+					alignItems="center"
+					justifyContent="space-between"
+				>
 					<Text
 						color="black"
 						fontSize="1.1rem"
@@ -42,11 +59,11 @@ function ViewListings({ isOpen, onClose }: { isOpen: boolean; onClose: any }) {
 					>
 						View Property
 					</Text>
+					<Icon as={MdClose} onClick={onClose} cursor="pointer" />
 				</ModalHeader>
-				<ModalCloseButton />
 				<ModalBody>
 					<Box maxH="80vh" overflow="auto" px="1rem">
-						<PropertyDetails />
+						<PropertyDetails data={data} />
 					</Box>
 				</ModalBody>
 			</ModalContent>

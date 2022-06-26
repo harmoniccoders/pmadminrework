@@ -1,18 +1,18 @@
 /** @type {import('next-seo').DefaultSeoProps} */
 const defaultSEOConfig = {
-	title: "Liquede",
-	titleTemplate: "%s | Save",
-	defaultTitle: "Liquede",
+	title: "PropertyMataaz",
+	titleTemplate: "%s | Admin",
+	defaultTitle: "PropertyMataaz",
 	description: "Save",
-	canonical: "https://liquede.com",
+	canonical: "https://PropertyMataaz.com",
 	openGraph: {
-		url: "https://liquede.com",
+		url: "https://PropertyMataaz.com",
 		title: "Liquede",
 		description: "Save",
 		images: [
 			{
-				url: "/assets/logo.png",
-				alt: "Liquede",
+				url: "/assets/fav.png",
+				alt: "PropertyMataaz",
 			},
 		],
 		site_name: "Liquede",

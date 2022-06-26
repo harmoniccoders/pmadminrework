@@ -1,24 +1,19 @@
 import {
 	FormControl,
+	FormErrorMessage,
 	FormLabel,
-	GridItem,
 	Input,
 	InputGroup,
-	InputLeftElement,
 	InputRightElement,
 	Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import {
-	FieldError,
-	UseFormRegister,
-	RegisterOptions,
-	Path,
-} from "react-hook-form";
+import { FieldError, UseFormRegister, Path } from "react-hook-form";
+import Icons from "./Icons";
 
 interface FormInputProps<TFormValues extends Record<string, unknown>> {
 	name: Path<TFormValues>;
 	placeholder?: string;
+	fontSize?: string;
 	label?: string;
 	register: UseFormRegister<TFormValues>;
 	error: FieldError | undefined;
@@ -37,7 +32,16 @@ interface FormInputProps<TFormValues extends Record<string, unknown>> {
 	testId?: string;
 	w?: string;
 	padding?: string;
+	onChange?: any;
+	iconClass?: string | undefined;
+	changePasswordType?: any;
+	border?: string;
 }
+
+const iconStyle = {
+	color: "rgba(0,0,0,0.5)",
+	fontWeight: "bold",
+};
 
 export const PrimaryInput = <TFormValues extends Record<string, any>>({
 	name,
@@ -49,55 +53,50 @@ export const PrimaryInput = <TFormValues extends Record<string, any>>({
 	error,
 	disableLabel = false,
 	placeholder = "",
-	variant = "outline",
-	borderColor = "gray.300",
-	borderRadius = "md",
-	placeholderColor = "gray.300",
+	fontSize,
 	defaultValue,
-	format,
-	value,
-	icon,
-	testId,
-	w = "0",
-	padding = "0 2rem",
+	iconClass,
+	changePasswordType,
+	border,
+	borderColor,
 }: FormInputProps<TFormValues>) => {
 	return (
-		<>
-			<FormControl isInvalid={!!error}>
-				<FormLabel color="brand.100" fontSize="1rem">
-					{label}
-				</FormLabel>
-				<InputGroup>
-					<InputLeftElement
-						pointerEvents="none"
-						color="brand.100"
-						children={icon}
-					/>
-					<Input
-						placeholder={placeholder}
-						type={type}
-						{...register(name, { required, ...validate })}
-						defaultValue={defaultValue}
-						disabled={disableLabel}
-						padding={padding}
-						variant="filled"
-					/>
-					<InputRightElement
-						pointerEvents="none"
-						color="brand.100"
-						position="absolute"
-						bgColor="white"
-						width={w}
-						height="70%"
-						top="10px"
-						right="10px"
-					/>
-				</InputGroup>
-			</FormControl>
+		<FormControl>
+			<FormLabel
+				htmlFor={label}
+				textTransform="capitalize"
+				pos="relative"
+				top={5}
+				left={4}
+				width="fit-content"
+				zIndex={3}
+				bg="brand.200"
+				fontSize={fontSize}
+			>
+				{label}
+			</FormLabel>
+
+			<InputGroup>
+				<Input
+					type={type}
+					placeholder={placeholder}
+					variant="outline"
+					{...register(name, { required, ...validate })}
+					defaultValue={defaultValue}
+					disabled={disableLabel}
+					border={border}
+					borderColor={borderColor}
+				/>
+
+				<InputRightElement
+					children={<Icons iconClass={iconClass} style={iconStyle} />}
+					onClick={changePasswordType}
+				/>
+			</InputGroup>
 			<Text fontSize=".7rem" color="red">
 				{(error?.type === "required" && `${label} is required`) ||
 					error?.message}
 			</Text>
-		</>
+		</FormControl>
 	);
 };
