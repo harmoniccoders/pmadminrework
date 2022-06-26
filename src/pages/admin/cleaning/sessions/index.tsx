@@ -7,7 +7,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-function SessionsIndex({ data, types }: any) {
+function SessionsIndex({ data, types, land }: any) {
 	const [currentTab, setCurrentTab] = useState("sessions");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
@@ -24,10 +24,18 @@ function SessionsIndex({ data, types }: any) {
 						currentTab={currentTab}
 					/>
 				</Box>
+				<Box onClick={() => navigateTabs("land-search")}>
+					<SecondaryTab
+						tabname="land-search"
+						num={0}
+						icon="fa-file-search"
+						currentTab={currentTab}
+					/>
+				</Box>
 				<Box onClick={() => navigateTabs("cleaners")}>
 					<SecondaryTab
 						tabname="cleaner"
-						num={9}
+						num={0}
 						icon="fa-users"
 						currentTab={currentTab}
 					/>
@@ -68,11 +76,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			await _dataAccess.get(`/api/Admin/clean/requests/list?${url}`)
 		).data;
 		const types = (await _dataAccess.get("api/Property/types")).data;
+		// const land = (await _dataAccess.get(`/api/Admin/land/requests/list?${url}`))
+		// 	.data;
 
 		return {
 			props: {
 				data,
 				types,
+				// land,
 			},
 		};
 	} catch (error) {

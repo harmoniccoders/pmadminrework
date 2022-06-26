@@ -1,7 +1,7 @@
 import AdminLoans from "lib/components/Utilities/AdminLoans";
 
 function loans() {
-	return <AdminLoans />;
+	return <></>;
 }
 
 export default loans;

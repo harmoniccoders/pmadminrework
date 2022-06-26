@@ -3,13 +3,9 @@ import {
 	Button,
 	Flex,
 	HStack,
-	Input,
-	InputGroup,
-	InputLeftElement,
 	Table,
 	TableContainer,
 	Tbody,
-	Text,
 	Thead,
 	Tr,
 	useDisclosure,
@@ -34,7 +30,6 @@ export default function Listings({
 }: any) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const router = useRouter();
-	// console.log({ result });
 	const data = result.value;
 	const [currentTab, setCurrentTab] = useState("");
 	const navigateTabs = (tabname: string) => {

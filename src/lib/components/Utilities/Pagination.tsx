@@ -4,7 +4,15 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { PagedCollection } from "types/AppTypes";
 import Icons from "./Icons";
 
-function Pagination({ data }: { data: PagedCollection }) {
+function Pagination({
+	data,
+	userId,
+}: {
+	data: PagedCollection;
+	userId?: number;
+}) {
+	console.log({ userId });
+
 	const totalPages = Math.ceil(
 		(data?.size as number) / (data?.limit as unknown as number)
 	);
@@ -33,6 +41,15 @@ function Pagination({ data }: { data: PagedCollection }) {
 		}
 		if (direction == "next" && next != null) {
 			link = next!.split("?")[1];
+			if (userId == 0) {
+				router.push({
+					query: {
+						url: link,
+						userId,
+					},
+				});
+				return;
+			}
 			router.push({
 				query: {
 					url: link,

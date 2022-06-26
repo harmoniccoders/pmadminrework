@@ -31,36 +31,13 @@ function Sessions({ data, types }: any) {
 			<HStack
 				bgColor="white"
 				pt="1.5rem"
-				justifyContent="space-between"
+				justifyContent="flex-end"
 				align="center"
 				spacing={6}
 				marginTop="0rem"
 				cursor="pointer"
 				px="1rem"
 			>
-				<InputGroup w="330px">
-					<InputLeftElement
-						h="42px"
-						w="42px"
-						children={<BsSearch color="rgba(0, 0, 0, 01)" />}
-					/>
-					<Input
-						placeholder="Search"
-						height="2.5rem"
-						bgColor="white"
-						border="2px solid black"
-						borderRadius="4px"
-						boxShadow="0"
-						fontSize="14px"
-						fontWeight="medium"
-						padding="0 3rem"
-						color="black !important"
-						_focus={{
-							borderColor: "unset",
-							border: "0",
-						}}
-					/>
-				</InputGroup>
 				<Button
 					bg="brand.100"
 					onClick={onOpen}

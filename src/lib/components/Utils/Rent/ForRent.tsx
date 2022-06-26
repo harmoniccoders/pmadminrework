@@ -15,50 +15,55 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import AddProperty from "lib/components/Modals/AddProperty";
+import FilterTab from "lib/components/Utilities/FilterTab";
 import Naira from "lib/components/Utilities/Naira";
 import Pagination from "lib/components/Utilities/Pagination";
+import SearchComponent from "lib/components/Utilities/SearchComponent";
 import Tab from "lib/components/Utilities/Tab";
 import { TableData, TableHead } from "lib/components/Utilities/Tables";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 const moment = require("moment");
 
-function ForRents({ result, page, propertyTitles, propertyTypes }: any) {
-	const data = result.value.filter((x: any) => x.isForRent);
-	const [items, setItems] = useState(data);
+function ForRents({ data, propertyTitles, propertyTypes }: any) {
+	const result = data.value;
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const router = useRouter();
 
-	const [currentTab, setCurrentTab] = useState("all");
+	const [currentTab, setCurrentTab] = useState("");
 	const navigateTabs = (tabname: string) => {
 		setCurrentTab(tabname);
-		if (tabname === "pending") {
-			setItems(
-				result.value.filter((x: any) => x.isForRent && x.status == "PENDING")
-			);
-			console.log({ data });
-		} else if (tabname === "live") {
-			setItems(
-				result.value.filter((x: any) => x.isForRent && x.status == "VERIFIED")
-			);
-		} else {
-			setItems(result.value.filter((x: any) => x.isForRent));
-		}
+		router.push({
+			query: {
+				filter: tabname,
+			},
+		});
 	};
 	return (
 		<>
 			<HStack bg="white" pt="2rem">
 				<Box bg="gray.100" p=".2rem .3rem">
 					<Flex>
-						<Box onClick={() => navigateTabs("all")}>
-							<Tab tabname="all" currentTab={currentTab} />
+						<Box onClick={() => navigateTabs("")}>
+							<FilterTab title="all" tabname="" currentTab={currentTab} />
 						</Box>
-						<Box onClick={() => navigateTabs("pending")}>
-							<Tab tabname="pending" currentTab={currentTab} />
+
+						<Box onClick={() => navigateTabs("verified")}>
+							<FilterTab
+								title="active"
+								tabname="verified"
+								currentTab={currentTab}
+							/>
 						</Box>
-						<Box onClick={() => navigateTabs("live")}>
-							<Tab tabname="live" currentTab={currentTab} />
+						<Box onClick={() => navigateTabs("inactive")}>
+							<FilterTab
+								title="closed"
+								tabname="inactive"
+								currentTab={currentTab}
+							/>
 						</Box>
 					</Flex>
 				</Box>
@@ -73,29 +78,7 @@ function ForRents({ result, page, propertyTitles, propertyTypes }: any) {
 				cursor="pointer"
 				px="1rem"
 			>
-				<InputGroup w="330px">
-					<InputLeftElement
-						h="42px"
-						w="42px"
-						children={<BsSearch color="rgba(0, 0, 0, 01)" />}
-					/>
-					<Input
-						placeholder="Search"
-						height="2.5rem"
-						bgColor="white"
-						border="2px solid black"
-						borderRadius="4px"
-						boxShadow="0"
-						fontSize="14px"
-						fontWeight="medium"
-						padding="0 3rem"
-						color="black !important"
-						_focus={{
-							borderColor: "unset",
-							border: "0",
-						}}
-					/>
-				</InputGroup>
+				<SearchComponent />
 				<Button
 					bg="brand.100"
 					onClick={onOpen}
@@ -131,7 +114,7 @@ function ForRents({ result, page, propertyTitles, propertyTypes }: any) {
 						</Thead>
 
 						<Tbody>
-							{items.map((item: any) => {
+							{result.map((item: any) => {
 								return (
 									<Link
 										href={"/admin/rent/for-rent/" + item.id}
@@ -154,7 +137,7 @@ function ForRents({ result, page, propertyTitles, propertyTypes }: any) {
 						</Tbody>
 					</Table>
 				</TableContainer>
-				<Pagination data={page} />
+				<Pagination data={data} />
 			</Box>
 			<AddProperty
 				isOpen={isOpen}

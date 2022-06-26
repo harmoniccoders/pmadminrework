@@ -10,14 +10,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-function ForRent({
-	data,
-	rent,
-	tenancy,
-	propertyTitles,
-	propertyTypes,
-	allrent,
-}: any) {
+function ForRent({ data, rent, tenancy, propertyTitles, propertyTypes }: any) {
 	const [currentTab, setCurrentTab] = useState("for rent");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
@@ -53,8 +46,7 @@ function ForRent({
 				</Box>
 			</Flex>
 			<ForRents
-				result={allrent}
-				page={rent}
+				data={rent}
 				propertyTitles={propertyTitles}
 				propertyTypes={propertyTypes}
 			/>
@@ -78,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		};
 	const bearer = `Bearer ${ctx.req.cookies.token}`;
 	const _dataAccess = new DataAccess(bearer);
-	let { url, search } = ctx.query;
+	let { url, search, filter } = ctx.query;
 	if (url == "" || undefined || null) {
 		url = "limit=8&offset=0&";
 	}
@@ -87,12 +79,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	if (search) {
 		url = `${url}search=${search}`;
 	}
+	if (filter) {
+		url = `${url}filter=${filter}`;
+	}
 	try {
 		const data = (await _dataAccess.get(`/api/Admin/applications/rent?${url}`))
 			.data;
-		const rent = (await _dataAccess.get(`/api/Property/list/rent?${url}`)).data;
+		const rent = (
+			await _dataAccess.get(`/api/Admin/properties/list/rent?${url}`)
+		).data;
 		const tenancy = (await _dataAccess.get(`/api/Admin/tenancies?${url}`)).data;
-		const allrent = (await _dataAccess.get(`/api/Property/list`)).data;
+		// const allrent = (await _dataAccess.get(`/api/Property/list`)).data;
 		const propertyTypes = (await _dataAccess.get("/api/Property/types")).data;
 		const propertyTitles = (await _dataAccess.get("/api/Property/titles")).data;
 
@@ -101,7 +98,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				data,
 				rent,
 				tenancy,
-				allrent,
 				propertyTypes,
 				propertyTitles,
 			},

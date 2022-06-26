@@ -29,18 +29,16 @@ import { useState } from "react";
 import { PrimaryInput } from "../Utilities/PrimaryInput";
 import { MdClose } from "react-icons/md";
 import { PrimarySelect } from "../Utilities/PrimarySelect";
-import { buildingState } from "../Utilities/BuildingStates";
-import { PrimaryDate } from "../Utilities/PrimaryDate";
+import { ComplaintsCategory, NameModel } from "Services";
 
 const schema = yup.object().shape({
-	buildingType: yup.string(),
-	buildingState: yup.string(),
-	propertyTypeId: yup.number().required(),
-	dateNeeded: yup.string().required(),
-	numberOfBathrooms: yup.string().required(),
-	numberOfBedrooms: yup.string().required(),
-	numberOfFloors: yup.string().required(),
+	name: yup.string().required(),
 });
+
+interface ComplaintsSub {
+	name: string;
+	complantsCategoryId: number;
+}
 
 export default function AddComplainCategory({
 	result,
@@ -51,7 +49,9 @@ export default function AddComplainCategory({
 	onClose: () => void;
 	isOpen: boolean;
 }) {
-	const [addComplain, { loading, data, error }] = useOperationMethod("");
+	const [addComplain, { loading, data, error }] = useOperationMethod(
+		"Complaintscategoriescreate"
+	);
 	const {
 		register,
 		handleSubmit,
@@ -60,27 +60,20 @@ export default function AddComplainCategory({
 		getValues,
 		reset,
 		formState: { errors, isValid },
-	} = useForm<CleaningModel>({
+	} = useForm<NameModel>({
 		resolver: yupResolver(schema),
 		mode: "all",
 	});
 	const { addToast } = useToasts();
 	const router = useRouter();
-	const [buildingType, setBuildingType] = useState("");
 
-	setValue("buildingType", buildingType);
-
-	const onSubmit = async (data: CleaningModel) => {
-		data.dateNeeded = new Date(
-			data.dateNeeded as unknown as Date
-		).toLocaleDateString();
-
+	const onSubmit = async (data: NameModel) => {
 		try {
 			const result = await (await addComplain(undefined, data)).data;
 
 			if (result.status) {
 				onClose();
-				addToast("Job created sucessfully", {
+				addToast("Sucessful", {
 					appearance: "success",
 					autoDismiss: true,
 				});
@@ -95,6 +88,41 @@ export default function AddComplainCategory({
 			return;
 		} catch (err) {}
 	};
+
+	const [addComplainSub, { loading: isLoading, data: isData, error: isError }] =
+		useOperationMethod("Complaintssubcategorycreate");
+	const {
+		register: reg,
+		handleSubmit: hnd,
+		control: ctr,
+		formState: { errors: err, isValid: isv },
+	} = useForm<ComplaintsSub>({
+		resolver: yupResolver(schema),
+		mode: "all",
+	});
+
+	const categorySubmit = async (data: ComplaintsSub) => {
+		try {
+			const result = await (await addComplainSub(undefined, data)).data;
+
+			if (result.status) {
+				onClose();
+				addToast("Sucessful", {
+					appearance: "success",
+					autoDismiss: true,
+				});
+				router.reload();
+				return;
+			}
+			onClose();
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+			return;
+		} catch (err) {}
+	};
+
 	return (
 		<Modal
 			isOpen={isOpen}
@@ -141,10 +169,10 @@ export default function AddComplainCategory({
 							<TabPanels>
 								<TabPanel>
 									<form onSubmit={handleSubmit(onSubmit)}>
-										<PrimaryInput<CleaningModel>
+										<PrimaryInput<NameModel>
 											label="Category Name"
-											name="numberOfBedrooms"
-											error={errors.numberOfBedrooms}
+											name="name"
+											error={errors.name}
 											placeholder="Give this category a name"
 											defaultValue=""
 											register={register}
@@ -162,37 +190,37 @@ export default function AddComplainCategory({
 									</form>
 								</TabPanel>
 								<TabPanel>
-									<form onSubmit={handleSubmit(onSubmit)}>
-										<PrimarySelect<CleaningModel>
-											register={register}
-											error={errors.propertyTypeId}
+									<form onSubmit={hnd(categorySubmit)}>
+										<PrimarySelect<ComplaintsSub>
+											register={reg}
+											error={err.complantsCategoryId}
 											label="Select a Category"
 											placeholder="Choose an option"
-											name="propertyTypeId"
+											name="complantsCategoryId"
 											fontSize="sm"
 											options={
 												<>
-													{result.map((x: PropertyType) => {
+													{result.map((x: any) => {
 														return <option value={x.id}>{x.name}</option>;
 													})}
 												</>
 											}
 										/>
-										<PrimaryInput<CleaningModel>
+										<PrimaryInput<ComplaintsSub>
 											label="Sub-category"
-											name="numberOfBedrooms"
-											error={errors.numberOfBedrooms}
+											name="name"
+											error={errors.name}
 											placeholder="Add a subcategory"
 											defaultValue=""
-											register={register}
+											register={reg}
 										/>
 										<Button
 											w="full"
 											mt="4rem"
 											height="3rem"
 											type="submit"
-											isLoading={loading}
-											disabled={!isValid}
+											isLoading={isLoading}
+											disabled={!isv}
 										>
 											Proceed
 										</Button>

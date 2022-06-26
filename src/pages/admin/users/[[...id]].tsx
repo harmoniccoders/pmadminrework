@@ -13,17 +13,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const bearer = `Bearer ${ctx.req.cookies.token}`;
 	const _dataAccess = new DataAccess(bearer);
 	let { url, search } = ctx.query;
-	if (url == "" || undefined || null) {
-		url = `${id}limit=14&offset=0&`;
-	}
-	url = url ?? `${id}limit=14&offset=0&`;
-	console.log(url);
+	// if (url == "" || undefined || null) {
+	// 	url = `limit=14&offset=0&`;
+	// }
+	// url = url ?? `limit=14&offset=14&`;
+	// console.log({ url });
 
 	let users;
 	let pageData;
 	try {
-		const data = (await _dataAccess.get(`/api/User/list?${url}`)).data;
+		const data = (await _dataAccess.get(`/api/User/list`)).data;
 		users = data.value;
+		// console.log({ data });
 		pageData = data;
 	} catch (error) {}
 

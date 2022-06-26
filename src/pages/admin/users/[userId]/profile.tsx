@@ -22,18 +22,17 @@ import Pagination from "lib/components/Utilities/Pagination";
 export default function UserProfile({
 	data,
 	userId,
+	allUsers,
 }: {
-	data: any;
+	data: UserView;
 	userId: number;
+	allUsers: any;
 }) {
 	const [currentTab, setCurrentTab] = useState("profile");
 	const router = useRouter();
-
-	const result = data.value;
-	const userProfile: any = result.filter(
-		(singleUser: any) => singleUser.id == userId
-	)[0];
-	console.log({ data });
+	const result = allUsers.value;
+	const userProfile = data;
+	console.log({ allUsers });
 	const navigateTabs = (tabname: string) => {
 		router.push(`/admin/users/${userProfile.id}/${tabname}`);
 	};
@@ -89,14 +88,16 @@ export default function UserProfile({
 							</Link>
 						))}
 						<Box mt=".7rem">
-							<Pagination data={data} />
+							<Pagination data={allUsers} userId={0} />
 						</Box>
 					</Box>
 				</Box>
 				<Box w="80%" bgColor="white" p="1.5rem" minH="90vh">
 					<Flex alignItems="center" fontWeight="bold">
 						<Circle bgColor="brand.100" color="white" size="3rem" mr="1rem">
-							{`${userProfile.firstName[0]}${userProfile.lastName[0]}`}
+							{`${userProfile.firstName?.charAt(
+								0
+							)}${userProfile.lastName?.charAt(0)}`}
 						</Circle>
 						<Box>
 							<Text fontSize="1.5rem">{userProfile.fullName}</Text>
@@ -124,20 +125,23 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const bearer = `Bearer ${ctx.req.cookies.token}`;
 	const _dataAccess = new DataAccess(bearer);
 	let { url, search, userId } = ctx.query;
-	if (url == "" || undefined || null) {
-		url = "limit=14&offset=0&";
+	if ((userId as unknown as number) == 0) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: `/admin/users?${url}search=${search}`,
+			},
+		};
 	}
-	url = url ?? "limit=14&offset=0&";
 
-	if (search) {
-		url = `${url}search=${search}`;
-	}
 	try {
-		const data = (await _dataAccess.get(`/api/User/list?${url}`)).data;
+		const data = (await _dataAccess.get(`/api/Admin/user/${userId}`)).data;
+		const allUsers = (await _dataAccess.get(`/api/User/list`)).data;
 
 		return {
 			props: {
 				data,
+				allUsers,
 				userId,
 			},
 		};

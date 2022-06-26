@@ -33,7 +33,7 @@ function Enquires({ result }: any) {
 				cursor="pointer"
 				px="1rem"
 			>
-				<SearchComponent />
+				{/* <SearchComponent /> */}
 			</HStack>
 			<Box
 				w="full"

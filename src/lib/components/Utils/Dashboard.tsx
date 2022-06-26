@@ -22,8 +22,6 @@ interface DashboardProps {
 	data: MetricsView;
 }
 function Dashboard({ data }: DashboardProps) {
-	console.log({ data });
-
 	return (
 		<VStack spacing="2rem" align="flex-start">
 			<Box w="full">
