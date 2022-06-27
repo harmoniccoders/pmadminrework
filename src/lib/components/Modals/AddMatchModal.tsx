@@ -42,13 +42,13 @@ import axios from "axios";
 import { PrimarySelect } from "../Utilities/PrimarySelect";
 import { PrimaryEditor } from "../Utilities/PrimaryEditor";
 import { CurrencyField } from "../Utilities/CurrencyInput";
+import PrimaryState from "../Utilities/PrimaryState";
 
 type Props = {
 	isOpen: boolean;
 	onClose: any;
 	propertyTitles: PropertyType[];
 	propertyTypes: PropertyTitle[];
-	getStates: any;
 	item: any;
 };
 
@@ -57,7 +57,6 @@ function AddMatch({
 	onClose,
 	propertyTitles,
 	propertyTypes,
-	getStates,
 	item,
 }: Props) {
 	const [PropertyCreate, { loading, data, error }] =
@@ -329,36 +328,14 @@ function AddMatch({
 											control={control}
 											label="Price"
 										/>
-										<PrimarySelect<PropertyModel>
+										<PrimaryState
 											register={register}
 											error={errors.state}
-											label="State"
-											placeholder="Which state in Nigeria is your property located"
+											errors={errors.lga}
 											name="state"
-											options={
-												<>
-													{getStates.map((x: any) => {
-														return <option value={x.name}>{x.name}</option>;
-													})}
-												</>
-											}
+											getValues={getValues}
+											watch={watch}
 										/>
-										{getValues("state") !== undefined ? (
-											<PrimarySelect<PropertyModel>
-												register={register}
-												error={errors.lga}
-												label="LGA"
-												placeholder="Local Government Area"
-												name="lga"
-												options={
-													<>
-														{lgas.map((x: any) => {
-															return <option value={x.name}>{x.name}</option>;
-														})}
-													</>
-												}
-											/>
-										) : null}
 										<PrimaryInput<PropertyModel>
 											label="Landmark"
 											name="area"

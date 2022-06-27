@@ -9,21 +9,14 @@ import { PropertyTitle, PropertyType } from "Services";
 interface RequestProps {
 	propertyTypes: PropertyType[];
 	propertyTitles: PropertyTitle[];
-	getStates: any;
 	data: any;
 }
-function SingleRequest({
-	propertyTitles,
-	propertyTypes,
-	getStates,
-	data,
-}: RequestProps) {
+function SingleRequest({ propertyTitles, propertyTypes, data }: RequestProps) {
 	return (
 		<RequestSingle
 			data={data}
 			propertyTitles={propertyTitles}
 			propertyTypes={propertyTypes}
-			getStates={getStates}
 		/>
 	);
 }
@@ -50,15 +43,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		const data = (await _dataAccess.get(`/api/Admin/requests/get/${id}`)).data;
 		const propertyTypes = (await _dataAccess.get("/api/Property/types")).data;
 		const propertyTitles = (await _dataAccess.get("/api/Property/titles")).data;
-		const getStates = (
-			await axios.get("http://locationsng-api.herokuapp.com/api/v1/states")
-		).data;
+
 		return {
 			props: {
 				data,
 				propertyTypes,
 				propertyTitles,
-				getStates,
 			},
 		};
 	} catch (error) {

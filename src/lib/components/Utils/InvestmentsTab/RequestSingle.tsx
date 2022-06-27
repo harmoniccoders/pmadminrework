@@ -29,12 +29,7 @@ import { Parameters } from "openapi-client-axios";
 import { useToasts } from "react-toast-notifications";
 import { PropertyRequestMatchView } from "Services";
 
-function RequestSingle({
-	data,
-	propertyTitles,
-	propertyTypes,
-	getStates,
-}: any) {
+function RequestSingle({ data, propertyTitles, propertyTypes }: any) {
 	const matches = data.matches;
 
 	const router = useRouter();
@@ -81,7 +76,7 @@ function RequestSingle({
 				appearance: "error",
 				autoDismiss: true,
 			});
-	} catch (err) {
+		} catch (err) {
 			console.log(err);
 		}
 	};
@@ -227,7 +222,6 @@ function RequestSingle({
 				onClose={closeMatchModal}
 				propertyTypes={propertyTypes}
 				propertyTitles={propertyTitles}
-				getStates={getStates}
 				item={data}
 			/>
 		</Box>
