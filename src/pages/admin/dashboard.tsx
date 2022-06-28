@@ -30,12 +30,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			props: {},
 		};
 	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
-	console.log({ bearer });
 
 	const _dataAccess = new DataAccess(bearer);
 	try {
 		const data = (await _dataAccess.get(`/api/Admin/metrics`)).data;
-		console.log({ data });
 
 		return {
 			props: {
@@ -49,17 +47,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			},
 		};
 	}
-	// try {
-	// 	const data = (await AdminService.metrics()) as MetricsViewStandardResponse;
-	// 	console.log(data);
-	// 	return {
-	// 		props: {
-	// 			data: data.data,
-	// 		},
-	// 	};
-	// } catch (error) {
-	// 	return {
-	// 		props: {},
-	// 	};
-	// }
 };
