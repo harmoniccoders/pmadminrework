@@ -13,7 +13,7 @@ export default function TopNav() {
 	const LogUserOut = () => {
 		Cookies.remove("user");
 		Cookies.remove("adminToken");
-		Cookies.remove("userIn");
+		Cookies.remove("adminIn");
 		window.location.href = "/";
 	};
 	const { admin, setAdmin } = useContext(UserContext);

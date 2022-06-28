@@ -51,7 +51,7 @@ function Login() {
 					autoDismiss: true,
 				});
 				Cookies.set("admin", JSON.stringify(result.data));
-				Cookies.set("userIn", "true");
+				Cookies.set("adminIn", "true");
 				setAdmin(JSON.stringify(result.data));
 				result.data && Cookies.set("adminToken", result.data.token as string);
 				window.location.href = "/admin/dashboard";
