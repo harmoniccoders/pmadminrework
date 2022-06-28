@@ -20,7 +20,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 		cor: "no-cors",
 	};
 	if (typeof window !== "undefined") {
-		const token = Cookies.get("token");
+		const token = Cookies.get("adminToken");
 		headers = {
 			cor: "no-cors",
 			Authorization: `Bearer ${token}`,

@@ -220,7 +220,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			},
 			props: {},
 		};
-	const bearer = `Bearer ${ctx.req.cookies.token}`;
+	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
 	const _dataAccess = new DataAccess(bearer);
 	const { id } = ctx.query;
 	try {

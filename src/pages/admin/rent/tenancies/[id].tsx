@@ -342,7 +342,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			},
 			props: {},
 		};
-	const bearer = `Bearer ${ctx.req.cookies.token}`;
+	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
 	const _dataAccess = new DataAccess(bearer);
 	let { url, id } = ctx.query;
 	if (url == "" || undefined || null) {

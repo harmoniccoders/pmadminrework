@@ -12,15 +12,11 @@ export default function TopNav() {
 	const [isMenuOpened, setIsMenuOpened] = useState<boolean>();
 	const LogUserOut = () => {
 		Cookies.remove("user");
-		Cookies.remove("token");
+		Cookies.remove("adminToken");
 		Cookies.remove("userIn");
 		window.location.href = "/";
 	};
-	const users = Cookies.get("user") as unknown as string;
-	let user;
-	if (users !== undefined) {
-		user = JSON.parse(users);
-	}
+	const { admin, setAdmin } = useContext(UserContext);
 
 	const [isOpen, setIsOpen] = useState(false);
 	const dropDown = useRef(null);
@@ -53,11 +49,11 @@ export default function TopNav() {
 					onClick={() => setIsMenuOpened((prev) => !prev)}
 				>
 					<Text fontWeight="600" fontSize="1rem" pr=".8rem">
-						{`Hi, ${user ? user?.firstName : "Pade"}`}
+						{`Hi, ${admin ? admin?.firstName : "Pade"}`}
 					</Text>
 					<Circle size="50px" overflow="hidden" bg="gray">
 						<Image
-							src={user?.profilePicture || "/assets/image1.png"}
+							src={admin?.profilePicture || "/assets/image1.png"}
 							w="full"
 							h="full"
 							objectFit="cover"

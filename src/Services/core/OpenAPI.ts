@@ -20,7 +20,7 @@ export type OpenAPIConfig = {
 };
 
 const headers: Headers = {
-	authorization: `Bearer ${Cookies.get("token")}`,
+	authorization: `Bearer ${Cookies.get("adminToken")}`,
 };
 export const OpenAPI: OpenAPIConfig = {
 	BASE: "https://propertymataazbe.herokuapp.com",

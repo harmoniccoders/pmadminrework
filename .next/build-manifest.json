@@ -25,15 +25,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/admin/listings": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/listings.js"
+    ],
     "/admin/listings/enquires": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin/listings/enquires.js"
     ],
-    "/admin/listings/listings": [
+    "/admin/transactions": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/listings/listings.js"
+      "static/chunks/pages/admin/transactions.js"
+    ],
+    "/admin/users/[userId]/profile": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/users/[userId]/profile.js"
     ]
   },
   "ampFirstPages": []

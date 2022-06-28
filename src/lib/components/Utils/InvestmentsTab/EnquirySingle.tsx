@@ -29,7 +29,7 @@ function EnquirySingle({ data }: Eprops) {
 	useEffect(() => {
 		const fetchProperty = async () => {
 			const getProperty = async () => {
-				const bearer = `Bearer ${Cookies.get("token")}`;
+				const bearer = `Bearer ${Cookies.get("adminToken")}`;
 				const _dataAccess = new DataAccess(bearer);
 				const result = await _dataAccess.get(
 					`/api/Property/get/${data.propertyId}`
@@ -40,7 +40,7 @@ function EnquirySingle({ data }: Eprops) {
 			};
 			getProperty();
 			const getUser = async () => {
-				const bearer = `Bearer ${Cookies.get("token")}`;
+				const bearer = `Bearer ${Cookies.get("adminToken")}`;
 				const _dataAccess = new DataAccess(bearer);
 				const result = await _dataAccess.get(
 					`/api/Application/list/${data.propertyId}`

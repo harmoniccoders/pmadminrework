@@ -1,10 +1,10 @@
 import { GetServerSidePropsContext } from "next";
 
 export const returnUserData = (ctx: GetServerSidePropsContext) => {
-	const { user, userIn } = ctx.req.cookies;
+	const { admin, userIn } = ctx.req.cookies;
 	return {
 		data: {
-			user: user,
+			user: admin,
 			redirect: !userIn,
 		},
 	};

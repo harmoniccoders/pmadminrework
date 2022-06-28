@@ -124,7 +124,7 @@ export default function UserListings({
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const bearer = `Bearer ${ctx.req.cookies.token}`;
+	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
 	const _dataAccess = new DataAccess(bearer);
 	let { url, search, userId } = ctx.query;
 	if (url == "" || undefined || null) {

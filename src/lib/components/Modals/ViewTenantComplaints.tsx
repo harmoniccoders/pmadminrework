@@ -45,7 +45,7 @@ function ViewTenantComplaints({
 
 	useEffect(() => {
 		const getProperty = async () => {
-			const bearer = `Bearer ${Cookies.get("token")}`;
+			const bearer = `Bearer ${Cookies.get("adminToken")}`;
 			const _dataAccess = new DataAccess(bearer);
 			const result = await _dataAccess.get(
 				`/api/Complaints/property/${propertyId}/list`

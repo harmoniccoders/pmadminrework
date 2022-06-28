@@ -29,7 +29,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			},
 			props: {},
 		};
-	const bearer = `Bearer ${ctx.req.cookies.token}`;
+	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
+	console.log({ bearer });
+
 	const _dataAccess = new DataAccess(bearer);
 	try {
 		const data = (await _dataAccess.get(`/api/Admin/metrics`)).data;
