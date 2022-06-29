@@ -97,7 +97,7 @@ function ViewTenantComplaints({
 					<Icon as={MdClose} onClick={onClose} cursor="pointer" />
 				</ModalHeader>
 				<ModalBody>
-					<Box h="70vh" overflow="auto" px="1.5rem" w="full">
+					<Box h="auto" overflow="auto" px="1.5rem" w="full">
 						<>
 							{property !== undefined && (
 								<>
