@@ -93,6 +93,8 @@ function ActiveTenancy({ tenancy, id }: any) {
 							pl="1rem"
 							mb="0 !important"
 							textTransform="capitalize"
+							noOfLines={1}
+							w="300px"
 						>
 							{singleTenancy.property.name}
 						</Text>
