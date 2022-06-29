@@ -425,7 +425,6 @@ function SingleListings({ data }: { data: PropertyView }) {
 										<GridItem mb="5px" display="flex" alignItems="center">
 											<Icons iconClass="fa-tags" style={iconStyle} />
 											<Text fontSize="13px" ml="4px">
-												&#8358;
 												{Naira(data.price as number)}
 											</Text>
 										</GridItem>

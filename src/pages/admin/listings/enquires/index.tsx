@@ -13,7 +13,7 @@ export default function Enquiry({ data, listings, requests }: any) {
 	const navigateTabs = (tabname: string) => {
 		router.push(tabname);
 	};
-	console.log({ requests });
+	console.log({ data });
 
 	return (
 		<Box w="100%" p="0rem" minH="90vh">

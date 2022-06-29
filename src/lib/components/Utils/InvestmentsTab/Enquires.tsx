@@ -62,7 +62,7 @@ function Enquires({ result }: any) {
 								return (
 									<Link
 										href={"/admin/listings/enquires/" + item.id}
-										key={item.propertyId}
+										key={item.id}
 									>
 										<Tr>
 											{/* <TableData name={moment(x.departureDate).format("MMM Do YYYY")} /> */}

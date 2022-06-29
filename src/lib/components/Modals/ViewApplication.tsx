@@ -34,6 +34,7 @@ function ViewApplication({
 			onClose={onClose}
 			isOpen={isOpen}
 			isCentered
+			trapFocus={false}
 		>
 			<ModalOverlay
 				bg="blackAlpha.300"

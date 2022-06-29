@@ -11,7 +11,7 @@ function Pagination({
 	data: PagedCollection;
 	userId?: number;
 }) {
-	console.log({ userId });
+	// console.log({ userId });
 
 	const totalPages = Math.ceil(
 		(data?.size as number) / (data?.limit as unknown as number)

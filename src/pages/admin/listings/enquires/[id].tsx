@@ -25,11 +25,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		};
 	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
 	const _dataAccess = new DataAccess(bearer);
-	let { url, id } = ctx.query;
-	url = url ?? "limit=8&offset=0&";
+	let { id } = ctx.query;
 	try {
-		const data = (await _dataAccess.get(`/api/Admin/enquiries/list?${url}`))
-			.data;
+		const data = (await _dataAccess.get(`/api/Admin/enquiries/list`)).data;
 
 		return {
 			props: {

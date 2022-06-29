@@ -296,7 +296,7 @@ function AddProperty({
 											placeholder=""
 											defaultValue=""
 											register={register}
-											error={errors.price}
+										error={errors.price}
 											name={"price"}
 											control={control}
 											label="Price"

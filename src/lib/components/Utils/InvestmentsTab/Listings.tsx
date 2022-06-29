@@ -40,6 +40,7 @@ export default function Listings({
 			},
 		});
 	};
+	console.log({ data });
 
 	return (
 		<>
@@ -114,6 +115,7 @@ export default function Listings({
 								<TableHead title="Locality" />
 								<TableHead title="Price" />
 								<TableHead title="Date Added" />
+								<TableHead title="Property Type" />
 								<TableHead title="Sale Type" />
 							</Tr>
 						</Thead>
@@ -133,6 +135,9 @@ export default function Listings({
 											<TableData name={Naira(item.price)} />
 											<TableData
 												name={moment(item.dateCreated).format("DD/MM/YY")}
+											/>
+											<TableData
+												name={item.isForRent ? "For Rent" : "For Sale"}
 											/>
 											<TableData name={item.sellMyself ? "Self-sale" : "PM"} />
 										</Tr>

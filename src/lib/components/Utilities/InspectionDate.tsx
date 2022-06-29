@@ -27,7 +27,7 @@ interface FormInputProps<TFormValues extends Record<string, unknown>> {
 	icon?: any;
 }
 
-export const PrimaryDate = <TFormValues extends Record<string, any>>({
+export const InspectionDate = <TFormValues extends Record<string, any>>({
 	name,
 	required = false,
 	label = "",
@@ -44,43 +44,24 @@ export const PrimaryDate = <TFormValues extends Record<string, any>>({
 	maxDate,
 }: FormInputProps<TFormValues>) => {
 	return (
-		<GridItem w="full">
-			<FormControl>
-				<FormLabel
-					htmlFor={label}
-					textTransform="capitalize"
-					pos="relative"
-					top={5}
-					left={4}
-					width="fit-content"
-					zIndex={3}
-					bg="brand.200"
-					fontSize={fontSize}
-				>
-					{label}
-				</FormLabel>
-				<Controller
-					render={({ field }) => (
-						//@ts-ignore
-						<DatePicker
-							placeholderText="Select date"
-							dateFormat="d MMM yyyy"
-							minDate={minDate}
-							maxDate={maxDate}
-							onChange={(date) => field.onChange(date)}
-							selected={field.value}
-							className="add"
-							
-						/>
-					)}
-					name={name}
-					control={control}
-				/>
-			</FormControl>
-			<Text fontSize=".7rem" color="red">
-				{(error?.type === "required" && `${label} is required`) ||
-					error?.message}
-			</Text>
-		</GridItem>
+		<>
+			<Controller
+				render={({ field }) => (
+					//@ts-ignore
+					<DatePicker
+						placeholderText={`+${"    "} Add date`}
+						dateFormat="d MMM yyyy"
+						minDate={minDate}
+						maxDate={maxDate}
+						onChange={(date) => field.onChange(date)}
+						selected={field.value}
+						withPortal
+						className="inspection"
+					/>
+				)}
+				name={name}
+				control={control}
+			/>
+		</>
 	);
 };

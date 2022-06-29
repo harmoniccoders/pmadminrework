@@ -141,6 +141,7 @@ const AddCleanJob = ({
 									<Button
 										height="2.5rem"
 										fontSize="sm"
+										color="brand.100"
 										onClick={() => setBuildingType("residential")}
 										variant={
 											buildingType == "residential" ? "solid" : "outline"
@@ -151,6 +152,7 @@ const AddCleanJob = ({
 									<Button
 										fontSize="sm"
 										height="2.5rem"
+										color="brand.100"
 										onClick={() => setBuildingType("commercial")}
 										variant={buildingType == "commercial" ? "solid" : "outline"}
 									>

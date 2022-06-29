@@ -98,6 +98,7 @@ function RequestSingle({ data, propertyTitles, propertyTypes }: any) {
 							pl="1rem"
 							mb="0 !important"
 							textTransform="capitalize"
+							noOfLines={1}
 						>
 							{`${
 								data.numberOfBedRooms

@@ -97,27 +97,6 @@ function AddMatch({
 	const widgetApi = useRef();
 	const widgetApis = useRef();
 
-	const [lgas, setLgas] = useState([]);
-
-	useEffect(() => {
-		const getLga = async (state: string) => {
-			const result = (
-				await axios.get(
-					`http://locationsng-api.herokuapp.com/api/v1/states/${state}/lgas`
-				)
-			).data;
-
-			if (Array.isArray(result) === true) {
-				setLgas(
-					result.map((value: string) => {
-						return { name: value };
-					})
-				);
-			}
-		};
-		getLga(getValues("state") as unknown as string);
-	}, [watch("state")]);
-
 	let uploaded;
 	const onChangeImg = async (info: any, type: boolean) => {
 		console.log("Upload completed:", info);

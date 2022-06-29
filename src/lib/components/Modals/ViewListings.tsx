@@ -22,7 +22,7 @@ function ViewListings({
 	onClose: any;
 	data: PropertyView;
 }) {
-	console.log({ data });
+	// console.log({ data });
 
 	return (
 		<Modal
