@@ -25,15 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/rent/applications": [
+    "/admin/listings/enquires/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/rent/applications.js"
-    ],
-    "/admin/rent/tenancies": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admin/rent/tenancies.js"
+      "static/chunks/pages/admin/listings/enquires/[id].js"
     ]
   },
   "ampFirstPages": []

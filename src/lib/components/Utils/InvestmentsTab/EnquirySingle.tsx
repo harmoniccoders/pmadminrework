@@ -49,6 +49,7 @@ const schema = yup.object().shape({
 function EnquirySingle({ data }: Eprops) {
 	const [property, setProperty] = useState<any>();
 	const [user, setUser] = useState<any>();
+	const [inspection, setInspection] = useState<any>();
 	const [startDate, setStartDate] = useState<any>();
 	console.log({ data });
 
@@ -114,6 +115,19 @@ function EnquirySingle({ data }: Eprops) {
 				}
 			};
 			getUser();
+			const getInspections = async () => {
+				const bearer = `Bearer ${Cookies.get("adminToken")}`;
+				const _dataAccess = new DataAccess(bearer);
+				const result = await _dataAccess.get(
+					`/api/Property/inspectiondates/list/${data.propertyId}`
+				);
+				console.log({ result });
+
+				if (result.status) {
+					setInspection(result.data);
+				}
+			};
+			getInspections();
 		};
 		fetchProperty();
 	}, []);
@@ -122,7 +136,7 @@ function EnquirySingle({ data }: Eprops) {
 	if (user !== undefined) {
 		singleUser = user.filter((x: any) => x.user.id == data.userId)[0];
 	}
-	console.log({ singleUser });
+	// console.log({ singleUser });
 
 	const router = useRouter();
 	const goBack = () => {
@@ -320,99 +334,108 @@ function EnquirySingle({ data }: Eprops) {
 						</Box>
 					</Flex>
 
-					{data.inspection.map((x: InspectionView) => {
-						return (
-							<Box
-								border="2px solid rgba(0,0,0,0.1)"
-								borderRadius="10px"
-								px="1rem"
-								py=".5rem"
-								mt="1rem"
-							>
-								<Text
-									fontSize="20px"
-									fontWeight="bold"
-									mb=".5rem"
-									textTransform="capitalize"
-								>
-									{moment(x.inspectionDate?.date).format("MMM DD YYYY")}
-								</Text>
-								<HStack
-									mb="1rem"
-									spacing={0}
-									gap={4}
-									overflowX="hidden"
-									flexWrap="wrap"
-								>
-									{x.inspectionDate?.times?.map((x: InspectionTimeView) => {
-										return (
-											<Box
-												borderRadius="4px"
-												bgColor="gray.200"
-												fontWeight="600"
-												px=".8rem"
-												py=".2rem"
-												flexShrink={0}
-											>
-												{moment(x.time).format("LT")}
-											</Box>
-										);
-									})}
-								</HStack>
-								<Flex justify="space-between" align="center" mb=".4rem">
-									<HStack>
-										<DatePicker
-											placeholderText={`+${"    "} Add Time Slots`}
-											dateFormat="h:mm aa"
-											onChange={(date: any) => setStartDate(date)}
-											selected={startDate}
-											withPortal
-											className="inspection"
-											showTimeInput
-											openToDate={
-												new Date(x.inspectionDate?.date as unknown as Date)
-											}
-											calendarClassName="insp"
-										/>
-										<Button
-											cursor="pointer"
-											w="fit-content"
-											bgColor="transparent"
-											onClick={() => AddTime(x.inspectionDate?.id)}
-											disabled={!startDate}
-											isLoading={isLoaded}
-											color="black"
-											px="0"
-											h="fit-content"
-											_hover={{
-												bgColor: "transparent",
-												color: "black",
-											}}
-										>
-											<Icons iconClass="fa-calendar-check" />
-										</Button>
-									</HStack>
-									<Button
-										cursor="pointer"
-										w="fit-content"
-										bgColor="transparent"
-										type="submit"
-										isLoading={isLoading}
-										color="black"
-										px="0"
-										h="fit-content"
-										onClick={() => DeleteInspection(x.inspectionDate?.id)}
-										_hover={{
-											bgColor: "transparent",
-											color: "black",
-										}}
+					{inspection !== undefined && (
+						<>
+							{inspection.map((x: InspectionDateView, i: any) => {
+								return (
+									<Box
+										key={i}
+										border="2px solid rgba(0,0,0,0.1)"
+										borderRadius="10px"
+										px="1rem"
+										py=".5rem"
+										mt="1rem"
 									>
-										<Icons iconClass="fa-trash-alt" />
-									</Button>
-								</Flex>
-							</Box>
-						);
-					})}
+										<Text
+											fontSize="20px"
+											fontWeight="bold"
+											mb=".5rem"
+											textTransform="capitalize"
+										>
+											{moment(x.date).format("MMM DD YYYY")}
+										</Text>
+										<HStack
+											mb="1rem"
+											spacing={0}
+											gap={4}
+											overflowX="hidden"
+											flexWrap="wrap"
+										>
+											{x.times?.map((item: InspectionTimeView, i) => {
+												return (
+													<Box
+														key={i}
+														borderRadius="4px"
+														bgColor="gray.200"
+														fontWeight="600"
+														px=".8rem"
+														py=".2rem"
+														flexShrink={0}
+													>
+														{moment(item.time).format("LT")}
+													</Box>
+												);
+											})}
+										</HStack>
+										<Flex
+											justify="space-between"
+											align="center"
+											mb=".4rem"
+											key={i}
+										>
+											<HStack>
+												<DatePicker
+													placeholderText={`+${"    "} Add Time Slots`}
+													dateFormat="h:mm aa"
+													onChange={(date: any) => setStartDate(date)}
+													selected={startDate}
+													withPortal
+													className="inspection"
+													showTimeInput
+													openToDate={new Date(x.date as unknown as Date)}
+													calendarClassName="insp"
+												/>
+												<Button
+													cursor="pointer"
+													w="fit-content"
+													bgColor="transparent"
+													onClick={() => AddTime(x.id)}
+													disabled={!startDate}
+													isLoading={isLoaded}
+													color="black"
+													px="0"
+													h="fit-content"
+													_hover={{
+														bgColor: "transparent",
+														color: "black",
+													}}
+												>
+													<Icons iconClass="fa-calendar-check" />
+												</Button>
+											</HStack>
+											<Button
+												cursor="pointer"
+												w="fit-content"
+												bgColor="transparent"
+												type="submit"
+												isLoading={isLoading}
+												color="black"
+												px="0"
+												h="fit-content"
+												onClick={() => DeleteInspection(x.id)}
+												_hover={{
+													bgColor: "transparent",
+													color: "black",
+												}}
+											>
+												<Icons iconClass="fa-trash-alt" />
+											</Button>
+										</Flex>
+									</Box>
+								);
+							})}
+						</>
+					)}
 				</Box>
 			</HStack>
 			<ViewListings isOpen={open} onClose={closeModal} data={property} />

@@ -102,7 +102,7 @@
 	color: white;
 }
 .inspection::placeholder {
-	color: black;
+	color: black; 
 }
 .inspection:hover::placeholder {
 	color: white;

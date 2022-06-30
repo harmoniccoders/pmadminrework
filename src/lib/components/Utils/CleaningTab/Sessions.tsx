@@ -23,7 +23,10 @@ const moment = require("moment");
 
 function Sessions({ data, types }: any) {
 	const result = data.value;
-	// console.log({ data });
+	// const sortedResult = result.sort((a: any, b: any) =>
+	// 	a.id < b.id ? 1 : b.id < a.id ? -1 : 0
+	// );
+	// console.log({ result });
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
