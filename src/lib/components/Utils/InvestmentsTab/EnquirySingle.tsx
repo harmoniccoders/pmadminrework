@@ -50,8 +50,8 @@ function EnquirySingle({ data }: Eprops) {
 	const [property, setProperty] = useState<any>();
 	const [user, setUser] = useState<any>();
 	const [inspection, setInspection] = useState<any>();
-	const [startDate, setStartDate] = useState<any>();
-	console.log({ data });
+
+	// console.log({ data });
 
 	const {
 		register,
@@ -68,28 +68,6 @@ function EnquirySingle({ data }: Eprops) {
 
 	const [deleteInsp, { loading: isLoading, data: dataL, error: errorL }] =
 		useOperationMethod("Propertyinspectiondatesdelete{id}");
-
-	const DeleteInspection = async (date: any) => {
-		const params: Parameters = {
-			id: date,
-		};
-		try {
-			const result = await (await deleteInsp(params)).data;
-			if (result.status) {
-				addToast("Deleted", {
-					appearance: "success",
-					autoDismiss: true,
-				});
-				router.reload();
-				return;
-			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-			return;
-		} catch (err) {}
-	};
 
 	useEffect(() => {
 		const fetchProperty = async () => {
@@ -178,36 +156,133 @@ function EnquirySingle({ data }: Eprops) {
 		} catch (err) {}
 	};
 
-	const [addTime, { loading: isLoaded }] = useOperationMethod(
-		"Propertyinspectiontimecreate"
-	);
+	function ListItem({ d }: any) {
+		const [loading, setLoading] = useState(false);
+		async function del() {
+			setLoading(!loading);
+			const DeleteInspection = async (date: any) => {
+				const params: Parameters = {
+					id: date,
+				};
+				try {
+					setLoading(true);
+					const result = await (await deleteInsp(params)).data;
+					if (result.status) {
+						setLoading(false);
+						addToast("Deleted", {
+							appearance: "success",
+							autoDismiss: true,
+						});
+						router.reload();
+						return;
+					}
+					addToast(result.message, {
+						appearance: "error",
+						autoDismiss: true,
+					});
+					return;
+				} catch (err) {}
+			};
+			setTimeout(() => {
+				DeleteInspection(d);
+			}, 3000);
+		}
+		return (
+			<Button
+				cursor="pointer"
+				w="fit-content"
+				bgColor="transparent"
+				type="submit"
+				isLoading={loading}
+				color="black"
+				px="0"
+				h="fit-content"
+				onClick={del}
+				_hover={{
+					bgColor: "transparent",
+					color: "black",
+				}}
+			>
+				<Icons iconClass="fa-trash-alt" />
+			</Button>
+		);
+	}
 
-	const AddTime = async (dates: any) => {
-		const timeData = {
-			availableTime: (startDate as unknown as Date).toLocaleString(),
-			inspectionDateId: dates,
-		};
-		console.log({ timeData });
+	function TimeItem({ d, t }: any) {
+		const [loading, setLoading] = useState(false);
+		const [addTime, { loading: isLoaded }] = useOperationMethod(
+			"Propertyinspectiontimecreate"
+		);
+		async function timeAdd() {
+			setLoading(!loading);
+			const AddTime = async (dates: any) => {
+				const timeData = {
+					availableTime: (startDate as unknown as Date).toLocaleString(),
+					inspectionDateId: dates,
+				};
+				console.log({ timeData });
 
-		try {
-			const result = await (await addTime(undefined, timeData)).data;
-			console.log({ result });
+				try {
+					setLoading(true);
+					const result = await (await addTime(undefined, timeData)).data;
+					console.log({ result });
 
-			if (result.status) {
-				addToast("New Time Slot Added", {
-					appearance: "success",
-					autoDismiss: true,
-				});
-				router.reload();
-				return;
-			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-			return;
-		} catch (err) {}
-	};
+					if (result.status) {
+						setLoading(false);
+						addToast("New Time Slot Added", {
+							appearance: "success",
+							autoDismiss: true,
+						});
+						router.reload();
+						return;
+					}
+					setLoading(false);
+					addToast(result.message, {
+						appearance: "error",
+						autoDismiss: true,
+					});
+					return;
+				} catch (err) {}
+			};
+			setTimeout(() => {
+				AddTime(d);
+			}, 3000);
+		}
+		const [startDate, setStartDate] = useState<any>();
+		return (
+			<>
+				<DatePicker
+					placeholderText={`+${"    "} Add Time Slots`}
+					dateFormat="h:mm aa"
+					onChange={(date: any) => setStartDate(date)}
+					selected={startDate}
+					withPortal
+					className="inspection"
+					showTimeInput
+					openToDate={new Date(t)}
+					calendarClassName="insp"
+				/>
+				<Button
+					cursor="pointer"
+					w="fit-content"
+					bgColor="transparent"
+					type="submit"
+					isLoading={loading}
+					color="black"
+					px="0"
+					h="fit-content"
+					disabled={!startDate}
+					onClick={timeAdd}
+					_hover={{
+						bgColor: "transparent",
+						color: "black",
+					}}
+				>
+					<Icons iconClass="fa-calendar-check" />
+				</Button>
+			</>
+		);
+	}
 
 	return (
 		<Box bgColor="white" p="1rem" minH="80vh">
@@ -384,52 +459,9 @@ function EnquirySingle({ data }: Eprops) {
 											key={i}
 										>
 											<HStack>
-												<DatePicker
-													placeholderText={`+${"    "} Add Time Slots`}
-													dateFormat="h:mm aa"
-													onChange={(date: any) => setStartDate(date)}
-													selected={startDate}
-													withPortal
-													className="inspection"
-													showTimeInput
-													openToDate={new Date(x.date as unknown as Date)}
-													calendarClassName="insp"
-												/>
-												<Button
-													cursor="pointer"
-													w="fit-content"
-													bgColor="transparent"
-													onClick={() => AddTime(x.id)}
-													disabled={!startDate}
-													isLoading={isLoaded}
-													color="black"
-													px="0"
-													h="fit-content"
-													_hover={{
-														bgColor: "transparent",
-														color: "black",
-													}}
-												>
-													<Icons iconClass="fa-calendar-check" />
-												</Button>
+												<TimeItem d={x.id} t={x.date as unknown as Date} />
 											</HStack>
-											<Button
-												cursor="pointer"
-												w="fit-content"
-												bgColor="transparent"
-												type="submit"
-												isLoading={isLoading}
-												color="black"
-												px="0"
-												h="fit-content"
-												onClick={() => DeleteInspection(x.id)}
-												_hover={{
-													bgColor: "transparent",
-													color: "black",
-												}}
-											>
-												<Icons iconClass="fa-trash-alt" />
-											</Button>
+											<ListItem d={x.id} />
 										</Flex>
 									</Box>
 								);
