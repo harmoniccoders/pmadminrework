@@ -7,8 +7,9 @@ const Button: DeepPartial<Theme["components"]["Button"]> = {
 	variants: {
 		outline: {
 			backgroundColor: "transparent",
-			border: "1px solid #E3BC6A",
-			color: "#E3BC6A",
+			border: "1px solid",
+			borderColor: "brand.100",
+			color: "brand.100",
 			w: "11rem",
 			h: "3.12rem",
 			_hover: {

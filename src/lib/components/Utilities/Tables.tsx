@@ -74,10 +74,10 @@ export function TableStatus({ name }: { name: string }) {
 			pl="1rem"
 			textTransform="capitalize"
 			color={
-				name === "APPROVED" || name === "RESOLVED"
+				name == "approved" || name == "RESOLVED"
 					? "#2FDF84"
-					: name === "PENDING"
-					? "#E3BC6A"
+					: name == "pending"
+					? "brand.100"
 					: "#FF2929"
 			}
 		>

@@ -197,7 +197,9 @@ function AdminTransaction({ data }: any) {
 												"DD/MM/YY"
 											)} - ${moment(item.dateCreated).format("LT")}`}
 										/>
-										<TableStatus name={item.status?.name as string} />
+										<TableStatus
+											name={(item.status?.name as string).toLowerCase()}
+										/>
 									</Tr>
 								);
 							})}

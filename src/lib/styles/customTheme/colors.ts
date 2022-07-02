@@ -11,7 +11,7 @@ const extendedColors: DeepPartial<
 		400: "rgba(5, 156, 159, 0.36)",
 		500: "#000000",
 		600: "#323232",
-		700: "#DFF8F9",
+		700: "#2FDF84",
 		800: "#F5FDFE",
 		900: "#0D73FF",
 	},

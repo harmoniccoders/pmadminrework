@@ -44,9 +44,9 @@ function Sessions({ data, types }: any) {
 				<Button
 					bg="brand.100"
 					onClick={onOpen}
-					width="fit-content"
+					w="fit-content"
 					px="3rem"
-					height="3rem"
+					h="3rem"
 					color="#fff"
 					borderRadius="8px"
 				>
