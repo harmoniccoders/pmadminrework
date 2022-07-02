@@ -24,11 +24,11 @@ const Layout = ({ children }: LayoutProps) => {
 
 	return (
 		<>
-			{router.pathname.startsWith("/admin/") ? (
+			{width != null && width <= 1300 ? (
+				<HideAdmin />
+			) : (
 				<>
-					{width != null && width <= 1300 ? (
-						<HideAdmin />
-					) : (
+					{router.pathname.startsWith("/admin/") ? (
 						<>
 							{!admin === null || !admin === undefined ? (
 								<Login />
@@ -57,13 +57,13 @@ const Layout = ({ children }: LayoutProps) => {
 								</Flex>
 							)}
 						</>
+					) : (
+						<>
+							<Header />
+							<Box as="main">{children}</Box>
+							<Footer />
+						</>
 					)}
-				</>
-			) : (
-				<>
-					<Header />
-					<Box as="main">{children}</Box>
-					<Footer />
 				</>
 			)}
 		</>

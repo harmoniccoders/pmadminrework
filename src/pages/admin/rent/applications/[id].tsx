@@ -21,6 +21,7 @@ const moment = require("moment");
 function SingleApplication({ data, id }: any) {
 	const results = data.value.filter((x: any) => x.id == id)[0];
 	const singleProperty = results.property;
+	console.log({ results });
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const router = useRouter();

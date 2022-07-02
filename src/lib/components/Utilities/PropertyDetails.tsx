@@ -99,6 +99,7 @@ function PropertyDetails({ data }: { data: PropertyView }) {
 							w="60%"
 							overflow="hidden"
 							textOverflow="ellipsis"
+							textTransform="capitalize"
 						>
 							{data.name}
 						</Text>
@@ -192,7 +193,7 @@ function PropertyDetails({ data }: { data: PropertyView }) {
 									</>
 								</HStack>
 							) : (
-								"No Images found"
+								"-"
 							)}
 						</>
 					</Box>
@@ -232,7 +233,7 @@ function PropertyDetails({ data }: { data: PropertyView }) {
 									</>
 								</HStack>
 							) : (
-								"No Images found"
+								"-"
 							)}
 						</>
 					</Box>

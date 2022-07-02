@@ -48,7 +48,12 @@ export default function TopNav() {
 					ref={dropDown}
 					onClick={() => setIsMenuOpened((prev) => !prev)}
 				>
-					<Text fontWeight="600" fontSize="1rem" pr=".8rem">
+					<Text
+						fontWeight="600"
+						fontSize="1rem"
+						pr=".8rem"
+						textTransform="capitalize"
+					>
 						{`Hi, ${admin ? admin?.firstName : "Pade"}`}
 					</Text>
 					<Circle size="50px" overflow="hidden" bg="gray">
