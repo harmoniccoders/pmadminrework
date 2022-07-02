@@ -52,8 +52,8 @@ function RequestSingle({ data, propertyTitles, propertyTypes }: any) {
 	};
 	const { addToast } = useToasts();
 
-	function DeleteItem(d: any) {
-		const [removeMatch, { loading, data: isData, error }] = useOperationMethod(
+	function DeleteItem({ d }: any) {
+		const [removeMatch, { loading, data, error }] = useOperationMethod(
 			"PropertyRequestmatchremove{matchId}"
 		);
 
@@ -81,14 +81,7 @@ function RequestSingle({ data, propertyTitles, propertyTypes }: any) {
 				console.log(err);
 			}
 		};
-		return (
-			<TableDelete
-				onClick={() => {
-					DeleteMatch(d);
-				}}
-				loading={loading}
-			/>
-		);
+		return <TableDelete onClick={() => DeleteMatch(d)} loading={loading} />;
 	}
 	return (
 		<Box bgColor="white" px="2rem" minH="80vh">

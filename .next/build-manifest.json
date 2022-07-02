@@ -25,25 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/listings/listings": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admin/listings/listings.js"
-    ],
     "/admin/listings/requests": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin/listings/requests.js"
     ],
-    "/admin/relief/approval": [
+    "/admin/listings/requests/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/relief/approval.js"
-    ],
-    "/admin/relief/sourcing": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admin/relief/sourcing.js"
+      "static/chunks/pages/admin/listings/requests/[id].js"
     ]
   },
   "ampFirstPages": []
