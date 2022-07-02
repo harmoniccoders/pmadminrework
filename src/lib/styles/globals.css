@@ -26,3 +26,6 @@ tr {
 	background-color: #0042ff;
 	border-radius: 15px;
 }
+#nprogress .spinner {
+	display: none !important;
+}
