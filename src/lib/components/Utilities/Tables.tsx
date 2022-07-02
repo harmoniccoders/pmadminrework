@@ -1,4 +1,4 @@
-import { Box, Circle, HStack, Switch, Td, Th } from "@chakra-ui/react";
+import { Box, Button, Circle, HStack, Switch, Td, Th } from "@chakra-ui/react";
 import {
 	FaArrowAltCircleRight,
 	FaArrowRight,
@@ -6,6 +6,7 @@ import {
 	FaTimesCircle,
 	FaTrash,
 } from "react-icons/fa";
+import Icons from "./Icons";
 
 export function TableHead({ title }: { title: string }) {
 	return (
@@ -137,10 +138,26 @@ export function TableActions({
 
 export function TableDelete({ onClick, loading }: any) {
 	return (
-		<Td fontSize="14px" fontWeight="500" pl="1rem" onClick={onClick}>
-			<HStack spacing={5}>
-				{loading ? <div className="loader" /> : <FaTrash />}
-			</HStack>
+		<Td>
+			<Button
+				cursor="pointer"
+				h="2rem"
+				w="2rem"
+				minW="unset"
+				color="black"
+				bgColor="transparent"
+				fontSize=".8rem"
+				type="submit"
+				borderRadius="50%"
+				isLoading={loading}
+				onClick={onClick}
+				_hover={{
+					bgColor: "transparent",
+					color: "black",
+				}}
+			>
+				<Icons iconClass="fa-trash-alt" />
+			</Button>
 		</Td>
 	);
 }

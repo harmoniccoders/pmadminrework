@@ -1,1 +1,20 @@
-{}
+{
+  "..\\..\\node_modules\\@uploadcare\\react-widget\\dist\\esm\\index-63016f65.js -> ./dialog-fa8becbe.js": {
+    "id": "..\\..\\node_modules\\@uploadcare\\react-widget\\dist\\esm\\index-63016f65.js -> ./dialog-fa8becbe.js",
+    "files": [
+      "static/chunks/ucare-panel-chunk.js"
+    ]
+  },
+  "..\\..\\node_modules\\@uploadcare\\react-widget\\dist\\esm\\index-63016f65.js -> ./uploader-46ae2c89.js": {
+    "id": "..\\..\\node_modules\\@uploadcare\\react-widget\\dist\\esm\\index-63016f65.js -> ./uploader-46ae2c89.js",
+    "files": [
+      "static/chunks/ucare-widget-chunk.js"
+    ]
+  },
+  "..\\lib\\components\\Utilities\\Editor.tsx -> react-draft-wysiwyg": {
+    "id": "..\\lib\\components\\Utilities\\Editor.tsx -> react-draft-wysiwyg",
+    "files": [
+      "static/chunks/node_modules_react-draft-wysiwyg_dist_react-draft-wysiwyg_js.js"
+    ]
+  }
+}

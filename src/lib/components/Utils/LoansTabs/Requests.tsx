@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Flex,
 	HStack,
 	Input,
@@ -9,6 +10,7 @@ import {
 	Table,
 	TableContainer,
 	Tbody,
+	Td,
 	Text,
 	Thead,
 	Tr,
@@ -29,6 +31,8 @@ import { BsSearch } from "react-icons/bs";
 import { useOperationMethod } from "react-openapi-client";
 import { useToasts } from "react-toast-notifications";
 import { Parameters } from "openapi-client-axios";
+import Icons from "lib/components/Utilities/Icons";
+import { ApproveBtn, RejectBtn } from "lib/components/Utilities/ReliefBtn";
 const moment = require("moment");
 
 function Requests({ data }: any) {
@@ -38,78 +42,83 @@ function Requests({ data }: any) {
 	const { addToast } = useToasts();
 	const router = useRouter();
 
-	const [approveProperty, { loading: isLoading, data: isData, error }] =
-		useOperationMethod("Applicationreview{id}");
+	function ApproveButton({ d }: any) {
+		const [approveProperty, { loading, data, error }] = useOperationMethod(
+			"Applicationreview{id}"
+		);
 
-	const Approve = async (selected: any) => {
-		const params: Parameters = {
-			id: selected,
-		};
-		// console.log({ params });
+		const Approve = async (selected: any) => {
+			const params: Parameters = {
+				id: selected,
+			};
 
-		try {
-			const result = await (await approveProperty(params)).data;
+			try {
+				const result = await (await approveProperty(params)).data;
 
-			if (result.status) {
+				if (result.status) {
+					addToast(result.message, {
+						appearance: "success",
+						autoDismiss: true,
+					});
+					console.log({ result });
+
+					router.reload();
+					return;
+				}
 				addToast(result.message, {
-					appearance: "success",
+					appearance: "error",
 					autoDismiss: true,
 				});
-				console.log({ result });
-
-				router.reload();
-				return;
+			} catch (err) {
+				console.log(err);
 			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	const [deleteProperty, { loading, data: dData, error: eError }] =
-		useOperationMethod("Applicationreject{id}");
-
-	const Reject = async (selected: any) => {
-		const params: Parameters = {
-			id: selected,
 		};
+		return <ApproveBtn loading={loading} onClick={() => Approve(d)} />;
+	}
+	function RejectButton({ d }: any) {
+		const [deleteProperty, { loading, data, error }] = useOperationMethod(
+			"Applicationreject{id}"
+		);
 
-		try {
-			const result = await (await deleteProperty(params)).data;
+		const Reject = async (selected: any) => {
+			const params: Parameters = {
+				id: selected,
+			};
 
-			if (result.status) {
-				addToast("Succesful", {
-					appearance: "success",
+			try {
+				const result = await (await deleteProperty(params)).data;
+
+				if (result.status) {
+					addToast("Succesful", {
+						appearance: "success",
+						autoDismiss: true,
+					});
+					router.reload();
+					return;
+				}
+				addToast(result.message, {
+					appearance: "error",
 					autoDismiss: true,
 				});
-				router.reload();
-				return;
+			} catch (err) {
+				console.log(err);
 			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
+		};
+		return <RejectBtn loading={loading} onClick={() => Reject(d)} />;
+	}
 
 	return (
 		<>
 			<HStack
 				bgColor="white"
 				pt="1.5rem"
-				justifyContent="space-between"
+				justifyContent="flex-end"
 				align="center"
 				spacing={6}
 				marginTop="0rem"
 				cursor="pointer"
 				px="1rem"
 			>
-
 				<HStack>
 					<Flex
 						w="142px"
@@ -149,7 +158,7 @@ function Requests({ data }: any) {
 				borderRadius="5"
 				p=" 1rem 0"
 			>
-				<TableContainer h="500px" overflowY="hidden">
+				<TableContainer minH="500px" overflowY="hidden" pb="1rem">
 					<Table variant="simple">
 						<Thead>
 							<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
@@ -180,19 +189,19 @@ function Requests({ data }: any) {
 										/>
 										<TableData name={x.applicationType.name} />
 										<TableData name={x.repaymentFrequency} />
-										<td>
+										<Td>
 											<CountdownTimer
 												countdownTimestampMs={moment(x.payBackDate).valueOf()}
 												date={moment(x.payBackDate).format("DD/MM/YYYY")}
 											/>
-										</td>
+										</Td>
 										<TableData name={x.status.name} />
-										<TableActions
-											approve={() => Approve(x.id)}
-											reject={() => Reject(x.id)}
-											aLoading={isLoading}
-											rLoading={loading}
-										/>
+										<Td>
+											<HStack spacing={4}>
+												<ApproveButton d={x.id} />
+												<RejectButton d={x.id} />
+											</HStack>
+										</Td>
 									</Tr>
 								);
 							})}

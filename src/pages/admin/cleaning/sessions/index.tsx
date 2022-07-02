@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 function SessionsIndex({ data, types, land }: any) {
+	// console.log({ data });
+
 	const [currentTab, setCurrentTab] = useState("sessions");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
@@ -24,14 +26,14 @@ function SessionsIndex({ data, types, land }: any) {
 						currentTab={currentTab}
 					/>
 				</Box>
-				<Box onClick={() => navigateTabs("land-search")}>
+				{/* <Box onClick={() => navigateTabs("land-search")}>
 					<SecondaryTab
 						tabname="land-search"
 						num={0}
 						icon="fa-file-search"
 						currentTab={currentTab}
 					/>
-				</Box>
+				</Box> */}
 				<Box onClick={() => navigateTabs("cleaners")}>
 					<SecondaryTab
 						tabname="cleaner"

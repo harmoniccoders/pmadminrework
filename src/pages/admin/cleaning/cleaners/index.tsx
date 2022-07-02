@@ -23,14 +23,14 @@ function CleanersIndex({ data, land }: any) {
 						currentTab={currentTab}
 					/>
 				</Box>
-				<Box onClick={() => navigateTabs("land-search")}>
+				{/* <Box onClick={() => navigateTabs("land-search")}>
 					<SecondaryTab
 						tabname="land-search"
 						num={0}
 						icon="fa-file-search"
 						currentTab={currentTab}
 					/>
-				</Box>
+				</Box> */}
 				<Box onClick={() => navigateTabs("/admin/cleaning/cleaners")}>
 					<SecondaryTab
 						tabname="cleaners"

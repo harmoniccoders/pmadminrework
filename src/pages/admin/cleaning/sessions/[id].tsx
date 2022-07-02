@@ -96,7 +96,7 @@ function SingleSession({ list, id }: any) {
 				<Box onClick={() => navigateTabs("/admin/cleaning/cleaners")}>
 					<SecondaryTab
 						tabname="cleaner"
-						num={9}
+						num={0}
 						icon="fa-users"
 						currentTab={currentTab}
 					/>

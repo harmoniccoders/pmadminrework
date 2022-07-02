@@ -12,6 +12,7 @@ import {
 	Table,
 	TableContainer,
 	Tbody,
+	Td,
 	Text,
 	Thead,
 	Tr,
@@ -30,6 +31,8 @@ const moment = require("moment");
 import { useToasts } from "react-toast-notifications";
 import { Parameters } from "openapi-client-axios";
 import { useRouter } from "next/router";
+import Icons from "lib/components/Utilities/Icons";
+import { RejectBtn } from "lib/components/Utilities/ReliefBtn";
 
 function Approval({ data }: any) {
 	const result = data.value;
@@ -38,33 +41,37 @@ function Approval({ data }: any) {
 	const { addToast } = useToasts();
 	const router = useRouter();
 
-	const [deleteProperty, { loading, data: dData, error: eError }] =
-		useOperationMethod("Applicationreject{id}");
+	function RejectButton({ d }: any) {
+		const [deleteProperty, { loading, data, error }] = useOperationMethod(
+			"Applicationreject{id}"
+		);
 
-	const Reject = async (selected: any) => {
-		const params: Parameters = {
-			id: selected,
-		};
+		const Reject = async (selected: any) => {
+			const params: Parameters = {
+				id: selected,
+			};
 
-		try {
-			const result = await (await deleteProperty(params)).data;
+			try {
+				const result = await (await deleteProperty(params)).data;
 
-			if (result.status) {
-				addToast("Succesful", {
-					appearance: "success",
+				if (result.status) {
+					addToast("Succesful", {
+						appearance: "success",
+						autoDismiss: true,
+					});
+					router.reload();
+					return;
+				}
+				addToast(result.message, {
+					appearance: "error",
 					autoDismiss: true,
 				});
-				router.reload();
-				return;
+			} catch (err) {
+				console.log(err);
 			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
+		};
+		return <RejectBtn loading={loading} onClick={() => Reject(d)} />;
+	}
 
 	return (
 		<>
@@ -124,7 +131,7 @@ function Approval({ data }: any) {
 			<HStack
 				bgColor="white"
 				pt="1.5rem"
-				justifyContent="space-between"
+				justifyContent="flex-end"
 				align="center"
 				spacing={6}
 				marginTop="0rem"
@@ -170,7 +177,7 @@ function Approval({ data }: any) {
 				borderRadius="5"
 				p=" 1rem 0"
 			>
-				<TableContainer h="500px" overflowY="hidden">
+				<TableContainer minH="500px" overflowY="hidden" pb="1rem">
 					<Table variant="simple">
 						<Thead>
 							<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
@@ -196,10 +203,9 @@ function Approval({ data }: any) {
 											name={moment(item.dateCreated).format("DD/MM/YY - LT")}
 										/>
 										<TableData name={item.status} />
-										<TableActions
-											hide={"none"}
-											reject={() => Reject(item.id)}
-										/>
+										<Td>
+											<RejectButton d={item.id} />
+										</Td>
 									</Tr>
 								);
 							})}

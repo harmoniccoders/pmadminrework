@@ -21,6 +21,7 @@ const moment = require("moment");
 
 function Enquires({ result }: any) {
 	const data = result.value;
+
 	return (
 		<>
 			<HStack
@@ -74,13 +75,15 @@ function Enquires({ result }: any) {
 											<TableData
 												name={
 													item.inspection?.length > 0
-														? moment(item.inspection[0].date).format(
-																"DD/MM/YY - LT"
-														  )
-														: "No data"
+														? moment(
+																item.inspection[item.inspection.length - 1].date
+														  ).format("DD/MM/YY - LT")
+														: "-"
 												}
 											/>
-											<TableData name="Pending" />
+											<TableData
+												name={item.active == true ? "Active" : "Closed"}
+											/>
 										</Tr>
 									</Link>
 								);

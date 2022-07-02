@@ -139,7 +139,7 @@ function AdminTransaction({ data }: any) {
 								<TableHead title="Amount" />
 								<TableHead title="Type" />
 								<TableHead title="Service" />
-								<TableHead title="Recepient" />
+								<TableHead title="Recipient" />
 								<TableHead title="Provider" />
 								<TableHead title="Channel" />
 								<TableHead title="Time" />

@@ -94,7 +94,7 @@ export default function Listings({
 					color="#fff"
 					borderRadius="8px"
 				>
-					+ &nbsp; Add Property
+					Add New Property
 				</Button>
 			</HStack>
 			<Box

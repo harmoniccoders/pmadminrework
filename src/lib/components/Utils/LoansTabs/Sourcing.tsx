@@ -12,6 +12,7 @@ import {
 	Table,
 	TableContainer,
 	Tbody,
+	Td,
 	Text,
 	Thead,
 	Tr,
@@ -30,6 +31,8 @@ import { useToasts } from "react-toast-notifications";
 const moment = require("moment");
 import { useRouter } from "next/router";
 import { Parameters } from "openapi-client-axios";
+import Icons from "lib/components/Utilities/Icons";
+import { ApproveBtn, RejectBtn } from "lib/components/Utilities/ReliefBtn";
 
 function Sourcing({ data }: any) {
 	const result = data.value;
@@ -38,64 +41,69 @@ function Sourcing({ data }: any) {
 	const { addToast } = useToasts();
 	const router = useRouter();
 
-	const [approveProperty, { loading: isLoading, data: isData, error }] =
-		useOperationMethod("Applicationapprove{id}");
+	function ApproveButton({ d }: any) {
+		const [approveProperty, { loading, data, error }] = useOperationMethod(
+			"Applicationapprove{id}"
+		);
 
-	const Approve = async (selected: any) => {
-		const params: Parameters = {
-			id: selected,
-		};
-		// console.log({ params });
+		const Approve = async (selected: any) => {
+			const params: Parameters = {
+				id: selected,
+			};
+			try {
+				const result = await (await approveProperty(params)).data;
 
-		try {
-			const result = await (await approveProperty(params)).data;
+				if (result.status) {
+					addToast(result.message, {
+						appearance: "success",
+						autoDismiss: true,
+					});
+					console.log({ result });
 
-			if (result.status) {
+					router.reload();
+					return;
+				}
 				addToast(result.message, {
-					appearance: "success",
+					appearance: "error",
 					autoDismiss: true,
 				});
-				console.log({ result });
-
-				router.reload();
-				return;
+			} catch (err) {
+				console.log(err);
 			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	const [deleteProperty, { loading, data: dData, error: eError }] =
-		useOperationMethod("Applicationreject{id}");
-
-	const Reject = async (selected: any) => {
-		const params: Parameters = {
-			id: selected,
 		};
+		return <ApproveBtn loading={loading} onClick={() => Approve(d)} />;
+	}
+	function RejectButton({ d }: any) {
+		const [deleteProperty, { loading, data, error }] = useOperationMethod(
+			"Applicationreject{id}"
+		);
 
-		try {
-			const result = await (await deleteProperty(params)).data;
+		const Reject = async (selected: any) => {
+			const params: Parameters = {
+				id: selected,
+			};
 
-			if (result.status) {
-				addToast("Succesful", {
-					appearance: "success",
+			try {
+				const result = await (await deleteProperty(params)).data;
+
+				if (result.status) {
+					addToast("Succesful", {
+						appearance: "success",
+						autoDismiss: true,
+					});
+					router.reload();
+					return;
+				}
+				addToast(result.message, {
+					appearance: "error",
 					autoDismiss: true,
 				});
-				router.reload();
-				return;
+			} catch (err) {
+				console.log(err);
 			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
+		};
+		return <RejectBtn loading={loading} onClick={() => Reject(d)} />;
+	}
 
 	return (
 		<>
@@ -155,7 +163,7 @@ function Sourcing({ data }: any) {
 			<HStack
 				bgColor="white"
 				pt="1.5rem"
-				justifyContent="space-between"
+				justifyContent="flex-end"
 				align="center"
 				spacing={6}
 				marginTop="0rem"
@@ -201,7 +209,7 @@ function Sourcing({ data }: any) {
 				borderRadius="5"
 				p=" 1rem 0"
 			>
-				<TableContainer h="500px" overflowY="hidden">
+				<TableContainer minH="500px" overflowY="hidden" pb="1rem">
 					<Table variant="simple">
 						<Thead>
 							<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
@@ -228,10 +236,12 @@ function Sourcing({ data }: any) {
 											name={moment(item.dateCreated).format("DD/MM/YY - LT")}
 										/>
 										<TableData name={item.status} />
-										<TableActions
-											reject={() => Reject(item.id)}
-											approve={() => Approve(item.id)}
-										/>
+										<Td>
+											<HStack spacing={4}>
+												<ApproveButton d={item.id} />
+												<RejectButton d={item.id} />
+											</HStack>
+										</Td>
 									</Tr>
 								);
 							})}

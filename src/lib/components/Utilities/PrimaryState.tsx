@@ -19,7 +19,7 @@ export default function PrimaryState({
 	//Get Local Government
 	useEffect(() => {
 		const getLga = async (state: string) => {
-			if (state !== undefined) {
+			if (selectedState !== "" && selectedState !== undefined) {
 				setLgas(NaijaStates.lgas(state).lgas);
 				return;
 			}
@@ -44,7 +44,7 @@ export default function PrimaryState({
 				}
 			/>
 
-			{getValues("state") !== undefined ? (
+			{selectedState !== "" && name !== "location" ? (
 				<PrimarySelect<PropertyModel>
 					register={register}
 					error={errors}

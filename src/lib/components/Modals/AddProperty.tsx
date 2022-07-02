@@ -296,7 +296,7 @@ function AddProperty({
 											placeholder=""
 											defaultValue=""
 											register={register}
-										error={errors.price}
+											error={errors.price}
 											name={"price"}
 											control={control}
 											label="Price"
@@ -319,13 +319,13 @@ function AddProperty({
 										/>
 									</Box>
 									<Box w="full">
-										<PrimaryInput<PropertyModel>
+										{/* <PrimaryInput<PropertyModel>
 											label="Address"
 											name="address"
 											error={errors.address}
 											defaultValue=""
 											register={register}
-										/>
+										/> */}
 										<PrimaryEditor<PropertyModel>
 											name="description"
 											control={control}
@@ -464,7 +464,6 @@ function AddProperty({
 											height="3rem"
 											type="submit"
 											isLoading={loading}
-											disabled={!isValid}
 										>
 											Add Property
 										</Button>

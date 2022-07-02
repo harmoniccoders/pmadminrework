@@ -9,8 +9,8 @@ const Button: DeepPartial<Theme["components"]["Button"]> = {
 			backgroundColor: "transparent",
 			border: "1px solid #E3BC6A",
 			color: "#E3BC6A",
-			width: "11rem",
-			height: "3.12rem",
+			w: "11rem",
+			h: "3.12rem",
 			_hover: {
 				backgroundColor: "brand.100",
 				color: "white",
@@ -23,8 +23,8 @@ const Button: DeepPartial<Theme["components"]["Button"]> = {
 		solid: {
 			backgroundColor: "brand.100",
 			color: "white",
-			width: "18rem",
-			height: "2.4rem",
+			w: "18rem",
+			h: "2.4rem",
 			fontSize: "1rem",
 			fontWeight: "bold",
 			_hover: {

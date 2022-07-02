@@ -52,34 +52,44 @@ function RequestSingle({ data, propertyTitles, propertyTypes }: any) {
 	};
 	const { addToast } = useToasts();
 
-	const [removeMatch, { loading, data: isData, error }] = useOperationMethod(
-		"PropertyRequestmatchremove{matchId}"
-	);
+	function DeleteItem(d: any) {
+		const [removeMatch, { loading, data: isData, error }] = useOperationMethod(
+			"PropertyRequestmatchremove{matchId}"
+		);
 
-	const DeleteMatch = async (match: any) => {
-		const params: Parameters = {
-			matchId: match,
-		};
+		const DeleteMatch = async (match: any) => {
+			const params: Parameters = {
+				matchId: match,
+			};
 
-		try {
-			const result = await (await removeMatch(params)).data;
+			try {
+				const result = await (await removeMatch(params)).data;
 
-			if (result.status) {
+				if (result.status) {
+					addToast(result.message, {
+						appearance: "success",
+						autoDismiss: true,
+					});
+					router.reload();
+					return;
+				}
 				addToast(result.message, {
-					appearance: "success",
+					appearance: "error",
 					autoDismiss: true,
 				});
-				router.reload();
-				return;
+			} catch (err) {
+				console.log(err);
 			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
+		};
+		return (
+			<TableDelete
+				onClick={() => {
+					DeleteMatch(d);
+				}}
+				loading={loading}
+			/>
+		);
+	}
 	return (
 		<Box bgColor="white" px="2rem" minH="80vh">
 			<HStack align="flex-start" h="full">
@@ -162,8 +172,8 @@ function RequestSingle({ data, propertyTitles, propertyTypes }: any) {
 											<Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
 												<TableHead title="Name" />
 												<TableHead title="Location" />
-												<TableHead title="" />
-												<TableHead title="" />
+												<TableHead title="Area" />
+												<TableHead title="State" />
 												<TableHead title="Price" />
 												<TableHead title="Status" />
 												<TableHead title="" />
@@ -194,12 +204,7 @@ function RequestSingle({ data, propertyTitles, propertyTypes }: any) {
 																	match.property?.status as string
 																).toLowerCase()}
 															/>
-															<TableDelete
-																onClick={() => {
-																	DeleteMatch(match.id);
-																}}
-																loading={loading}
-															/>
+															<DeleteItem d={match.id} />
 														</Tr>
 													</>
 												);

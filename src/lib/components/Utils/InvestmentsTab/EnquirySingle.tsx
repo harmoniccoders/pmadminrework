@@ -66,9 +66,6 @@ function EnquirySingle({ data }: Eprops) {
 		},
 	});
 
-	const [deleteInsp, { loading: isLoading, data: dataL, error: errorL }] =
-		useOperationMethod("Propertyinspectiondatesdelete{id}");
-
 	useEffect(() => {
 		const fetchProperty = async () => {
 			const getProperty = async () => {
@@ -157,18 +154,16 @@ function EnquirySingle({ data }: Eprops) {
 	};
 
 	function ListItem({ d }: any) {
-		const [loading, setLoading] = useState(false);
+		const [deleteInsp, { loading: isLoading, data: dataL, error: errorL }] =
+			useOperationMethod("Propertyinspectiondatesdelete{id}");
 		async function del() {
-			setLoading(!loading);
 			const DeleteInspection = async (date: any) => {
 				const params: Parameters = {
 					id: date,
 				};
 				try {
-					setLoading(true);
 					const result = await (await deleteInsp(params)).data;
 					if (result.status) {
-						setLoading(false);
 						addToast("Deleted", {
 							appearance: "success",
 							autoDismiss: true,
@@ -183,9 +178,7 @@ function EnquirySingle({ data }: Eprops) {
 					return;
 				} catch (err) {}
 			};
-			setTimeout(() => {
-				DeleteInspection(d);
-			}, 3000);
+			DeleteInspection(d);
 		}
 		return (
 			<Button
@@ -193,7 +186,7 @@ function EnquirySingle({ data }: Eprops) {
 				w="fit-content"
 				bgColor="transparent"
 				type="submit"
-				isLoading={loading}
+				isLoading={isLoading}
 				color="black"
 				px="0"
 				h="fit-content"
@@ -209,12 +202,10 @@ function EnquirySingle({ data }: Eprops) {
 	}
 
 	function TimeItem({ d, t }: any) {
-		const [loading, setLoading] = useState(false);
 		const [addTime, { loading: isLoaded }] = useOperationMethod(
 			"Propertyinspectiontimecreate"
 		);
 		async function timeAdd() {
-			setLoading(!loading);
 			const AddTime = async (dates: any) => {
 				const timeData = {
 					availableTime: (startDate as unknown as Date).toLocaleString(),
@@ -223,12 +214,10 @@ function EnquirySingle({ data }: Eprops) {
 				console.log({ timeData });
 
 				try {
-					setLoading(true);
 					const result = await (await addTime(undefined, timeData)).data;
 					console.log({ result });
 
 					if (result.status) {
-						setLoading(false);
 						addToast("New Time Slot Added", {
 							appearance: "success",
 							autoDismiss: true,
@@ -236,7 +225,6 @@ function EnquirySingle({ data }: Eprops) {
 						router.reload();
 						return;
 					}
-					setLoading(false);
 					addToast(result.message, {
 						appearance: "error",
 						autoDismiss: true,
@@ -244,9 +232,7 @@ function EnquirySingle({ data }: Eprops) {
 					return;
 				} catch (err) {}
 			};
-			setTimeout(() => {
-				AddTime(d);
-			}, 3000);
+			AddTime(d);
 		}
 		const [startDate, setStartDate] = useState<any>();
 		return (
@@ -267,7 +253,7 @@ function EnquirySingle({ data }: Eprops) {
 					w="fit-content"
 					bgColor="transparent"
 					type="submit"
-					isLoading={loading}
+					isLoading={isLoaded}
 					color="black"
 					px="0"
 					h="fit-content"
@@ -313,8 +299,10 @@ function EnquirySingle({ data }: Eprops) {
 							title="Inspection"
 							name={
 								data.inspection?.length > 0
-									? moment(data.inspection[0].date).format("DD/MM/YY - LT")
-									: "No data"
+									? moment(
+											data.inspection[data.inspection.length - 1].date
+									  ).format("DD/MM/YY - LT")
+									: "-"
 							}
 						/>
 						<NameTag

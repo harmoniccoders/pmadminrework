@@ -239,7 +239,7 @@ const AddCleanJob = ({
 								height="3rem"
 								type="submit"
 								isLoading={loading}
-								disabled={!isValid}
+								// disabled={!isValid}
 							>
 								Add Job
 							</Button>
