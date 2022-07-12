@@ -9,7 +9,7 @@ import React, { SetStateAction, useState } from "react";
 import Icons from "./Icons";
 
 interface SearchProps {
-	userId: any;
+	userId?: any;
 	border?: boolean;
 }
 function SearchComponent({ userId, border = true }: SearchProps) {
