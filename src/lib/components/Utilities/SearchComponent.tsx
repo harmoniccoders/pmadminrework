@@ -8,10 +8,23 @@ import { useRouter } from "next/router";
 import React, { SetStateAction, useState } from "react";
 import Icons from "./Icons";
 
-function SearchComponent() {
+interface SearchProps {
+	userId: any;
+	border?: boolean;
+}
+function SearchComponent({ userId, border = true }: SearchProps) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const router = useRouter();
 	const getSearchedResult = async () => {
+		if (userId == 0 || userId) {
+			router.push({
+				query: {
+					search: searchTerm,
+					userId,
+				},
+			});
+			return;
+		}
 		router.push({
 			query: {
 				search: searchTerm,
@@ -23,8 +36,18 @@ function SearchComponent() {
 			getSearchedResult();
 		}
 	};
+	// console.log({ userId });
 	const clearSearch = () => {
 		setSearchTerm("");
+		if (userId == 0 || userId) {
+			router.push({
+				query: {
+					search: "",
+					userId: userId == 0 ? (userId = 1) : userId,
+				},
+			});
+			return;
+		}
 		router.push({
 			query: {
 				search: "",
@@ -32,7 +55,7 @@ function SearchComponent() {
 		});
 	};
 	return (
-		<InputGroup alignItems="center" w='330px'>
+		<InputGroup alignItems="center" w="full">
 			<InputLeftElement>
 				<Icons iconClass="fa-search" />
 			</InputLeftElement>
@@ -49,7 +72,7 @@ function SearchComponent() {
 					fontSize: "14px",
 					fontWeight: 600,
 				}}
-				border="2px solid black"
+				border={border ? "2px solid black" : "none"}
 				borderRadius="4px"
 				boxShadow="0"
 				fontSize="14px"

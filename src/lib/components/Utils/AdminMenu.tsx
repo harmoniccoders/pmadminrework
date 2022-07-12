@@ -13,7 +13,6 @@ function AdminMenu({ text, url, icon }: CardsType) {
 		if (router.asPath.startsWith(url)) return `${style}`;
 	};
 	return (
-		// <Box display="inline">
 		<NextLink href={url} passHref>
 			<Flex
 				align="center"
@@ -39,7 +38,6 @@ function AdminMenu({ text, url, icon }: CardsType) {
 				</Box>
 			</Flex>
 		</NextLink>
-		// </Box>
 	);
 }
 

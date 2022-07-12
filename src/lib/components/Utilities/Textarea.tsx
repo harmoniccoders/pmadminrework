@@ -2,20 +2,10 @@ import {
 	FormControl,
 	FormLabel,
 	GridItem,
-	Input,
-	InputGroup,
-	InputLeftElement,
-	InputRightElement,
 	Text,
 	Textarea,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import {
-	FieldError,
-	UseFormRegister,
-	RegisterOptions,
-	Path,
-} from "react-hook-form";
+import { FieldError, UseFormRegister, Path } from "react-hook-form";
 
 interface FormInputProps<TFormValues extends Record<string, unknown>> {
 	name: Path<TFormValues>;

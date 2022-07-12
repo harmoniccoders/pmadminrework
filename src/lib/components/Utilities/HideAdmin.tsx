@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import Icons from "./Icons";
 
@@ -6,24 +6,24 @@ function HideAdmin() {
 	return (
 		<Flex
 			w="full"
-			bgColor="white"
+			bgColor="brand.100"
 			h="100vh"
-			justify="center"
-			align="center"
+			justifyContent="center"
+			alignItems="center"
 			px={16}
 			flexDirection="column"
 		>
-			<Icons
-				iconClass={"fal fa-exclamation-triangle"}
-				style={{ color: "red", fontSize: "5rem" }}
-			/>
-			<Box textAlign="center" mt="1rem" color="red">
-				<Text fontSize="1.2rem" fontWeight="medium">
-					Sorry we do not support admin view on this screen resolution.
+			<Circle size="6rem" bgColor="white" p=".3rem" border="5px solid white">
+				<Image w="full" h="full" objectFit="cover" src="/assets/pm.png" />
+			</Circle>
+			<Box textAlign="center" mt="1rem" color="white">
+				<Text fontSize="1.2rem" fontWeight="600" mb="1rem">
+					Oh, hi there!
 				</Text>
-				<Text fontSize="1rem" fontWeight="medium">
-					kindly upgrade your device to a larger screen or toggle full screen if
-					you're viewing with a minimized tab on browser
+				<Text fontSize=".9rem" fontWeight="400">
+					We currently do not support admin view on this screen resolution.
+					Please manage your admin dashboard on a different device, or if you're
+					using a laptop, try maximixing it or use a bigger screen
 				</Text>
 			</Box>
 		</Flex>

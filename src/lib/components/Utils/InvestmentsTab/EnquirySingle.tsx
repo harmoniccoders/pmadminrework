@@ -48,8 +48,11 @@ const schema = yup.object().shape({
 });
 function EnquirySingle({ data }: Eprops) {
 	const [property, setProperty] = useState<any>();
+	const [application, setApplication] = useState<any>();
 	const [user, setUser] = useState<any>();
 	const [inspection, setInspection] = useState<any>();
+
+	console.log({ property });
 
 	// console.log({ data });
 
@@ -79,14 +82,23 @@ function EnquirySingle({ data }: Eprops) {
 				}
 			};
 			getProperty();
-			const getUser = async () => {
+			const getApplication = async () => {
 				const bearer = `Bearer ${Cookies.get("adminToken")}`;
 				const _dataAccess = new DataAccess(bearer);
 				const result = await _dataAccess.get(
 					`/api/Application/list/${data.propertyId}`
 				);
 				if (result.status) {
-					setUser(result.data.value);
+					setApplication(result.data.value);
+				}
+			};
+			getApplication();
+			const getUser = async () => {
+				const bearer = `Bearer ${Cookies.get("adminToken")}`;
+				const _dataAccess = new DataAccess(bearer);
+				const result = await _dataAccess.get(`/api/admin/user/${data.userId}`);
+				if (result.status) {
+					setUser(result.data);
 				}
 			};
 			getUser();
@@ -96,7 +108,7 @@ function EnquirySingle({ data }: Eprops) {
 				const result = await _dataAccess.get(
 					`/api/Property/inspectiondates/list/${data.propertyId}`
 				);
-				console.log({ result });
+				// console.log({ result });
 
 				if (result.status) {
 					setInspection(result.data);
@@ -108,8 +120,8 @@ function EnquirySingle({ data }: Eprops) {
 	}, []);
 
 	let singleUser;
-	if (user !== undefined) {
-		singleUser = user.filter((x: any) => x.user.id == data.userId)[0];
+	if (application !== undefined) {
+		singleUser = application.filter((x: any) => x.user.id == data.userId)[0];
 	}
 	// console.log({ singleUser });
 
@@ -183,13 +195,14 @@ function EnquirySingle({ data }: Eprops) {
 		return (
 			<Button
 				cursor="pointer"
-				w="fit-content"
+				w="2rem"
 				bgColor="transparent"
+				maxW="unset"
 				type="submit"
 				isLoading={isLoading}
 				color="black"
 				px="0"
-				h="fit-content"
+				h="2rem"
 				onClick={del}
 				_hover={{
 					bgColor: "transparent",
@@ -250,13 +263,13 @@ function EnquirySingle({ data }: Eprops) {
 				/>
 				<Button
 					cursor="pointer"
-					w="fit-content"
+					w="2rem"
 					bgColor="transparent"
 					type="submit"
 					isLoading={isLoaded}
 					color="black"
 					px="0"
-					h="fit-content"
+					h="2rem"
 					disabled={!startDate}
 					onClick={timeAdd}
 					_hover={{
@@ -281,20 +294,20 @@ function EnquirySingle({ data }: Eprops) {
 					mb="0 !important"
 					textTransform="capitalize"
 				>
-					{data.propertyName}
+					{property?.name}
 				</Text>
 			</Flex>
 			<HStack spacing={8} align="flex-start">
 				<Flex w="65%" justify="space-between" mt="0.5rem">
 					<VStack spacing="1rem" alignItems="flex-start">
-						<NameTag title="User" name={data.fullName as string} />
+						<NameTag title="User" name={user?.fullName as string} />
 						<NameTag
 							title="Status"
 							name={data.active ? "Active" : "Inactive"}
 						/>
-						<NameTag title="State" name={data.state as string} />
-						<NameTag title="Locality" name={data.lga as string} />
-						<NameTag title="Area" name={data.area as string} />
+						<NameTag title="State" name={property?.state as string} />
+						<NameTag title="Locality" name={property?.lga as string} />
+						<NameTag title="Area" name={property?.area as string} />
 						<NameTag
 							title="Inspection"
 							name={
@@ -377,14 +390,14 @@ function EnquirySingle({ data }: Eprops) {
 									/>
 									<Button
 										cursor="pointer"
-										w="fit-content"
+										w="2rem"
 										bgColor="transparent"
 										type="submit"
 										disabled={!isValid}
 										isLoading={loading}
 										color="black"
 										px="0"
-										h="fit-content"
+										h="2rem"
 										_hover={{
 											bgColor: "transparent",
 											color: "black",

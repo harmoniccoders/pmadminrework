@@ -30,7 +30,7 @@ function ActiveTenancy({ tenancy, id }: any) {
 	const singleTenancy = tenancy.value.filter((x: any) => x.id == id)[0];
 	const owner = singleTenancy.owner;
 	const tenant = singleTenancy.tenant;
-	// console.log({ singleTenancy });
+	console.log({ tenancy });
 
 	const [showLandlord, setShowLandlord] = useState(false);
 	const [showTenant, setShowTenant] = useState(false);

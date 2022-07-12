@@ -7,7 +7,7 @@ import { returnUserData } from "lib/components/Utilities/UserData";
 import { DataAccess } from "lib/Utils/Api";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaChevronLeft } from "react-icons/fa";
 import { useOperationMethod } from "react-openapi-client";
@@ -18,18 +18,15 @@ import { useToasts } from "react-toast-notifications";
 import { CurrencyField } from "lib/components/Utilities/CurrencyInput";
 import { PrimaryDate } from "lib/components/Utilities/PrimaryDate";
 import ApplicationBox from "lib/components/Utilities/ApplicationBox";
+import Cookies from "js-cookie";
 const moment = require("moment");
 
 const schema = yup.object().shape({
 	quote: yup.string().required(),
 	proposedDate: yup.string().required(),
 });
-function SingleSession({ list, id }: any) {
-	const SingleData = list.value.filter(
-		(singleUser: any) => singleUser.id == id
-	);
-	const data = SingleData[0];
-	// console.log({ data });
+function SingleSession({ list, id, data }: any) {
+	console.log({ data });
 	const quote = data.cleaningQuotes[data.cleaningQuotes.length - 1];
 	// console.log({ quote });
 
@@ -82,6 +79,39 @@ function SingleSession({ list, id }: any) {
 		} catch (err) {}
 	};
 
+	const [property, setProperty] = useState<any>();
+	const [user, setUser] = useState<any>();
+
+	useEffect(() => {
+		const fetchProperty = async () => {
+			const getPropertyTypes = async () => {
+				const bearer = `Bearer ${Cookies.get("adminToken")}`;
+				const _dataAccess = new DataAccess(bearer);
+				const result = await _dataAccess.get(`/api/Property/types`);
+				if (result.status) {
+					setProperty(result.data);
+				}
+			};
+			getPropertyTypes();
+			const getUser = async () => {
+				const bearer = `Bearer ${Cookies.get("adminToken")}`;
+				const _dataAccess = new DataAccess(bearer);
+				const result = await _dataAccess.get(`/api/admin/user/${data.userId}`);
+				if (result.status) {
+					setUser(result.data);
+				}
+			};
+			getUser();
+		};
+		fetchProperty();
+	}, []);
+
+	console.log({ user });
+	const propertyType = property?.filter(
+		(x: any) => x.id == data.propertyTypeId
+	)[0];
+	console.log({ propertyType });
+
 	return (
 		<Box w="100%" p="0rem" minH="90vh">
 			<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
@@ -125,21 +155,18 @@ function SingleSession({ list, id }: any) {
 							mb="0 !important"
 							textTransform="capitalize"
 						>
-							{data.propertyType.toLowerCase()}
+							{propertyType?.name.toLowerCase()}
 						</Text>
 					</Flex>
 					<Flex w="100%" justify="space-between">
 						<VStack spacing="1rem" alignItems="flex-start">
-							<NameTag title="User" name={data?.user?.fullName} />
-							<NameTag
-								title="Mobile Number"
-								name={data?.user?.phoneNumber || "-"}
-							/>
-							<NameTag title="Email" name={data?.user?.email} />
+							<NameTag title="User" name={user?.fullName} />
+							<NameTag title="Mobile Number" name={user?.phoneNumber || "-"} />
+							<NameTag title="Email" name={user?.email} />
 							<NameTag title="Purpose" name={data?.buildingType} />
-							<NameTag title="State" name={data.buildingState} />
+							<NameTag title="State" name={data?.buildingState} />
 							<NameTag title="Floors" name={data?.numberOfFloors} />
-							<NameTag title="Location" name={data?.lga || "-"} />
+							<NameTag title="Location" name={data?.location || "-"} />
 							<NameTag
 								title="Preferred Date"
 								name={moment(data.dateNeeded).format("DD/MM/YY - LT")}
@@ -224,13 +251,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const _dataAccess = new DataAccess(bearer);
 	const { id } = ctx.query;
 	try {
-		// const data = (await _dataAccess.get(`/api/Admin/clean/requests/get/${id}`))
-		// 	.data;
+		const data = (await _dataAccess.get(`/api/Admin/clean/requests/get/${id}`))
+			.data;
 
 		const list = (await _dataAccess.get(`/api/Admin/clean/requests/list`)).data;
 		return {
 			props: {
 				list,
+				data,
 				id,
 			},
 		};

@@ -5,8 +5,9 @@ import { GetServerSideProps } from "next";
 import React from "react";
 
 function SingleEnquiry({ data, id }: any) {
-	const result = data.value.filter((x: any) => x.id == id)[0];
-	return <EnquirySingle data={result} />;
+	console.log({ data });
+
+	return <EnquirySingle data={data} />;
 }
 
 export default SingleEnquiry;
@@ -27,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const _dataAccess = new DataAccess(bearer);
 	let { id } = ctx.query;
 	try {
-		const data = (await _dataAccess.get(`/api/Admin/enquiries/list`)).data;
+		const data = (await _dataAccess.get(`/api/Admin/enquiries/get/${id}`)).data;
 
 		return {
 			props: {

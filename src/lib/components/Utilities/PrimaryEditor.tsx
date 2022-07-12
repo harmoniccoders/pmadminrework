@@ -58,7 +58,6 @@ export const PrimaryEditor = <TFormValues extends Record<string, any>>({
 				width="fit-content"
 				zIndex={3}
 				bg="brand.200"
-				// fontSize={fontSize}
 			>
 				{label}
 			</FormLabel>

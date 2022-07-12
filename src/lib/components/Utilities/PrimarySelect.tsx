@@ -1,6 +1,5 @@
 import { FormLabel, Select, Text } from "@chakra-ui/react";
 import { FieldError, Path, UseFormRegister } from "react-hook-form";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Icons from "./Icons";
 
 interface FormInputProps<TFormValues extends Record<string, unknown>> {

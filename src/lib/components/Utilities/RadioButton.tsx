@@ -2,8 +2,6 @@ import {
   FormControl,
   FormLabel,
   RadioGroup,
-  Radio,
-  Box,
   Stack,
   HStack,
 } from '@chakra-ui/react';

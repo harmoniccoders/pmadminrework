@@ -108,8 +108,8 @@ function Dashboard({ data, users, trans }: DashboardProps) {
 							</Flex>
 							<Divider />
 							<OrderedList p="1rem" spacing="1rem">
-								{users.map((user: UserView) => (
-									<ListItem textTransform="capitalize">
+								{users.map((user: UserView, i: any) => (
+									<ListItem textTransform="capitalize" key={i}>
 										<Flex alignItems="center">
 											<Circle
 												bgColor="brand.100"
@@ -168,8 +168,8 @@ function Dashboard({ data, users, trans }: DashboardProps) {
 							</Flex>
 							<Divider />
 							<OrderedList p="1rem" spacing="1rem">
-								{trans.map((tran: Transaction) => (
-									<ListItem>
+								{trans.map((tran: Transaction, i: any) => (
+									<ListItem key={i}>
 										<Flex alignItems="center">
 											<Square
 												bgColor="brand.700"
@@ -235,8 +235,8 @@ function Dashboard({ data, users, trans }: DashboardProps) {
 							</Flex>
 							<Divider />
 							<OrderedList p="1rem" spacing="1rem">
-								{trans.map((tran: Transaction) => (
-									<ListItem>
+								{trans.map((tran: Transaction, i: any) => (
+									<ListItem key={i}>
 										<Flex alignItems="center">
 											<Circle
 												bgColor="brand.100"
