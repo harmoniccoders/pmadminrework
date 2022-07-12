@@ -1,6 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import HideAdmin from "lib/components/Utilities/HideAdmin";
 import Login from "lib/components/Utils/Login";
+import useWindowSize from "lib/components/Utils/useWindowDimensions";
 import useWindowDimensions from "lib/components/Utils/useWindowDimensions";
 import { UserContext } from "lib/Utils/MainContext";
 import { useRouter } from "next/router";
@@ -14,17 +15,19 @@ import TopNav from "./TopNav";
 type LayoutProps = {
 	children: ReactNode;
 };
+interface Size {
+	width: number | undefined;
+	height: number | undefined;
+}
 
 const Layout = ({ children }: LayoutProps) => {
 	const router = useRouter();
 	const { admin, setAdmin } = useContext(UserContext);
-
-	const { height, width } = useWindowDimensions();
-	// console.log({ width });
+	const size: Size = useWindowSize();
 
 	return (
 		<>
-			{width != null && width <= 1300 ? (
+			{size.width != null && size.width <= 1300 ? (
 				<HideAdmin />
 			) : (
 				<>

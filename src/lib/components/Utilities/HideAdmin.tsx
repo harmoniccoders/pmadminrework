@@ -1,6 +1,4 @@
 import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
-import React from "react";
-import Icons from "./Icons";
 
 function HideAdmin() {
 	return (
