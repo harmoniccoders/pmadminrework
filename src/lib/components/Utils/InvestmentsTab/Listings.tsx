@@ -84,7 +84,7 @@ export default function Listings({
 				cursor="pointer"
 				px="1rem"
 			>
-				<SearchComponent />
+				{/* <SearchComponent /> */}
 				<Button
 					bg="brand.100"
 					onClick={onOpen}
