@@ -12,7 +12,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
 	const _dataAccess = new DataAccess(bearer);
-	let { url, offset, search } = ctx.query;
+	let { url, offset, search,page } = ctx.query;
 	// console.log({ url });
 	// console.log({ offset });
 
@@ -29,6 +29,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	}
 	if (search) {
 		url = `${url ? `?url=${url}` : ""}&search=${search}`;
+	}
+
+	if(page && page != "1"){
+		url = ""
 	}
 	// console.log({ url });
 	let users;

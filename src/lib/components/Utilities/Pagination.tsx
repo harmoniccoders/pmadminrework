@@ -12,7 +12,7 @@ function Pagination({
 	userId?: number;
 }) {
 	// console.log({ userId });
-	// console.log({ data });
+	console.log({ data });
 
 	const totalPages = Math.ceil(
 		(data?.size as number) / (data?.limit as unknown as number)
@@ -25,6 +25,8 @@ function Pagination({
 	const router = useRouter();
 	const next = data.next?.href;
 	const previous = data.previous?.href;
+	console.log({previous});
+	
 
 	const iconStyle = {
 		color: "white",
@@ -36,6 +38,17 @@ function Pagination({
 		let link = "";
 		if (direction == "previous" && previous != null) {
 			link = previous!.split("?")[1];
+			console.log({ link });
+			if(link == undefined)
+			{
+				router.push({
+					query: {
+						page:1,
+						userId: 0,
+					},
+				});
+				return;
+			}
 			if (userId == 0 || userId) {
 				router.push({
 					query: {

@@ -1,4 +1,5 @@
-import { Box, color, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, color, Flex, Text } from "@chakra-ui/react";
+import Link from "next/link";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
@@ -13,7 +14,7 @@ function AdminMenu({ text, url, icon }: CardsType) {
 		if (router.asPath.startsWith(url)) return `${style}`;
 	};
 	return (
-		<NextLink href={url} passHref>
+		<Link href={url} passHref>
 			<Flex
 				align="center"
 				p=".5rem 0 .5rem 2rem"
@@ -37,7 +38,7 @@ function AdminMenu({ text, url, icon }: CardsType) {
 					</Text>
 				</Box>
 			</Flex>
-		</NextLink>
+		</Link>
 	);
 }
 

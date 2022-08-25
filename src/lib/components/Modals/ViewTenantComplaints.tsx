@@ -39,7 +39,7 @@ function ViewTenantComplaints({
 	data: any;
 }) {
 	// console.log({ data });
-	const propertyId = data.property.id;
+	const propertyId = data?.property?.id;
 
 	const [property, setProperty] = useState<any>();
 

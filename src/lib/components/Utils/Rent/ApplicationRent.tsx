@@ -72,7 +72,7 @@ function ApplicationRent({ result }: any) {
 											<TableData
 												name={moment(item.dateCreated).format("DD/MM/YY")}
 											/>
-											<TableData name={item.status.name.toLowerCase()} />
+											<TableData name={item.status.toLowerCase()} />
 										</Tr>
 									</Link>
 								);

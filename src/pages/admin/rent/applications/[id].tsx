@@ -19,7 +19,9 @@ import { GetServerSideProps } from "next";
 const moment = require("moment");
 
 function SingleApplication({ data, id }: any) {
-	const results = data.value.filter((x: any) => x.id == id)[0];
+	console.log({data});
+	
+	const results = data;
 	const singleProperty = results.property;
 	console.log({ results });
 
@@ -268,7 +270,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	let { id } = ctx.query;
 
 	try {
-		const data = (await _dataAccess.get(`/api/Admin/applications/rent`)).data;
+		const data = (await _dataAccess.get(`/api/Admin/applications/rent/${id}`)).data;
 
 		return {
 			props: {
@@ -279,7 +281,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	} catch (error) {
 		return {
 			props: {
-				data: [],
+				data: {},
 			},
 		};
 	}

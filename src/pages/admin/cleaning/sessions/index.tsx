@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 function SessionsIndex({ data, types, land }: any) {
-	// console.log({ data });
+	console.log({ data });
 
 	const [currentTab, setCurrentTab] = useState("sessions");
 	const router = useRouter();

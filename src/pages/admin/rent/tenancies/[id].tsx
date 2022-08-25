@@ -19,6 +19,7 @@ import { returnUserData } from "lib/components/Utilities/UserData";
 import { GetServerSideProps } from "next";
 import Naira from "lib/components/Utilities/Naira";
 import ViewTenantComplaints from "lib/components/Modals/ViewTenantComplaints";
+import { TenancyView } from "Services";
 const moment = require("moment");
 
 function ActiveTenancy({ tenancy, id }: any) {
@@ -27,10 +28,10 @@ function ActiveTenancy({ tenancy, id }: any) {
 	const goBack = () => {
 		router.back();
 	};
-	const singleTenancy = tenancy.value.filter((x: any) => x.id == id)[0];
-	const owner = singleTenancy.owner;
-	const tenant = singleTenancy.tenant;
 	console.log({ tenancy });
+	const singleTenancy = tenancy;
+	const owner = singleTenancy?.owner;
+	const tenant = singleTenancy?.tenant;
 
 	const [showLandlord, setShowLandlord] = useState(false);
 	const [showTenant, setShowTenant] = useState(false);
@@ -77,7 +78,7 @@ function ActiveTenancy({ tenancy, id }: any) {
 						mt="1rem"
 						textTransform="capitalize"
 					>
-						{`${singleTenancy.status.toLowerCase()} Tenancy`}
+						{`${singleTenancy?.status?.toLowerCase()} Tenancy`}
 					</Flex>
 					<Flex
 						align="center"
@@ -96,7 +97,7 @@ function ActiveTenancy({ tenancy, id }: any) {
 							noOfLines={1}
 							w="300px"
 						>
-							{singleTenancy.property.name}
+							{singleTenancy?.property?.name}
 						</Text>
 					</Flex>
 				</Box>
@@ -128,18 +129,18 @@ function ActiveTenancy({ tenancy, id }: any) {
 									bgColor="gray.500"
 								>
 									<Image
-										src={owner.passportPhotograph?.url || ""}
+										src={owner?.profilePicture?.url || ""}
 										w="full"
 										h="full"
 										objectFit="cover"
 									/>
 								</Square>
 							</Box>
-							<NameTag title="First Name" name={owner.firstName} />
+							<NameTag title="First Name" name={owner?.firstName} />
 							<NameTag title="Middlename" name={owner?.middleName || "-"} />
-							<NameTag title="Surname" name={owner.lastName} />
-							<NameTag title="Mobile Number" name={owner.phoneNumber} />
-							<NameTag title="Email" name={owner.email} />
+							<NameTag title="Surname" name={owner?.lastName} />
+							<NameTag title="Mobile Number" name={owner?.phoneNumber} />
+							<NameTag title="Email" name={owner?.email} />
 							<Box w="95%" onClick={() => setShowLandlord(!showLandlord)}>
 								<Flex
 									as="button"
@@ -162,7 +163,7 @@ function ActiveTenancy({ tenancy, id }: any) {
 								<>
 									<NameTag
 										title="Current Residential Address"
-										name={owner.address}
+										name={owner?.address}
 									/>
 									<NameTag
 										title="Date of Birth"
@@ -180,19 +181,19 @@ function ActiveTenancy({ tenancy, id }: any) {
 							<NameTag
 								title="Frequency"
 								name={
-									singleTenancy.property.rentCollectionTypeId == 1
+									singleTenancy?.property?.rentCollectionTypeId == 1
 										? "Weekly"
-										: singleTenancy.property.rentCollectionTypeId == 2
+										: singleTenancy?.property?.rentCollectionTypeId == 2
 										? "Monthly"
 										: "Yearly"
 								}
 							/>
 							<NameTag
 								title="Next Payment Date"
-								name={moment(singleTenancy.nextDueDate).format("DD/MM/YYYY")}
+								name={moment(singleTenancy?.nextDueDate).format("DD/MM/YYYY")}
 							/>
-							<NameTag title="Bank" name={owner.bank} />
-							<NameTag title="Account Number" name={owner.accountNumber} />
+							<NameTag title="Bank" name={owner?.bank} />
+							<NameTag title="Account Number" name={owner?.accountNumber} />
 						</VStack>
 					</HStack>
 				</Box>
@@ -219,18 +220,18 @@ function ActiveTenancy({ tenancy, id }: any) {
 									bgColor="gray.500"
 								>
 									<Image
-										src={tenant.passportPhotograph?.url || ""}
+										src={tenant?.passportPhotograph?.url || ""}
 										w="full"
 										h="full"
 										objectFit="cover"
 									/>
 								</Square>
 							</Box>
-							<NameTag title="First Name" name={tenant.firstName} />
+							<NameTag title="First Name" name={tenant?.firstName} />
 							<NameTag title="Middlename" name={tenant?.middleName || "-"} />
-							<NameTag title="Surname" name={tenant.lastName} />
-							<NameTag title="Mobile Number" name={tenant.phoneNumber} />
-							<NameTag title="Email" name={tenant.email} />
+							<NameTag title="Surname" name={tenant?.lastName} />
+							<NameTag title="Mobile Number" name={tenant?.phoneNumber} />
+							<NameTag title="Email" name={tenant?.email} />
 							<Box w="95%" onClick={() => setShowTenant(!showTenant)}>
 								<Flex
 									as="button"
@@ -253,16 +254,16 @@ function ActiveTenancy({ tenancy, id }: any) {
 								<>
 									<NameTag
 										title="Current Residential Address"
-										name={tenant.address}
+										name={tenant?.address}
 									/>
 									<NameTag
 										title="Date of Birth"
-										name={moment(tenant.dataOfBirth).format("DD/MM/YYYY")}
+										name={moment(tenant?.dataOfBirth).format("DD/MM/YYYY")}
 									/>
-									<NameTag title="Nationality" name={tenant.nationality} />
-									<NameTag title="Marital Status" name={tenant.maritalStatus} />
-									<NameTag title="Occupation" name={tenant.occupation} />
-									<NameTag title="Employer" name={tenant.companyName} />
+									<NameTag title="Nationality" name={tenant?.nationality} />
+									<NameTag title="Marital Status" name={tenant?.maritalStatus} />
+									<NameTag title="Occupation" name={tenant?.occupation} />
+									<NameTag title="Employer" name={tenant?.companyName} />
 								</>
 							)}
 						</VStack>
@@ -276,7 +277,7 @@ function ActiveTenancy({ tenancy, id }: any) {
 							</Text>
 							<NameTag
 								title="Annual Rent"
-								name={Naira(singleTenancy.property.price)}
+								name={Naira(singleTenancy?.property?.price ?? "")}
 							/>
 							<Box
 								w="full"
@@ -353,8 +354,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	url = url ?? "limit=8&offset=0&";
 
 	try {
-		const tenancy = (await _dataAccess.get(`/api/Admin/tenancies?${url}/${id}`))
+		const tenancy = (await _dataAccess.get(`/api/Admin/tenancies/${id}`))
 			.data;
+			console.log({ tenancy});
+			
 
 		return {
 			props: {

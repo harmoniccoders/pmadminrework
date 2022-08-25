@@ -118,7 +118,7 @@ export default function UserProfile({
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
 	const _dataAccess = new DataAccess(bearer);
-	let { url, search, userId, offset } = ctx.query;
+	let { url, search, userId, offset,page } = ctx.query;
 	if (!url) {
 		url = "";
 	}
@@ -127,6 +127,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	}
 	if (search) {
 		url = `${url}&search=${search}`;
+	}
+	if(page){
+		url = `${url}&page=${page}`;
 	}
 	console.log({ url, search, userId, offset });
 	const data = (await _dataAccess.get(`/api/Admin/user/${userId}`)).data;
