@@ -23,7 +23,7 @@ const headers: Headers = {
 	authorization: `Bearer ${Cookies.get("adminToken")}`,
 };
 export const OpenAPI: OpenAPIConfig = {
-	BASE: "https://propertymataazbe.herokuapp.com",
+	BASE: process.env.NEXT_PUBLIC_API_BASEURL as string,
 	VERSION: "1",
 	WITH_CREDENTIALS: false,
 	CREDENTIALS: "include",
