@@ -1,7 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ApiRequestOptions } from './ApiRequestOptions';
+import Cookies from "js-cookie";
+import type { ApiRequestOptions } from "./ApiRequestOptions";
 
 type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
 type Headers = Record<string, string>;
@@ -18,14 +19,17 @@ export type OpenAPIConfig = {
     ENCODE_PATH?: (path: string) => string;
 };
 
+const headers: Headers = {
+	authorization: `Bearer ${Cookies.get("adminToken")}`,
+};
 export const OpenAPI: OpenAPIConfig = {
-    BASE: '',
-    VERSION: '1',
-    WITH_CREDENTIALS: false,
-    CREDENTIALS: 'include',
-    TOKEN: undefined,
-    USERNAME: undefined,
-    PASSWORD: undefined,
-    HEADERS: undefined,
-    ENCODE_PATH: undefined,
+	BASE: process.env.NEXT_PUBLIC_API_BASEURL as string,
+	VERSION: "1",
+	WITH_CREDENTIALS: false,
+	CREDENTIALS: "include",
+	TOKEN: undefined,
+	USERNAME: undefined,
+	PASSWORD: undefined,
+	HEADERS: headers,
+	ENCODE_PATH: undefined,
 };
