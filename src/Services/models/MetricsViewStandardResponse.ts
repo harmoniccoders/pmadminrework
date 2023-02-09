@@ -16,4 +16,3 @@ export type MetricsViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

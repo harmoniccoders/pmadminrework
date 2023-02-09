@@ -16,4 +16,3 @@ export type RequestViewPagedCollectionStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

@@ -71,6 +71,7 @@ export type { MetricsViewStandardResponse } from './models/MetricsViewStandardRe
 export type { NameModel } from './models/NameModel';
 export type { NextOfKin } from './models/NextOfKin';
 export type { NextOfKinModel } from './models/NextOfKinModel';
+export type { PagingOptions } from './models/PagingOptions';
 export type { PasswordReset } from './models/PasswordReset';
 export type { PasswordResetModel } from './models/PasswordResetModel';
 export type { PaymentLog } from './models/PaymentLog';
@@ -105,6 +106,10 @@ export type { RentReliefView } from './models/RentReliefView';
 export type { RentReliefViewIEnumerableStandardResponse } from './models/RentReliefViewIEnumerableStandardResponse';
 export type { Report } from './models/Report';
 export type { ReportModel } from './models/ReportModel';
+export type { ReportView } from './models/ReportView';
+export type { ReportViewPagedCollection } from './models/ReportViewPagedCollection';
+export type { ReportViewPagedCollectionStandardResponse } from './models/ReportViewPagedCollectionStandardResponse';
+export type { ReportViewStandardResponse } from './models/ReportViewStandardResponse';
 export type { RequestError } from './models/RequestError';
 export type { RequestView } from './models/RequestView';
 export type { RequestViewPagedCollection } from './models/RequestViewPagedCollection';
@@ -131,6 +136,7 @@ export type { UserEnquiryPagedCollectionStandardResponse } from './models/UserEn
 export type { UserEnquiryView } from './models/UserEnquiryView';
 export type { UserEnquiryViewPagedCollection } from './models/UserEnquiryViewPagedCollection';
 export type { UserEnquiryViewPagedCollectionStandardResponse } from './models/UserEnquiryViewPagedCollectionStandardResponse';
+export type { UserEnquiryViewStandardResponse } from './models/UserEnquiryViewStandardResponse';
 export type { UserView } from './models/UserView';
 export type { UserViewPagedCollection } from './models/UserViewPagedCollection';
 export type { UserViewPagedCollectionStandardResponse } from './models/UserViewPagedCollectionStandardResponse';

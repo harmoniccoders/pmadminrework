@@ -13,4 +13,3 @@ export type Report = {
     user?: User;
     description?: number;
 };
-

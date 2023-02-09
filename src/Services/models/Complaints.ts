@@ -21,4 +21,3 @@ export type Complaints = {
     propertyId?: number;
     property?: Property;
 };
-

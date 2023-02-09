@@ -12,13 +12,13 @@ import { request as __request } from '../core/request';
 export class LandSearchService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns LandSearchViewStandardResponse Success
      * @throws ApiError
      */
     public static createRequest(
-        requestBody?: LandSearchModel,
-    ): CancelablePromise<LandSearchViewStandardResponse> {
+requestBody?: LandSearchModel,
+): CancelablePromise<LandSearchViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/LandSearch/create',
@@ -28,15 +28,15 @@ export class LandSearchService {
     }
 
     /**
-     * @param offset
-     * @param limit
+     * @param offset 
+     * @param limit 
      * @returns LandSearchViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listMyLandRequests(
-        offset?: number | null,
-        limit?: number | null,
-    ): CancelablePromise<LandSearchViewPagedCollectionStandardResponse> {
+offset?: number | null,
+limit?: number | null,
+): CancelablePromise<LandSearchViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/LandSearch/user/list',

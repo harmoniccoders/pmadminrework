@@ -36,4 +36,3 @@ export type PropertyModel = {
     accountNumber?: string | null;
     propertyRequestMatchId?: number;
 };
-

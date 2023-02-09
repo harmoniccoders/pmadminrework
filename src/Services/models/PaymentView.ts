@@ -13,4 +13,3 @@ export type PaymentView = {
     transaction?: Transaction;
     isRelief?: boolean;
 };
-

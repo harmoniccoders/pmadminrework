@@ -16,4 +16,3 @@ export type ApplicationStatusViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

@@ -16,4 +16,3 @@ export type CleaningQuoteViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

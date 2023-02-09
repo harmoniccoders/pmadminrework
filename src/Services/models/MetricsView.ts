@@ -7,4 +7,3 @@ export type MetricsView = {
     activeUsers?: number;
     users?: number;
 };
-

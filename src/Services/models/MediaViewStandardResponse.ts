@@ -16,4 +16,3 @@ export type MediaViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

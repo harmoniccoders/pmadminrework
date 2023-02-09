@@ -16,4 +16,3 @@ export type TenancyViewPagedCollection = {
     self?: Link;
     value?: Array<TenancyView> | null;
 };
-

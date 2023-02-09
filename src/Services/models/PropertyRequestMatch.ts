@@ -4,6 +4,7 @@
 
 import type { Property } from './Property';
 import type { PropertyRequest } from './PropertyRequest';
+import type { Status } from './Status';
 
 export type PropertyRequestMatch = {
     id?: number;
@@ -13,5 +14,6 @@ export type PropertyRequestMatch = {
     property?: Property;
     propertyRequestId?: number;
     propertyRequest?: PropertyRequest;
+    status?: Status;
+    statusId?: number;
 };
-

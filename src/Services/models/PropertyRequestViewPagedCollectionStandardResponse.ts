@@ -16,4 +16,3 @@ export type PropertyRequestViewPagedCollectionStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

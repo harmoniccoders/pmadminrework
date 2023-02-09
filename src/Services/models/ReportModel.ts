@@ -9,4 +9,3 @@ export type ReportModel = {
     userId?: number;
     description: string;
 };
-

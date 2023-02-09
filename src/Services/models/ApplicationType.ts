@@ -8,4 +8,3 @@ export type ApplicationType = {
     dateModified?: string;
     name?: string | null;
 };
-

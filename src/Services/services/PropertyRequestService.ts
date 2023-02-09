@@ -13,13 +13,13 @@ import { request as __request } from '../core/request';
 export class PropertyRequestService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static newRequest(
-        requestBody?: PropertyRequestInput,
-    ): CancelablePromise<PropertyViewStandardResponse> {
+requestBody?: PropertyRequestInput,
+): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/PropertyRequest/new',
@@ -29,15 +29,15 @@ export class PropertyRequestService {
     }
 
     /**
-     * @param offset
-     * @param limit
+     * @param offset 
+     * @param limit 
      * @returns PropertyRequestViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listUsersRequests(
-        offset?: number | null,
-        limit?: number | null,
-    ): CancelablePromise<PropertyRequestViewPagedCollectionStandardResponse> {
+offset?: number | null,
+limit?: number | null,
+): CancelablePromise<PropertyRequestViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/PropertyRequest/list/user',
@@ -49,15 +49,15 @@ export class PropertyRequestService {
     }
 
     /**
-     * @param propertyId
-     * @param requestId
+     * @param propertyId 
+     * @param requestId 
      * @returns PropertyRequestMatchViewStandardResponse Success
      * @throws ApiError
      */
     public static addMatch(
-        propertyId: number,
-        requestId: number,
-    ): CancelablePromise<PropertyRequestMatchViewStandardResponse> {
+propertyId: number,
+requestId: number,
+): CancelablePromise<PropertyRequestMatchViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/PropertyRequest/match/add/{propertyId}/{requestId}',
@@ -69,16 +69,50 @@ export class PropertyRequestService {
     }
 
     /**
-     * @param matchId
+     * @param matchId 
      * @returns PropertyRequestMatchViewStandardResponse Success
      * @throws ApiError
      */
     public static removeMatch(
-        matchId: number,
-    ): CancelablePromise<PropertyRequestMatchViewStandardResponse> {
+matchId: number,
+): CancelablePromise<PropertyRequestMatchViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/PropertyRequest/match/remove/{matchId}',
+            path: {
+                'matchId': matchId,
+            },
+        });
+    }
+
+    /**
+     * @param matchId 
+     * @returns PropertyRequestMatchViewStandardResponse Success
+     * @throws ApiError
+     */
+    public static acceptMatch(
+matchId: number,
+): CancelablePromise<PropertyRequestMatchViewStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/PropertyRequest/match/accept/{matchId}',
+            path: {
+                'matchId': matchId,
+            },
+        });
+    }
+
+    /**
+     * @param matchId 
+     * @returns PropertyRequestMatchViewStandardResponse Success
+     * @throws ApiError
+     */
+    public static rejectMatch(
+matchId: number,
+): CancelablePromise<PropertyRequestMatchViewStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/PropertyRequest/match/reject/{matchId}',
             path: {
                 'matchId': matchId,
             },

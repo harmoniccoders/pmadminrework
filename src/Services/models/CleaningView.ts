@@ -21,6 +21,6 @@ export type CleaningView = {
     dateCreated?: string;
     userId?: number;
     user?: LeanUserView;
-    cleaningQuote?: Array<CleaningQuoteView> | null;
+    location?: string | null;
+    cleaningQuotes?: Array<CleaningQuoteView> | null;
 };
-

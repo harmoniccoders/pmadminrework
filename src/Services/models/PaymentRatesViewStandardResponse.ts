@@ -16,4 +16,3 @@ export type PaymentRatesViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

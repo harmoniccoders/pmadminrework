@@ -9,4 +9,3 @@ export type MediaView = {
     isVideo?: boolean;
     isDocument?: boolean;
 };
-

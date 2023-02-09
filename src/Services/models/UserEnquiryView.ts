@@ -5,6 +5,7 @@
 import type { InspectionView } from './InspectionView';
 
 export type UserEnquiryView = {
+    id?: number;
     userId?: number | null;
     propertyId?: number;
     propertyName?: string | null;
@@ -16,4 +17,3 @@ export type UserEnquiryView = {
     dateCreated?: string;
     inspection?: Array<InspectionView> | null;
 };
-

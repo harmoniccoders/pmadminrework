@@ -14,4 +14,3 @@ export type StringStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

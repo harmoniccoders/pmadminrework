@@ -7,4 +7,3 @@ export type ComplaintsModel = {
     comment?: string | null;
     propertyId?: number;
 };
-

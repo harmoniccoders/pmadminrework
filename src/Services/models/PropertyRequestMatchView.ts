@@ -9,5 +9,5 @@ export type PropertyRequestMatchView = {
     id?: number;
     property?: PropertyView;
     propertyRequest?: PropertyRequest;
+    status?: string | null;
 };
-

@@ -9,4 +9,3 @@ export type UpdateUserModel = {
     phoneNumber?: string | null;
     profilePicture?: MediaModel;
 };
-

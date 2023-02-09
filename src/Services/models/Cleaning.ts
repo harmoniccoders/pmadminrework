@@ -22,7 +22,7 @@ export type Cleaning = {
     userId?: number;
     user?: User;
     statusId?: number;
+    location?: string | null;
     status?: Status;
     cleaningQuotes?: Array<CleaningQuote> | null;
 };
-

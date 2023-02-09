@@ -13,4 +13,3 @@ export type RequestView = {
     isFixing?: boolean;
     status?: string | null;
 };
-

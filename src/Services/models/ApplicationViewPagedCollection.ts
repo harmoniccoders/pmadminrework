@@ -16,4 +16,3 @@ export type ApplicationViewPagedCollection = {
     self?: Link;
     value?: Array<ApplicationView> | null;
 };
-

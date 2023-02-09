@@ -14,4 +14,3 @@ export type ApplicationModel = {
     payBackDate?: string;
     repaymentFrequency?: string | null;
 };
-

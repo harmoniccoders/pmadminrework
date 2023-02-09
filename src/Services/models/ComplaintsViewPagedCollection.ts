@@ -16,4 +16,3 @@ export type ComplaintsViewPagedCollection = {
     self?: Link;
     value?: Array<ComplaintsView> | null;
 };
-

@@ -21,4 +21,3 @@ export type Media = {
     isDocument?: boolean;
     property?: Property;
 };
-

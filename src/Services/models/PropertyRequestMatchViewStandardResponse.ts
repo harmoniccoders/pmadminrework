@@ -16,4 +16,3 @@ export type PropertyRequestMatchViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

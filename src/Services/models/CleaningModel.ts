@@ -12,5 +12,5 @@ export type CleaningModel = {
     buildingType?: string | null;
     fileName?: string | null;
     fileNumber?: string | null;
+    location?: string | null;
 };
-

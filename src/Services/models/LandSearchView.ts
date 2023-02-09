@@ -10,4 +10,3 @@ export type LandSearchView = {
     user?: UserView;
     status?: string | null;
 };
-

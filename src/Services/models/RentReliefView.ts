@@ -18,4 +18,3 @@ export type RentReliefView = {
     totalRepayment?: number;
     reliefAmount?: number;
 };
-

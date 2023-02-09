@@ -14,13 +14,13 @@ import { request as __request } from '../core/request';
 export class ApplicationService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns ApplicationViewStandardResponse Success
      * @throws ApiError
      */
     public static createApplication(
-        requestBody?: ApplicationModel,
-    ): CancelablePromise<ApplicationViewStandardResponse> {
+requestBody?: ApplicationModel,
+): CancelablePromise<ApplicationViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Application/new',
@@ -30,17 +30,17 @@ export class ApplicationService {
     }
 
     /**
-     * @param propertyId
-     * @param offset
-     * @param limit
+     * @param propertyId 
+     * @param offset 
+     * @param limit 
      * @returns ApplicationViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listActiveApplications(
-        propertyId: number,
-        offset?: number | null,
-        limit?: number | null,
-    ): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
+propertyId: number,
+offset?: number | null,
+limit?: number | null,
+): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Application/list/{propertyId}',
@@ -55,13 +55,13 @@ export class ApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns ApplicationViewStandardResponse Success
      * @throws ApiError
      */
     public static getById(
-        id: number,
-    ): CancelablePromise<ApplicationViewStandardResponse> {
+id: number,
+): CancelablePromise<ApplicationViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Application/get/{id}',
@@ -72,13 +72,13 @@ export class ApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns ApplicationViewStandardResponse Success
      * @throws ApiError
      */
     public static approve(
-        id: number,
-    ): CancelablePromise<ApplicationViewStandardResponse> {
+id: number,
+): CancelablePromise<ApplicationViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Application/approve/{id}',
@@ -89,13 +89,13 @@ export class ApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns ApplicationViewStandardResponse Success
      * @throws ApiError
      */
     public static reject(
-        id: number,
-    ): CancelablePromise<ApplicationViewStandardResponse> {
+id: number,
+): CancelablePromise<ApplicationViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Application/reject/{id}',
@@ -106,13 +106,13 @@ export class ApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns ApplicationViewStandardResponse Success
      * @throws ApiError
      */
     public static accept(
-        id: number,
-    ): CancelablePromise<ApplicationViewStandardResponse> {
+id: number,
+): CancelablePromise<ApplicationViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Application/accept/{id}',
@@ -123,13 +123,13 @@ export class ApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns ApplicationViewStandardResponse Success
      * @throws ApiError
      */
     public static review(
-        id: number,
-    ): CancelablePromise<ApplicationViewStandardResponse> {
+id: number,
+): CancelablePromise<ApplicationViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Application/review/{id}',
@@ -151,13 +151,13 @@ export class ApplicationService {
     }
 
     /**
-     * @param propertyId
+     * @param propertyId 
      * @returns ApplicationStatusViewStandardResponse Success
      * @throws ApiError
      */
     public static getUserApplication(
-        propertyId: number,
-    ): CancelablePromise<ApplicationStatusViewStandardResponse> {
+propertyId: number,
+): CancelablePromise<ApplicationStatusViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Application/get/user/property/{propertyId}',

@@ -25,4 +25,3 @@ export type PropertyRequest = {
     status?: Status;
     matches?: Array<PropertyRequestMatch> | null;
 };
-

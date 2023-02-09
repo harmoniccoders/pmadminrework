@@ -12,13 +12,13 @@ import { request as __request } from '../core/request';
 export class CleanService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns CleaningViewStandardResponse Success
      * @throws ApiError
      */
     public static createNewRequest(
-        requestBody?: CleaningModel,
-    ): CancelablePromise<CleaningViewStandardResponse> {
+requestBody?: CleaningModel,
+): CancelablePromise<CleaningViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Clean/request',
@@ -28,15 +28,15 @@ export class CleanService {
     }
 
     /**
-     * @param offset
-     * @param limit
+     * @param offset 
+     * @param limit 
      * @returns CleaningViewPagedCollection Success
      * @throws ApiError
      */
     public static listMyRequests(
-        offset?: number | null,
-        limit?: number | null,
-    ): CancelablePromise<CleaningViewPagedCollection> {
+offset?: number | null,
+limit?: number | null,
+): CancelablePromise<CleaningViewPagedCollection> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Clean/requests/user',
@@ -48,13 +48,13 @@ export class CleanService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns CleaningViewStandardResponse Success
      * @throws ApiError
      */
     public static acceptQuote(
-        id: number,
-    ): CancelablePromise<CleaningViewStandardResponse> {
+id: number,
+): CancelablePromise<CleaningViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Clean/quote/accept/{id}',
@@ -65,13 +65,13 @@ export class CleanService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns CleaningViewStandardResponse Success
      * @throws ApiError
      */
     public static rejectQuote(
-        id: number,
-    ): CancelablePromise<CleaningViewStandardResponse> {
+id: number,
+): CancelablePromise<CleaningViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Clean/quote/reject/{id}',

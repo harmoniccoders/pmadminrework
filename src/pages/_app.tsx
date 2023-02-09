@@ -14,52 +14,55 @@ import { UserProvider } from "lib/Utils/MainContext";
 import Cookies from "js-cookie";
 import SimpleReactLightbox from "simple-react-lightbox";
 import NextNProgress from "nextjs-progressbar";
+import { OpenAPI } from "Services";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-	let headers: HeadersInit;
+  let headers: HeadersInit;
 
-	headers = {
-		cor: "no-cors",
-	};
-	if (typeof window !== "undefined") {
-		const token = Cookies.get("adminToken");
-		headers = {
-			cor: "no-cors",
-			Authorization: `Bearer ${token}`,
-		};
-	}
+  headers = {
+    cor: "no-cors",
+  };
+  if (typeof window !== "undefined") {
+    const token = Cookies.get("adminToken");
+    headers = {
+      cor: "no-cors",
+      Authorization: `Bearer ${token}`,
+    };
+  }
+  OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASEURL as string;
+  OpenAPI.TOKEN = Cookies.get("token") as string;
 
-	return (
-		<ChakraProvider theme={customTheme}>
-			<OpenAPIProvider
-				definition={process.env.NEXT_PUBLIC_API_DEFINITION as string}
-				axiosConfigDefaults={{
-					withCredentials: true,
-					headers,
-					baseURL: process.env.NEXT_PUBLIC_API_BASEURL,
-				}}
-			>
-				<Head>
-					<meta
-						name="viewport"
-						content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
-					/>
-					<link rel="icon" href="/assets/pm.png" type="image/x-icon" />
-				</Head>
-				<DefaultSeo {...defaultSEOConfig} />
-				{/* <Layout> */}
-				<UserProvider>
-					<ToastProvider>
-						<SimpleReactLightbox>
-							<Layout>
-								<NextNProgress color="#0042ff" />
-								<Component {...pageProps} />
-							</Layout>
-						</SimpleReactLightbox>
-					</ToastProvider>
-				</UserProvider>
-			</OpenAPIProvider>
-		</ChakraProvider>
-	);
+  return (
+    <ChakraProvider theme={customTheme}>
+      <OpenAPIProvider
+        definition={process.env.NEXT_PUBLIC_API_DEFINITION as string}
+        axiosConfigDefaults={{
+          withCredentials: true,
+          headers,
+          baseURL: process.env.NEXT_PUBLIC_API_BASEURL,
+        }}
+      >
+        <Head>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
+          />
+          <link rel="icon" href="/assets/pm.png" type="image/x-icon" />
+        </Head>
+        <DefaultSeo {...defaultSEOConfig} />
+        {/* <Layout> */}
+        <UserProvider>
+          <ToastProvider>
+            <SimpleReactLightbox>
+              <Layout>
+                <NextNProgress color="#0042ff" />
+                <Component {...pageProps} />
+              </Layout>
+            </SimpleReactLightbox>
+          </ToastProvider>
+        </UserProvider>
+      </OpenAPIProvider>
+    </ChakraProvider>
+  );
 };
 export default MyApp;

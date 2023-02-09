@@ -16,4 +16,3 @@ export type PropertyViewPagedCollection = {
     self?: Link;
     value?: Array<PropertyView> | null;
 };
-

@@ -7,4 +7,3 @@ export type InspectionTimeModel = {
     availableTime?: string;
     inspectionDateId?: number;
 };
-

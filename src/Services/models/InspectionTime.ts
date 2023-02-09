@@ -13,4 +13,3 @@ export type InspectionTime = {
     availableTime?: string;
     isAvailable?: boolean;
 };
-

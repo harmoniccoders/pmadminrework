@@ -16,4 +16,3 @@ export type ComplaintsCategoryStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

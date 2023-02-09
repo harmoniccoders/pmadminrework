@@ -16,4 +16,3 @@ export type TenancyView = {
     status?: string | null;
     renewable?: boolean;
 };
-

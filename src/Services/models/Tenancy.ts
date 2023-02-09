@@ -24,4 +24,3 @@ export type Tenancy = {
     statusId?: number;
     status?: Status;
 };
-

@@ -16,4 +16,3 @@ export type PropertyTitleIEnumerableStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

@@ -13,8 +13,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
 	const _dataAccess = new DataAccess(bearer);
 	let { url, offset, search,page } = ctx.query;
-	// console.log({ url });
-	// console.log({ offset });
 
 	if (!url) {
 		url = "";
@@ -34,13 +32,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	if(page && page != "1"){
 		url = ""
 	}
-	// console.log({ url });
 	let users;
 	let pageData;
 	try {
 		const data = (await _dataAccess.get(`/api/User/list?${url}`)).data;
 		users = data.value;
-		// console.log({ data });
 		pageData = data;
 	} catch (error) {}
 
