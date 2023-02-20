@@ -2,22 +2,21 @@ import { Box, Flex } from "@chakra-ui/react";
 import SecondaryTab from "lib/components/Utilities/SecondaryTab";
 import { returnUserData } from "lib/components/Utilities/UserData";
 import Sessions from "lib/components/Utils/CleaningTab/Sessions";
-import CategoriesList from "lib/components/Utils/Complaints/CategoriesList";
 import ComplaintsLists from "lib/components/Utils/Complaints/ComplaintsTable";
 import { DataAccess } from "lib/Utils/Api";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { type } from "os";
 import { useState } from "react";
+import ReportLists from "lib/components/Utils/Reports/ReportLists";
 
-export default function categories({ data, types, reports }: any) {
-	const [currentTab, setCurrentTab] = useState("categories");
+
+export default function complaint({ data, types, reports }: any) {
+	const [currentTab, setCurrentTab] = useState("reports");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
 		router.push(`/admin/complaints/${tabname}`);
 	};
-	console.log({ types });
-
+    console.log({ reports })
 	return (
 		<Box w="100%" p="0rem" minH="90vh">
 			<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
@@ -45,8 +44,9 @@ export default function categories({ data, types, reports }: any) {
 						currentTab={currentTab}
 					/>
 				</Box>
+				
 			</Flex>
-			<CategoriesList data={data} types={types} />
+			<ReportLists data={data} />
 		</Box>
 	);
 }
@@ -75,17 +75,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		url = `${url}search=${search}`;
 	}
 	try {
+		
 		const data = (await _dataAccess.get(`/api/Complaints/list?${url}`)).data;
 		const types = (await _dataAccess.get("/api/Complaints/categories/list"))
 			.data;
 		const reports = (await _dataAccess.get(`/api/Report/list?${url}`))
 			.data;
-
+        console.log({ reports })
 		return {
 			props: {
 				data,
 				types,
-				reports
+				 reports
 			},
 		};
 	} catch (error) {

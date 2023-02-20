@@ -23,7 +23,7 @@ export function TableHead({ title }: { title: string }) {
 	);
 }
 
-export function TableData({ name }: { name: string }) {
+export function TableData({ name }: { name: string | undefined | number | null}) {
 	return (
 		<Td
 			fontSize="14px"

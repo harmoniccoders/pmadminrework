@@ -8,7 +8,8 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function complaint({ data, types }: any) {
+
+export default function complaint({ data, types, reports }: any) {
 	const [currentTab, setCurrentTab] = useState("complaints");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
@@ -21,7 +22,7 @@ export default function complaint({ data, types }: any) {
 				<Box onClick={() => navigateTabs("complaints")}>
 					<SecondaryTab
 						tabname="complaints"
-						num={data.length}
+						num={data?.length}
 						icon="fa-unlink"
 						currentTab={currentTab}
 					/>
@@ -29,11 +30,21 @@ export default function complaint({ data, types }: any) {
 				<Box onClick={() => navigateTabs("categories")}>
 					<SecondaryTab
 						tabname="categories"
-						num={types.length}
+						num={types?.length}
 						icon="fa-layer-group"
 						currentTab={currentTab}
 					/>
 				</Box>
+				<Box onClick={() => navigateTabs("reports")}>
+					<SecondaryTab
+						tabname="reports"
+						num={reports?.size}
+						icon="fa-comment"
+						currentTab={currentTab}
+					/>
+				</Box>
+				
+				
 			</Flex>
 			<ComplaintsLists data={data} />
 		</Box>
@@ -64,21 +75,28 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		url = `${url}search=${search}`;
 	}
 	try {
+		
 		const data = (await _dataAccess.get(`/api/Complaints/list?${url}`)).data;
 		const types = (await _dataAccess.get("/api/Complaints/categories/list"))
+			.data;
+		const reports = (await _dataAccess.get(`/api/Report/list?${url}`))
 			.data;
 
 		return {
 			props: {
 				data,
 				types,
+				reports
 			},
 		};
 	} catch (error) {
 		return {
 			props: {
 				data: [],
+				types: [],
+				report:[]
 			},
+			
 		};
 	}
 };
