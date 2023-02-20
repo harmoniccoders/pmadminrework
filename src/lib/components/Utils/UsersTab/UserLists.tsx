@@ -28,7 +28,7 @@ function UserLists({ user }: { user: UserView }) {
     >
       <Box w="full">
         <Text fontWeight="bold" fontSize="1.1rem" my="2rem">
-          Enquires
+          Enquiries
         </Text>
         <VStack spacing={5} w="full">
           {lists

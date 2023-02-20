@@ -26,8 +26,8 @@ function Listing({
       <Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
         <Box onClick={() => navigateTabs("/admin/listings/enquires")}>
           <SecondaryTab
-            tabname="enquires"
-            num={data.size}
+            tabname="enquiries"
+            num={data?.size}
             icon="fa-arrow-down"
             currentTab={currentTab}
           />
@@ -35,7 +35,7 @@ function Listing({
         <Box onClick={() => navigateTabs("/admin/listings/requests")}>
           <SecondaryTab
             tabname="requests"
-            num={requests.size}
+            num={requests?.size}
             icon="fa-bell"
             currentTab={currentTab}
           />
@@ -43,7 +43,7 @@ function Listing({
         <Box onClick={() => navigateTabs("/admin/listings/listings")}>
           <SecondaryTab
             tabname="listings"
-            num={listings.size}
+            num={listings?.size}
             icon="fa-building"
             currentTab={currentTab}
           />
