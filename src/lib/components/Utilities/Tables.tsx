@@ -1,4 +1,13 @@
-import { Box, Button, Circle, HStack, Switch, Td, Th } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Circle,
+  HStack,
+  Switch,
+  Td,
+  Th,
+  Tooltip,
+} from "@chakra-ui/react";
 import {
   FaArrowAltCircleRight,
   FaArrowRight,
@@ -25,19 +34,21 @@ export function TableHead({ title }: { title: string }) {
 
 export function TableData({ name }: { name: string }) {
   return (
-    <Td
-      fontSize="14px"
-      fontWeight="500"
-      color="black"
-      pl="1rem"
-      py="1.3rem"
-      textTransform="capitalize"
-      //   maxW="130px"
-      //   overflow="hidden"
-      // textOverflow="ellipsis"
-    >
-      {name}
-    </Td>
+    <Tooltip label={name} placement="top" hasArrow>
+      <Td
+        fontSize="14px"
+        fontWeight="500"
+        color="black"
+        pl="1rem"
+        py="1.3rem"
+        textTransform="capitalize"
+        //   maxW="130px"
+        //   overflow="hidden"
+        // textOverflow="ellipsis"
+      >
+        {name ? name.substring(0, 20) : "N/A"}
+      </Td>
+    </Tooltip>
   );
 }
 export function TableDataWithAvatar({ name }: { name: string }) {
