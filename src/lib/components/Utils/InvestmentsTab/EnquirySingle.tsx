@@ -16,7 +16,7 @@ import { InspectionDate } from "lib/components/Utilities/InspectionDate";
 import TimeDisplay from "lib/components/Utilities/TimeDisplay";
 import { DataAccess } from "lib/Utils/Api";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useForm } from "react-hook-form";
@@ -38,6 +38,10 @@ import {
 	PropertyView,
 	UserEnquiryView,
 } from "Services";
+import { Widget } from "@uploadcare/react-widget";
+
+
+
 const moment = require("moment");
 
 interface Eprops {
@@ -52,6 +56,37 @@ function EnquirySingle({ data }: Eprops) {
 	const [user, setUser] = useState<any>();
 	const [inspection, setInspection] = useState<any>();
 
+	const widgetApi = useRef<any>();
+	const [documents, setDocuments] = useState<any>();
+
+	const [uploadDoc, { loading:isLoading, data:isDatas , error:isError }] = useOperationMethod(
+		"Propertyupdate"
+	);
+	async function uploadDocument(info: any) {
+		
+
+		try {
+			const result = await (await uploadDoc(undefined, data)).data;
+
+			console.log({ result });
+			if (result.status) {
+				addToast("Success", {
+					appearance: "success",
+					autoDismiss: true,
+				});
+				router.reload();
+				return;
+			}
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+			return;
+		} catch (err) { }
+		
+		console.log(info)
+	}
+	
 	console.log({ property });
 
 	// console.log({ data });
@@ -214,6 +249,7 @@ function EnquirySingle({ data }: Eprops) {
 		);
 	}
 
+
 	function TimeItem({ d, t }: any) {
 		const [addTime, { loading: isLoaded }] = useOperationMethod(
 			"Propertyinspectiontimecreate"
@@ -339,8 +375,9 @@ function EnquirySingle({ data }: Eprops) {
 								View Property
 							</Flex>
 						</Box>
-						<Box w="180px">
+						<Box w="180px"  >
 							<Flex
+							
 								as="button"
 								w="full"
 								h="2.3rem"
@@ -350,9 +387,18 @@ function EnquirySingle({ data }: Eprops) {
 								justify="center"
 								fontSize="14.5px"
 								fontWeight="bold"
+								onClick={()=>widgetApi.current.openDialog()}
 							>
 								Upload Documents
 							</Flex>
+							<Widget
+								publicKey="fda3a71102659f95625f"
+								onFileSelect={(info) => uploadDocument(info)}
+								inputAcceptTypes={`.docx,.doc.pdf`}
+								systemDialog
+								//@ts-ignore
+								ref={widgetApi}
+											/>
 						</Box>
 						<Box w="180px" onClick={onOpen}>
 							<Flex
