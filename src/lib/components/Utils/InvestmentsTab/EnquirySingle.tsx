@@ -1,11 +1,11 @@
 import {
-	Box,
-	Flex,
-	HStack,
-	VStack,
-	Text,
-	useDisclosure,
-	Button,
+  Box,
+  Flex,
+  HStack,
+  VStack,
+  Text,
+  useDisclosure,
+  Button,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import ViewApplication from "lib/components/Modals/ViewApplication";
@@ -29,14 +29,14 @@ import { Parameters } from "openapi-client-axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
-	InspectionDateModel,
-	InspectionDateView,
-	InspectionTimeModel,
-	InspectionTimeView,
-	InspectionView,
-	PropertyModel,
-	PropertyView,
-	UserEnquiryView,
+  InspectionDateModel,
+  InspectionDateView,
+  InspectionTimeModel,
+  InspectionTimeView,
+  InspectionView,
+  PropertyModel,
+  PropertyView,
+  UserEnquiryView,
 } from "Services";
 import { Widget } from "@uploadcare/react-widget";
 
@@ -45,16 +45,23 @@ import { Widget } from "@uploadcare/react-widget";
 const moment = require("moment");
 
 interface Eprops {
-	data: any;
+  data: any;
+  property: any;
+  application: any;
+  user: any;
+  inspection: any;
 }
 const schema = yup.object().shape({
-	date: yup.string().required(),
+  date: yup.string().required(),
 });
-function EnquirySingle({ data }: Eprops) {
-	const [property, setProperty] = useState<any>();
-	const [application, setApplication] = useState<any>();
-	const [user, setUser] = useState<any>();
-	const [inspection, setInspection] = useState<any>();
+function EnquirySingle({
+  data,
+  property,
+  application,
+  user,
+  inspection,
+}: Eprops) {
+  console.log({ application });
 
 	const widgetApi = useRef<any>();
 	const [documents, setDocuments] = useState<any>();
@@ -91,233 +98,181 @@ function EnquirySingle({ data }: Eprops) {
 
 	// console.log({ data });
 
-	const {
-		register,
-		handleSubmit,
-		control,
-		formState: { errors, isValid },
-	} = useForm<InspectionDateModel>({
-		mode: "all",
-		resolver: yupResolver(schema),
-		defaultValues: {
-			propertyId: data.propertyId,
-		},
-	});
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<InspectionDateModel>({
+    mode: "all",
+    resolver: yupResolver(schema),
+    defaultValues: {
+      propertyId: data.propertyId,
+    },
+  });
 
-	useEffect(() => {
-		const fetchProperty = async () => {
-			const getProperty = async () => {
-				const bearer = `Bearer ${Cookies.get("adminToken")}`;
-				const _dataAccess = new DataAccess(bearer);
-				const result = await _dataAccess.get(
-					`/api/Property/get/${data.propertyId}`
-				);
-				if (result.status) {
-					setProperty(result.data);
-				}
-			};
-			getProperty();
-			const getApplication = async () => {
-				const bearer = `Bearer ${Cookies.get("adminToken")}`;
-				const _dataAccess = new DataAccess(bearer);
-				const result = await _dataAccess.get(
-					`/api/Application/list/${data.propertyId}`
-				);
-				if (result.status) {
-					setApplication(result.data.value);
-				}
-			};
-			getApplication();
-			const getUser = async () => {
-				const bearer = `Bearer ${Cookies.get("adminToken")}`;
-				const _dataAccess = new DataAccess(bearer);
-				const result = await _dataAccess.get(`/api/admin/user/${data.userId}`);
-				if (result.status) {
-					setUser(result.data);
-				}
-			};
-			getUser();
-			const getInspections = async () => {
-				const bearer = `Bearer ${Cookies.get("adminToken")}`;
-				const _dataAccess = new DataAccess(bearer);
-				const result = await _dataAccess.get(
-					`/api/Property/inspectiondates/list/${data.propertyId}`
-				);
-				// console.log({ result });
+  const singleUser = application.value?.filter(
+    (x: any) => x.user.id == data.userId
+  )[0];
 
-				if (result.status) {
-					setInspection(result.data);
-				}
-			};
-			getInspections();
-		};
-		fetchProperty();
-	}, []);
+  const router = useRouter();
+  const goBack = () => {
+    router.back();
+  };
+  const [open, setOpen] = useState(false);
+  const openModal = () => {
+    setOpen(true);
+  };
+  const closeModal = () => {
+    setOpen(false);
+  };
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { addToast } = useToasts();
 
-	let singleUser;
-	if (application !== undefined) {
-		singleUser = application.filter((x: any) => x.user.id == data.userId)[0];
-	}
-	// console.log({ singleUser });
+  const [addDate, { loading, data: isData, error }] = useOperationMethod(
+    "Propertyinspectiondatescreate"
+  );
 
-	const router = useRouter();
-	const goBack = () => {
-		router.back();
-	};
-	const [open, setOpen] = useState(false);
-	const openModal = () => {
-		setOpen(true);
-	};
-	const closeModal = () => {
-		setOpen(false);
-	};
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { addToast } = useToasts();
+  const onSubmit = async (data: InspectionDateModel) => {
+    data.date = new Date(data.date as unknown as Date).toLocaleDateString();
+    try {
+      const result = await (await addDate(undefined, data)).data;
 
-	const [addDate, { loading, data: isData, error }] = useOperationMethod(
-		"Propertyinspectiondatescreate"
-	);
+      console.log({ result });
+      if (result.status) {
+        addToast("Success", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        router.reload();
+        return;
+      }
+      addToast(result.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    } catch (err) {}
+  };
 
-	const onSubmit = async (data: InspectionDateModel) => {
-		data.date = new Date(data.date as unknown as Date).toLocaleDateString();
-		try {
-			const result = await (await addDate(undefined, data)).data;
-
-			console.log({ result });
-			if (result.status) {
-				addToast("Success", {
-					appearance: "success",
-					autoDismiss: true,
-				});
-				router.reload();
-				return;
-			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-			return;
-		} catch (err) {}
-	};
-
-	function ListItem({ d }: any) {
-		const [deleteInsp, { loading: isLoading, data: dataL, error: errorL }] =
-			useOperationMethod("Propertyinspectiondatesdelete{id}");
-		async function del() {
-			const DeleteInspection = async (date: any) => {
-				const params: Parameters = {
-					id: date,
-				};
-				try {
-					const result = await (await deleteInsp(params)).data;
-					if (result.status) {
-						addToast("Deleted", {
-							appearance: "success",
-							autoDismiss: true,
-						});
-						router.reload();
-						return;
-					}
-					addToast(result.message, {
-						appearance: "error",
-						autoDismiss: true,
-					});
-					return;
-				} catch (err) {}
-			};
-			DeleteInspection(d);
-		}
-		return (
-			<Button
-				cursor="pointer"
-				w="2rem"
-				bgColor="transparent"
-				maxW="unset"
-				type="submit"
-				isLoading={isLoading}
-				color="black"
-				px="0"
-				h="2rem"
-				onClick={del}
-				_hover={{
-					bgColor: "transparent",
-					color: "black",
-				}}
-			>
-				<Icons iconClass="fa-trash-alt" />
-			</Button>
-		);
-	}
+  function ListItem({ d }: any) {
+    const [deleteInsp, { loading: isLoading, data: dataL, error: errorL }] =
+      useOperationMethod("Propertyinspectiondatesdelete{id}");
+    async function del() {
+      const DeleteInspection = async (date: any) => {
+        const params: Parameters = {
+          id: date,
+        };
+        try {
+          const result = await (await deleteInsp(params)).data;
+          if (result.status) {
+            addToast("Deleted", {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            router.reload();
+            return;
+          }
+          addToast(result.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+          return;
+        } catch (err) {}
+      };
+      DeleteInspection(d);
+    }
+    return (
+      <Button
+        cursor="pointer"
+        w="2rem"
+        bgColor="transparent"
+        maxW="unset"
+        type="submit"
+        isLoading={isLoading}
+        color="black"
+        px="0"
+        h="2rem"
+        onClick={del}
+        _hover={{
+          bgColor: "transparent",
+          color: "black",
+        }}
+      >
+        <Icons iconClass="fa-trash-alt" />
+      </Button>
+    );
+  }
 
 
-	function TimeItem({ d, t }: any) {
-		const [addTime, { loading: isLoaded }] = useOperationMethod(
-			"Propertyinspectiontimecreate"
-		);
-		async function timeAdd() {
-			const AddTime = async (dates: any) => {
-				const timeData = {
-					availableTime: (startDate as unknown as Date).toLocaleString(),
-					inspectionDateId: dates,
-				};
-				console.log({ timeData });
+  function TimeItem({ d, t }: any) {
+    const [addTime, { loading: isLoaded }] = useOperationMethod(
+      "Propertyinspectiontimecreate"
+    );
+    async function timeAdd() {
+      const AddTime = async (dates: any) => {
+        const timeData = {
+          availableTime: (startDate as unknown as Date).toLocaleString(),
+          inspectionDateId: dates,
+        };
+        console.log({ timeData });
 
-				try {
-					const result = await (await addTime(undefined, timeData)).data;
-					console.log({ result });
+        try {
+          const result = await (await addTime(undefined, timeData)).data;
+          console.log({ result });
 
-					if (result.status) {
-						addToast("New Time Slot Added", {
-							appearance: "success",
-							autoDismiss: true,
-						});
-						router.reload();
-						return;
-					}
-					addToast(result.message, {
-						appearance: "error",
-						autoDismiss: true,
-					});
-					return;
-				} catch (err) {}
-			};
-			AddTime(d);
-		}
-		const [startDate, setStartDate] = useState<any>();
-		return (
-			<>
-				<DatePicker
-					placeholderText={`+${"    "} Add Time Slots`}
-					dateFormat="h:mm aa"
-					onChange={(date: any) => setStartDate(date)}
-					selected={startDate}
-					withPortal
-					className="inspection"
-					showTimeInput
-					openToDate={new Date(t)}
-					calendarClassName="insp"
-				/>
-				<Button
-					cursor="pointer"
-					w="2rem"
-					bgColor="transparent"
-					type="submit"
-					isLoading={isLoaded}
-					color="black"
-					px="0"
-					h="2rem"
-					disabled={!startDate}
-					onClick={timeAdd}
-					_hover={{
-						bgColor: "transparent",
-						color: "black",
-					}}
-				>
-					<Icons iconClass="fa-calendar-check" />
-				</Button>
-			</>
-		);
-	}
+          if (result.status) {
+            addToast("New Time Slot Added", {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            router.reload();
+            return;
+          }
+          addToast(result.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+          return;
+        } catch (err) {}
+      };
+      AddTime(d);
+    }
+    const [startDate, setStartDate] = useState<any>();
+    return (
+      <>
+        <DatePicker
+          placeholderText={`+${"    "} Add Time Slots`}
+          dateFormat="h:mm aa"
+          onChange={(date: any) => setStartDate(date)}
+          selected={startDate}
+          withPortal
+          className="inspection"
+          showTimeInput
+          openToDate={new Date(t)}
+          calendarClassName="insp"
+        />
+        <Button
+          cursor="pointer"
+          w="2rem"
+          bgColor="transparent"
+          type="submit"
+          isLoading={isLoaded}
+          color="black"
+          px="0"
+          h="2rem"
+          disabled={!startDate}
+          onClick={timeAdd}
+          _hover={{
+            bgColor: "transparent",
+            color: "black",
+          }}
+        >
+          <Icons iconClass="fa-calendar-check" />
+        </Button>
+      </>
+    );
+  }
 
 	return (
 		<Box bgColor="white" p="1rem" minH="80vh">
@@ -420,109 +375,107 @@ function EnquirySingle({ data }: Eprops) {
 				<Box w="35%">
 					{/* <Calendar value={new Date(data.dateCreated)} />
 					<TimeDisplay data={data} /> */}
-					<Flex justify="space-between" align="center">
-						<Text fontWeight="600" fontSize="1.2rem">
-							Scheduled Dates
-						</Text>
-						<Box>
-							<form onSubmit={handleSubmit(onSubmit)}>
-								<HStack>
-									<InspectionDate<InspectionDateModel>
-										error={errors.date}
-										name="date"
-										register={register}
-										control={control}
-										minDate={new Date()}
-									/>
-									<Button
-										cursor="pointer"
-										w="2rem"
-										bgColor="transparent"
-										type="submit"
-										disabled={!isValid}
-										isLoading={loading}
-										color="black"
-										px="0"
-										h="2rem"
-										_hover={{
-											bgColor: "transparent",
-											color: "black",
-										}}
-									>
-										<Icons iconClass="fa-calendar-check" />
-									</Button>
-								</HStack>
-							</form>
-						</Box>
-					</Flex>
+          <Flex justify="space-between" align="center">
+            <Text fontWeight="600" fontSize="1.2rem">
+              Scheduled Dates
+            </Text>
+            <Box>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <HStack>
+                  <InspectionDate<InspectionDateModel>
+                    error={errors.date}
+                    name="date"
+                    register={register}
+                    control={control}
+                    minDate={new Date()}
+                  />
+                  <Button
+                    cursor="pointer"
+                    w="2rem"
+                    bgColor="transparent"
+                    type="submit"
+                    disabled={!isValid}
+                    isLoading={loading}
+                    color="black"
+                    px="0"
+                    h="2rem"
+                    _hover={{
+                      bgColor: "transparent",
+                      color: "black",
+                    }}
+                  >
+                    <Icons iconClass="fa-calendar-check" />
+                  </Button>
+                </HStack>
+              </form>
+            </Box>
+          </Flex>
 
-					{inspection !== undefined && (
-						<>
-							{inspection.map((x: InspectionDateView, i: any) => {
-								return (
-									<Box
-										key={i}
-										border="2px solid rgba(0,0,0,0.1)"
-										borderRadius="10px"
-										px="1rem"
-										py=".5rem"
-										mt="1rem"
-									>
-										<Text
-											fontSize="20px"
-											fontWeight="bold"
-											mb=".5rem"
-											textTransform="capitalize"
-										>
-											{moment(x.date).format("MMM DD YYYY")}
-										</Text>
-										<HStack
-											mb="1rem"
-											spacing={0}
-											gap={4}
-											overflowX="hidden"
-											flexWrap="wrap"
-										>
-											{x.times?.map((item: InspectionTimeView, i) => {
-												return (
-													<Box
-														key={i}
-														borderRadius="4px"
-														bgColor="gray.200"
-														fontWeight="600"
-														px=".8rem"
-														py=".2rem"
-														flexShrink={0}
-													>
-														{moment(item.time).format("LT")}
-													</Box>
-												);
-											})}
-										</HStack>
-										<Flex
-											justify="space-between"
-											align="center"
-											mb=".4rem"
-											key={i}
-										>
-											<HStack>
-												<TimeItem d={x.id} t={x.date as unknown as Date} />
-											</HStack>
-											<ListItem d={x.id} />
-										</Flex>
-									</Box>
-								);
-							})}
-						</>
-					)}
-				</Box>
-			</HStack>
-			<ViewListings isOpen={open} onClose={closeModal} data={property} />
-			{singleUser !== undefined && (
-				<ViewApplication isOpen={isOpen} onClose={onClose} data={singleUser} />
-			)}
-		</Box>
-	);
+          {inspection !== undefined && (
+            <>
+              {inspection.map((x: InspectionDateView, i: any) => {
+                return (
+                  <Box
+                    key={i}
+                    border="2px solid rgba(0,0,0,0.1)"
+                    borderRadius="10px"
+                    px="1rem"
+                    py=".5rem"
+                    mt="1rem"
+                  >
+                    <Text
+                      fontSize="20px"
+                      fontWeight="bold"
+                      mb=".5rem"
+                      textTransform="capitalize"
+                    >
+                      {moment(x.date).format("MMM DD YYYY")}
+                    </Text>
+                    <HStack
+                      mb="1rem"
+                      spacing={0}
+                      gap={4}
+                      overflowX="hidden"
+                      flexWrap="wrap"
+                    >
+                      {x.times?.map((item: InspectionTimeView, i) => {
+                        return (
+                          <Box
+                            key={i}
+                            borderRadius="4px"
+                            bgColor="gray.200"
+                            fontWeight="600"
+                            px=".8rem"
+                            py=".2rem"
+                            flexShrink={0}
+                          >
+                            {moment(item.time).format("LT")}
+                          </Box>
+                        );
+                      })}
+                    </HStack>
+                    <Flex
+                      justify="space-between"
+                      align="center"
+                      mb=".4rem"
+                      key={i}
+                    >
+                      <HStack>
+                        <TimeItem d={x.id} t={x.date as unknown as Date} />
+                      </HStack>
+                      <ListItem d={x.id} />
+                    </Flex>
+                  </Box>
+                );
+              })}
+            </>
+          )}
+        </Box>
+      </HStack>
+      <ViewListings isOpen={open} onClose={closeModal} data={property} />
+      <ViewApplication isOpen={isOpen} onClose={onClose} data={singleUser} />
+    </Box>
+  );
 }
 
 export default EnquirySingle;
