@@ -26,8 +26,8 @@ function Listing({
       <Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
         <Box onClick={() => navigateTabs("/admin/listings/enquires")}>
           <SecondaryTab
-            tabname="enquires"
-            num={data.size}
+            tabname="enquiries"
+            num={data?.size}
             icon="fa-arrow-down"
             currentTab={currentTab}
           />
@@ -35,7 +35,7 @@ function Listing({
         <Box onClick={() => navigateTabs("/admin/listings/requests")}>
           <SecondaryTab
             tabname="requests"
-            num={requests.size}
+            num={requests?.size}
             icon="fa-bell"
             currentTab={currentTab}
           />
@@ -43,7 +43,7 @@ function Listing({
         <Box onClick={() => navigateTabs("/admin/listings/listings")}>
           <SecondaryTab
             tabname="listings"
-            num={listings.size}
+            num={listings?.size}
             icon="fa-building"
             currentTab={currentTab}
           />
@@ -91,8 +91,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .data;
     const requests = (await _dataAccess.get(`/api/Admin/requests/list?${url}`))
       .data;
-    const listings = (await _dataAccess.get(`api/Admin/properties/list?${url}`))
-      .data;
+    const listings = (
+      await _dataAccess.get(`/api/Admin/properties/sale/list?${url}`)
+    ).data;
     const propertyTypes = (await _dataAccess.get("/api/Property/types")).data;
     const propertyTitles = (await _dataAccess.get("/api/Property/titles")).data;
 
