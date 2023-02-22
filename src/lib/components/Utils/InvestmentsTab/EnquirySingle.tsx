@@ -69,9 +69,38 @@ function EnquirySingle({
 	const [uploadDoc, { loading:isLoading, data:isDatas , error:isError }] = useOperationMethod(
 		"Propertyupdate"
 	);
-	async function uploadDocument(info: any) {
-		
-
+	async function uploadDocument(info: any, data: PropertyModel) {
+   data.id = property.id;
+    data.name = property.name;
+    data.accountNumber = property.accountNumber;
+    data.address = property.address;
+    data.area = property.area;
+    data.budget = property.budget;
+    data.comment = property.comment;
+    data.isActive = property.isActive;
+    data.isForRent = property.isForRent;
+    data.isForSale = property.isForSale;
+    data.bank = property.bank;
+    data.description = property.description;
+    data.isDraft = property.isDraft;
+    data.isRequest = property.isRequest;
+    data.latitude = property.latitude;
+    data.lga = property.lga;
+    data.longitude = property.longitude;
+    data.mediaFiles = property.mediaFiles;
+    data.numberOfBathrooms = property.numberOfBathrooms;
+    data.numberOfBedrooms = property.numberOfBedrooms;
+    data.price = property.price;
+    data.propertyRequestId = property.propertyRequestId;
+    data.propertyRequestMatchId = property.propertyRequestMatchId;
+    data.propertyTypeId = property.propertyTypeId;
+    data.rentCollectionTypeId = property.rentCollectionTypeId;
+    data.requestId = property.requestId;
+    data.sellMyself = property.sellMyself;
+    data.state = property.state;
+    data.tenantTypeId = property.tenantTypeId;
+    data.title = property.title;
+  
 		try {
 			const result = await (await uploadDoc(undefined, data)).data;
 
@@ -90,11 +119,12 @@ function EnquirySingle({
 			});
 			return;
 		} catch (err) { }
-		
+    setDocuments(info.cdnUrl);
 		console.log(info)
 	}
 	
-	console.log({ property });
+  console.log({ property });
+  
 
 	// console.log({ data });
 
@@ -348,9 +378,10 @@ function EnquirySingle({
 							</Flex>
 							<Widget
 								publicKey="fda3a71102659f95625f"
-								onFileSelect={(info) => uploadDocument(info)}
+								onChange={(info) => uploadDocument(info, property)}
 								inputAcceptTypes={`.docx,.doc.pdf`}
-								systemDialog
+                systemDialog
+                
 								//@ts-ignore
 								ref={widgetApi}
 											/>
