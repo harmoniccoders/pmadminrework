@@ -70,7 +70,7 @@ function EnquirySingle({
 	const [uploadDoc, { loading:isLoading, data:isDatas , error:isError }] = useOperationMethod(
 		"Propertyupdate"
 	);
-  async function uploadDocument( data: PropertyModel) {
+  async function uploadDocument( data: PropertyModel, documents: string) {
    data.id = property.id;
     data.name = property.name;
     data.accountNumber = property.accountNumber;
@@ -103,24 +103,24 @@ function EnquirySingle({
     data.title = property.title;
    data.documentUrl = documents
   
-		// try {
-		// 	const result = await (await uploadDoc(undefined, data)).data;
+		try {
+			const result = await (await uploadDoc(undefined, data)).data;
 
-		// 	console.log({ result });
-		// 	if (result.status) {
-		// 		addToast("Success", {
-		// 			appearance: "success",
-		// 			autoDismiss: true,
-		// 		});
-		// 		// router.reload();
-		// 		return;
-		// 	}
-		// 	addToast(result.message, {
-		// 		appearance: "error",
-		// 		autoDismiss: true,
-		// 	});
-		// 	return;
-		// } catch (err) { }
+			console.log({ result });
+			if (result.status) {
+				addToast("Success", {
+					appearance: "success",
+					autoDismiss: true,
+				});
+			//  router.reload();
+				return;
+			}
+			addToast(result.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+			return;
+		} catch (err) { }
 
     console.log(data)
     
@@ -130,7 +130,7 @@ function EnquirySingle({
     setDocuments(info.cdnUrl) 
     console.log(info)
     console.log(documents)
-    uploadDocument(property)
+    uploadDocument(property, documents)
     
   }
 	

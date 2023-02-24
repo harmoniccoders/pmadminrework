@@ -46,7 +46,7 @@ export default function complaint({ data, types, reports }: any) {
 				</Box>
 				
 			</Flex>
-			<ReportLists data={data} />
+			<ReportLists data={reports} />
 		</Box>
 	);
 }
