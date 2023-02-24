@@ -8,3 +8,4 @@ export type PaymentModel = {
     rentReliefId?: number | null;
     installmentId?: number | null;
 };
+

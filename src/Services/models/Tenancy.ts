@@ -23,4 +23,6 @@ export type Tenancy = {
     rentDueDate?: string;
     statusId?: number;
     status?: Status;
+    agreed?: boolean;
 };
+

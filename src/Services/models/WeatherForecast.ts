@@ -8,3 +8,4 @@ export type WeatherForecast = {
     readonly temperatureF?: number;
     summary?: string | null;
 };
+

@@ -16,3 +16,4 @@ export type ComplaintsViewIEnumerableStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

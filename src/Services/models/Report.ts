@@ -9,7 +9,9 @@ export type Report = {
     dateCreated?: string;
     dateModified?: string;
     propertyId?: number;
-    userId?: number;
+    userId?: number | null;
     user?: User;
-    description?: number;
+    description?: string | null;
+    email?: string | null;
 };
+

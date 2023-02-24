@@ -11,3 +11,4 @@ export type NextOfKinModel = {
     relationship?: string | null;
     address?: string | null;
 };
+

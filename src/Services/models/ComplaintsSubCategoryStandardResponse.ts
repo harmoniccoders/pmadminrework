@@ -16,3 +16,4 @@ export type ComplaintsSubCategoryStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

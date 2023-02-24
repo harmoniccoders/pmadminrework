@@ -15,4 +15,6 @@ export type TenancyView = {
     rentDueDate?: string;
     status?: string | null;
     renewable?: boolean;
+    agreed?: boolean;
 };
+

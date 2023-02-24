@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PagingOptions } from '../models/PagingOptions';
 import type { ReportModel } from '../models/ReportModel';
 import type { ReportViewPagedCollectionStandardResponse } from '../models/ReportViewPagedCollectionStandardResponse';
 import type { ReportViewStandardResponse } from '../models/ReportViewStandardResponse';
@@ -14,13 +13,13 @@ import { request as __request } from '../core/request';
 export class ReportService {
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns StringStandardResponse Success
      * @throws ApiError
      */
     public static createReport(
-requestBody?: ReportModel,
-): CancelablePromise<StringStandardResponse> {
+        requestBody?: ReportModel,
+    ): CancelablePromise<StringStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Report/create',
@@ -30,35 +29,55 @@ requestBody?: ReportModel,
     }
 
     /**
-     * @param requestBody 
+     * @param offset
+     * @param limit
      * @returns ReportViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static getReports(
-requestBody?: PagingOptions,
-): CancelablePromise<ReportViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<ReportViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Report/list',
-            body: requestBody,
-            mediaType: 'application/json-patch+json',
+            query: {
+                'Offset': offset,
+                'Limit': limit,
+            },
         });
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns ReportViewStandardResponse Success
      * @throws ApiError
      */
     public static getReportById(
-id: number,
-): CancelablePromise<ReportViewStandardResponse> {
+        id: number,
+    ): CancelablePromise<ReportViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Report/{id}',
             path: {
                 'id': id,
             },
+        });
+    }
+
+    /**
+     * @param requestBody
+     * @returns StringStandardResponse Success
+     * @throws ApiError
+     */
+    public static contactUs(
+        requestBody?: ReportModel,
+    ): CancelablePromise<StringStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/Report/contact',
+            body: requestBody,
+            mediaType: 'application/json-patch+json',
         });
     }
 

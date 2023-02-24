@@ -6,3 +6,4 @@ export type LandSearchModel = {
     fileName?: string | null;
     fileNumber?: string | null;
 };
+

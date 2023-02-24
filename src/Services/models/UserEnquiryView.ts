@@ -17,3 +17,4 @@ export type UserEnquiryView = {
     dateCreated?: string;
     inspection?: Array<InspectionView> | null;
 };
+

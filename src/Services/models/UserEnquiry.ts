@@ -15,3 +15,4 @@ export type UserEnquiry = {
     property?: Property;
     active?: boolean;
 };
+

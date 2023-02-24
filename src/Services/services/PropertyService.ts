@@ -12,6 +12,7 @@ import type { PropertyModel } from '../models/PropertyModel';
 import type { PropertyTitleIEnumerableStandardResponse } from '../models/PropertyTitleIEnumerableStandardResponse';
 import type { PropertyViewPagedCollectionStandardResponse } from '../models/PropertyViewPagedCollectionStandardResponse';
 import type { PropertyViewStandardResponse } from '../models/PropertyViewStandardResponse';
+import type { ReceiptViewStandardResponse } from '../models/ReceiptViewStandardResponse';
 import type { RentCollectionTypeIEnumerableStandardResponse } from '../models/RentCollectionTypeIEnumerableStandardResponse';
 import type { StringStandardResponse } from '../models/StringStandardResponse';
 import type { TenantTypeIEnumerableStandardResponse } from '../models/TenantTypeIEnumerableStandardResponse';
@@ -23,13 +24,13 @@ import { request as __request } from '../core/request';
 export class PropertyService {
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static createProperty(
-requestBody?: PropertyModel,
-): CancelablePromise<PropertyViewStandardResponse> {
+        requestBody?: PropertyModel,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Property/create',
@@ -39,19 +40,19 @@ requestBody?: PropertyModel,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
-     * @param filter 
+     * @param offset
+     * @param limit
+     * @param search
+     * @param filter
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static listAllProperties(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-filter?: string | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+        filter?: string | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/list',
@@ -65,35 +66,35 @@ filter?: string | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
-     * @param residential 
-     * @param commercial 
-     * @param mixed 
-     * @param bungalow 
-     * @param flat 
-     * @param duplex 
-     * @param terrace 
-     * @param bathrooms 
-     * @param bedrooms 
+     * @param offset
+     * @param limit
+     * @param search
+     * @param residential
+     * @param commercial
+     * @param mixed
+     * @param bungalow
+     * @param flat
+     * @param duplex
+     * @param terrace
+     * @param bathrooms
+     * @param bedrooms
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static listAllPropertiesForSale(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-residential?: boolean | null,
-commercial?: boolean | null,
-mixed?: boolean | null,
-bungalow?: boolean | null,
-flat?: boolean | null,
-duplex?: boolean | null,
-terrace?: boolean | null,
-bathrooms?: number | null,
-bedrooms?: number | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+        residential?: boolean | null,
+        commercial?: boolean | null,
+        mixed?: boolean | null,
+        bungalow?: boolean | null,
+        flat?: boolean | null,
+        duplex?: boolean | null,
+        terrace?: boolean | null,
+        bathrooms?: number | null,
+        bedrooms?: number | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/list/sales',
@@ -115,35 +116,35 @@ bedrooms?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
-     * @param residential 
-     * @param commercial 
-     * @param mixed 
-     * @param bungalow 
-     * @param flat 
-     * @param duplex 
-     * @param terrace 
-     * @param bathrooms 
-     * @param bedrooms 
+     * @param offset
+     * @param limit
+     * @param search
+     * @param residential
+     * @param commercial
+     * @param mixed
+     * @param bungalow
+     * @param flat
+     * @param duplex
+     * @param terrace
+     * @param bathrooms
+     * @param bedrooms
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static listAllPropertiesForRent(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-residential?: boolean | null,
-commercial?: boolean | null,
-mixed?: boolean | null,
-bungalow?: boolean | null,
-flat?: boolean | null,
-duplex?: boolean | null,
-terrace?: boolean | null,
-bathrooms?: number | null,
-bedrooms?: number | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+        residential?: boolean | null,
+        commercial?: boolean | null,
+        mixed?: boolean | null,
+        bungalow?: boolean | null,
+        flat?: boolean | null,
+        duplex?: boolean | null,
+        terrace?: boolean | null,
+        bathrooms?: number | null,
+        bedrooms?: number | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/list/rent',
@@ -165,13 +166,13 @@ bedrooms?: number | null,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static get(
-id: number,
-): CancelablePromise<PropertyViewStandardResponse> {
+        id: number,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/get/{Id}',
@@ -204,15 +205,15 @@ id: number,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns PropertyViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listMyProperties(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<PropertyViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<PropertyViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/user/created',
@@ -224,15 +225,15 @@ limit?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns PropertyViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listMyPropertiesForSale(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<PropertyViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<PropertyViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/user/created/sale',
@@ -244,15 +245,15 @@ limit?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static listMyPropertiesForRent(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/user/created/rent',
@@ -264,15 +265,15 @@ limit?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static listMyDrafts(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/user/drafts',
@@ -284,13 +285,13 @@ limit?: number | null,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns any Success
      * @throws ApiError
      */
     public static deleteProperty(
-id: number,
-): CancelablePromise<any> {
+        id: number,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/delete/{id}',
@@ -301,13 +302,13 @@ id: number,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns BooleanStandardResponse Success
      * @throws ApiError
      */
     public static deActivate(
-id: number,
-): CancelablePromise<BooleanStandardResponse> {
+        id: number,
+    ): CancelablePromise<BooleanStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/deactivate/{id}',
@@ -318,13 +319,13 @@ id: number,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static incrementViews(
-id: number,
-): CancelablePromise<PropertyViewStandardResponse> {
+        id: number,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/addview/{Id}',
@@ -335,13 +336,13 @@ id: number,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static incrementEnquiries(
-id: number,
-): CancelablePromise<PropertyViewStandardResponse> {
+        id: number,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/addenquiries/{Id}',
@@ -352,13 +353,13 @@ id: number,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns InspectionDateViewStandardResponse Success
      * @throws ApiError
      */
     public static createInspectionDate(
-requestBody?: InspectionDateModel,
-): CancelablePromise<InspectionDateViewStandardResponse> {
+        requestBody?: InspectionDateModel,
+    ): CancelablePromise<InspectionDateViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Property/inspectiondates/create',
@@ -368,13 +369,13 @@ requestBody?: InspectionDateModel,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns BooleanStandardResponse Success
      * @throws ApiError
      */
     public static deleteInspectionDate(
-id: number,
-): CancelablePromise<BooleanStandardResponse> {
+        id: number,
+    ): CancelablePromise<BooleanStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/inspectiondates/delete/{id}',
@@ -385,13 +386,13 @@ id: number,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns InspectionDateViewStandardResponse Success
      * @throws ApiError
      */
     public static createInspectionTime(
-requestBody?: InspectionTimeModel,
-): CancelablePromise<InspectionDateViewStandardResponse> {
+        requestBody?: InspectionTimeModel,
+    ): CancelablePromise<InspectionDateViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Property/inspectiontime/create',
@@ -401,13 +402,13 @@ requestBody?: InspectionTimeModel,
     }
 
     /**
-     * @param propertyId 
+     * @param propertyId
      * @returns InspectionDateViewIEnumerableStandardResponse Success
      * @throws ApiError
      */
     public static listInspectionDates(
-propertyId: number,
-): CancelablePromise<InspectionDateViewIEnumerableStandardResponse> {
+        propertyId: number,
+    ): CancelablePromise<InspectionDateViewIEnumerableStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/inspectiondates/list/{PropertyId}',
@@ -418,13 +419,13 @@ propertyId: number,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static updateProperty(
-requestBody?: PropertyModel,
-): CancelablePromise<PropertyViewStandardResponse> {
+        requestBody?: PropertyModel,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Property/update',
@@ -456,13 +457,13 @@ requestBody?: PropertyModel,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns BooleanStandardResponse Success
      * @throws ApiError
      */
     public static scheduleInspection(
-requestBody?: InspectionModel,
-): CancelablePromise<BooleanStandardResponse> {
+        requestBody?: InspectionModel,
+    ): CancelablePromise<BooleanStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Property/inspections/schedule',
@@ -472,13 +473,13 @@ requestBody?: InspectionModel,
     }
 
     /**
-     * @param propertyId 
+     * @param propertyId
      * @returns BooleanStandardResponse Success
      * @throws ApiError
      */
     public static cancelEnquiry(
-propertyId: number,
-): CancelablePromise<BooleanStandardResponse> {
+        propertyId: number,
+    ): CancelablePromise<BooleanStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Property/enquiry/cancel/{propertyId}',
@@ -489,13 +490,13 @@ propertyId: number,
     }
 
     /**
-     * @param propertyId 
+     * @param propertyId
      * @returns InspectionViewStandardResponse Success
      * @throws ApiError
      */
     public static getInspection(
-propertyId: number,
-): CancelablePromise<InspectionViewStandardResponse> {
+        propertyId: number,
+    ): CancelablePromise<InspectionViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/inspections/user/property/{propertyId}',
@@ -506,13 +507,13 @@ propertyId: number,
     }
 
     /**
-     * @param propertyId 
-     * @returns StringStandardResponse Success
+     * @param propertyId
+     * @returns ReceiptViewStandardResponse Success
      * @throws ApiError
      */
     public static getReceipt(
-propertyId: number,
-): CancelablePromise<StringStandardResponse> {
+        propertyId: number,
+    ): CancelablePromise<ReceiptViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/property/receipt/{propertyId}',
@@ -523,13 +524,13 @@ propertyId: number,
     }
 
     /**
-     * @param propertyId 
+     * @param propertyId
      * @returns StringStandardResponse Success
      * @throws ApiError
      */
     public static getAgreement(
-propertyId: number,
-): CancelablePromise<StringStandardResponse> {
+        propertyId: number,
+    ): CancelablePromise<StringStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Property/property/agreement/{propertyId}',

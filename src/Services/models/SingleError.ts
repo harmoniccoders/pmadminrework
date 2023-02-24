@@ -9,3 +9,4 @@ export type SingleError = {
     locationType?: string | null;
     location?: string | null;
 };
+

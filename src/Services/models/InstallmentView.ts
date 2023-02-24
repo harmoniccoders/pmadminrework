@@ -9,3 +9,4 @@ export type InstallmentView = {
     status?: string | null;
     paidOn?: string;
 };
+

@@ -64,12 +64,13 @@ function EnquirySingle({
   console.log({ application });
 
 	const widgetApi = useRef<any>();
-	const [documents, setDocuments] = useState<any>();
+  const [documents, setDocuments] = useState<any>();
+  console.log(documents)
 
 	const [uploadDoc, { loading:isLoading, data:isDatas , error:isError }] = useOperationMethod(
 		"Propertyupdate"
 	);
-	async function uploadDocument(info: any, data: PropertyModel) {
+  async function uploadDocument( data: PropertyModel) {
    data.id = property.id;
     data.name = property.name;
     data.accountNumber = property.accountNumber;
@@ -100,28 +101,38 @@ function EnquirySingle({
     data.state = property.state;
     data.tenantTypeId = property.tenantTypeId;
     data.title = property.title;
+   data.documentUrl = documents
   
-		try {
-			const result = await (await uploadDoc(undefined, data)).data;
+		// try {
+		// 	const result = await (await uploadDoc(undefined, data)).data;
 
-			console.log({ result });
-			if (result.status) {
-				addToast("Success", {
-					appearance: "success",
-					autoDismiss: true,
-				});
-				router.reload();
-				return;
-			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-			return;
-		} catch (err) { }
-    setDocuments(info.cdnUrl);
-		console.log(info)
-	}
+		// 	console.log({ result });
+		// 	if (result.status) {
+		// 		addToast("Success", {
+		// 			appearance: "success",
+		// 			autoDismiss: true,
+		// 		});
+		// 		// router.reload();
+		// 		return;
+		// 	}
+		// 	addToast(result.message, {
+		// 		appearance: "error",
+		// 		autoDismiss: true,
+		// 	});
+		// 	return;
+		// } catch (err) { }
+
+    console.log(data)
+    
+	
+  }
+  const initializeDocuments = async (info: any) => { 
+    setDocuments(info.cdnUrl) 
+    console.log(info)
+    console.log(documents)
+    uploadDocument(property)
+    
+  }
 	
   console.log({ property });
   
@@ -183,7 +194,7 @@ function EnquirySingle({
       });
       return;
     } catch (err) {}
-  };
+  }
 
   function ListItem({ d }: any) {
     const [deleteInsp, { loading: isLoading, data: dataL, error: errorL }] =
@@ -378,7 +389,7 @@ function EnquirySingle({
 							</Flex>
 							<Widget
 								publicKey="fda3a71102659f95625f"
-								onChange={(info) => uploadDocument(info, property)}
+								onChange={(info) => initializeDocuments(info)}
 								inputAcceptTypes={`.docx,.doc.pdf`}
                 systemDialog
                 

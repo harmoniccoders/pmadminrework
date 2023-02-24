@@ -9,3 +9,4 @@ export type InspectionDateView = {
     date?: string;
     times?: Array<InspectionTimeView> | null;
 };
+

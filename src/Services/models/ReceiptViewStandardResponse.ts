@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { UserViewPagedCollection } from './UserViewPagedCollection';
+import type { ReceiptView } from './ReceiptView';
 
-export type UserViewPagedCollectionStandardResponse = {
+export type ReceiptViewStandardResponse = {
     href?: string | null;
     relations?: Array<string> | null;
     method?: string | null;
@@ -12,7 +12,7 @@ export type UserViewPagedCollectionStandardResponse = {
     routeValues?: any;
     status?: boolean;
     message?: string | null;
-    data?: UserViewPagedCollection;
+    data?: ReceiptView;
     statusCode?: string | null;
     errors?: any;
 };

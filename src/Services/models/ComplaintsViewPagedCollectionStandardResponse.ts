@@ -16,3 +16,4 @@ export type ComplaintsViewPagedCollectionStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

@@ -27,13 +27,13 @@ import { request as __request } from '../core/request';
 export class AdminService {
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static authenticate(
-requestBody?: LoginModel,
-): CancelablePromise<UserViewStandardResponse> {
+        requestBody?: LoginModel,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Admin/token',
@@ -43,13 +43,13 @@ requestBody?: LoginModel,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static create(
-requestBody?: Register,
-): CancelablePromise<UserViewStandardResponse> {
+        requestBody?: Register,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Admin/create',
@@ -59,17 +59,17 @@ requestBody?: Register,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
+     * @param offset
+     * @param limit
+     * @param search
      * @returns UserViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listAdmins(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-): CancelablePromise<UserViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+    ): CancelablePromise<UserViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/list',
@@ -82,13 +82,13 @@ search?: string | null,
     }
 
     /**
-     * @param userId 
+     * @param userId
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static getUser(
-userId: number,
-): CancelablePromise<UserViewStandardResponse> {
+        userId: number,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/user/{userId}',
@@ -110,13 +110,13 @@ userId: number,
     }
 
     /**
-     * @param email 
+     * @param email
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static deleteUser(
-email: string | null,
-): CancelablePromise<UserViewStandardResponse> {
+        email: string | null,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/delete/{email}',
@@ -127,13 +127,13 @@ email: string | null,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static createNewProperty(
-requestBody?: PropertyModel,
-): CancelablePromise<PropertyViewStandardResponse> {
+        requestBody?: PropertyModel,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Admin/property/create',
@@ -143,15 +143,15 @@ requestBody?: PropertyModel,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns PropertyRequestViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listAllRequests(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<PropertyRequestViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<PropertyRequestViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/requests/list',
@@ -163,13 +163,13 @@ limit?: number | null,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns PropertyRequestViewStandardResponse Success
      * @throws ApiError
      */
     public static getRequest(
-id: number,
-): CancelablePromise<PropertyRequestViewStandardResponse> {
+        id: number,
+    ): CancelablePromise<PropertyRequestViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/requests/get/{Id}',
@@ -180,19 +180,19 @@ id: number,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
-     * @param filter 
+     * @param offset
+     * @param limit
+     * @param search
+     * @param filter
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static listProperties(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-filter?: string | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+        filter?: string | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/properties/list',
@@ -206,17 +206,69 @@ filter?: string | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
+     * @param offset
+     * @param limit
+     * @param search
+     * @param filter
+     * @returns PropertyViewStandardResponse Success
+     * @throws ApiError
+     */
+    public static listRentProperties(
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+        filter?: string | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/Admin/properties/rent/list',
+            query: {
+                'Offset': offset,
+                'Limit': limit,
+                'search': search,
+                'filter': filter,
+            },
+        });
+    }
+
+    /**
+     * @param offset
+     * @param limit
+     * @param search
+     * @param filter
+     * @returns PropertyViewStandardResponse Success
+     * @throws ApiError
+     */
+    public static listSaleProperties(
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+        filter?: string | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/Admin/properties/sale/list',
+            query: {
+                'Offset': offset,
+                'Limit': limit,
+                'search': search,
+                'filter': filter,
+            },
+        });
+    }
+
+    /**
+     * @param offset
+     * @param limit
+     * @param search
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static listPropertiesForRentPending(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/properties/list/rent/pending',
@@ -229,19 +281,19 @@ search?: string | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
-     * @param filter 
+     * @param offset
+     * @param limit
+     * @param search
+     * @param filter
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static listPropertiesRentApproved(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-filter?: string | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+        filter?: string | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/properties/list/rent',
@@ -255,13 +307,13 @@ filter?: string | null,
     }
 
     /**
-     * @param propertyId 
+     * @param propertyId
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static approveProperty(
-propertyId: number,
-): CancelablePromise<PropertyViewStandardResponse> {
+        propertyId: number,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/property/approve/{propertyId}',
@@ -272,15 +324,15 @@ propertyId: number,
     }
 
     /**
-     * @param propertyId 
-     * @param reason 
+     * @param propertyId
+     * @param reason
      * @returns PropertyViewStandardResponse Success
      * @throws ApiError
      */
     public static rejectProperty(
-propertyId: number,
-reason: string | null,
-): CancelablePromise<PropertyViewStandardResponse> {
+        propertyId: number,
+        reason: string | null,
+    ): CancelablePromise<PropertyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/property/reject/{propertyId}/{reason}',
@@ -292,15 +344,15 @@ reason: string | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns CleaningViewPagedCollection Success
      * @throws ApiError
      */
     public static listAllCleanRequests(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<CleaningViewPagedCollection> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<CleaningViewPagedCollection> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/clean/requests/list',
@@ -312,13 +364,13 @@ limit?: number | null,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns CleaningView Success
      * @throws ApiError
      */
     public static getCleanRequest(
-id: number,
-): CancelablePromise<CleaningView> {
+        id: number,
+    ): CancelablePromise<CleaningView> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/clean/requests/get/{Id}',
@@ -329,15 +381,15 @@ id: number,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns CleaningViewPagedCollection Success
      * @throws ApiError
      */
     public static listAllLandRequests(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<CleaningViewPagedCollection> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<CleaningViewPagedCollection> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/land/requests/list',
@@ -349,13 +401,13 @@ limit?: number | null,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns CleaningQuoteViewStandardResponse Success
      * @throws ApiError
      */
     public static addQuoteForCleanRequest(
-requestBody?: CleaningQuoteModel,
-): CancelablePromise<CleaningQuoteViewStandardResponse> {
+        requestBody?: CleaningQuoteModel,
+    ): CancelablePromise<CleaningQuoteViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Admin/clean/quote',
@@ -365,17 +417,17 @@ requestBody?: CleaningQuoteModel,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
+     * @param offset
+     * @param limit
+     * @param search
      * @returns TransactionPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listTransactions(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-): CancelablePromise<TransactionPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+    ): CancelablePromise<TransactionPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/transactions/list',
@@ -388,15 +440,15 @@ search?: string | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns UserEnquiryViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listAllEnquiries(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<UserEnquiryViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<UserEnquiryViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/enquiries/list',
@@ -408,13 +460,13 @@ limit?: number | null,
     }
 
     /**
-     * @param enquiryId 
+     * @param enquiryId
      * @returns UserEnquiryViewStandardResponse Success
      * @throws ApiError
      */
     public static getEnquiry(
-enquiryId: number,
-): CancelablePromise<UserEnquiryViewStandardResponse> {
+        enquiryId: number,
+    ): CancelablePromise<UserEnquiryViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/enquiries/get/{enquiryId}',
@@ -425,15 +477,15 @@ enquiryId: number,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns ApplicationViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listReliefApplications(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/applications/reliefs/pending',
@@ -445,15 +497,15 @@ limit?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns ApplicationViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listAcceptedReliefApplications(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/applications/reliefs/accepted',
@@ -465,15 +517,15 @@ limit?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns ApplicationViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listReviewedReliefApplications(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/applications/reliefs/reviewed',
@@ -485,15 +537,15 @@ limit?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns ApplicationViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listApprovedReliefApplications(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/applications/reliefs/approved',
@@ -505,15 +557,15 @@ limit?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns ApplicationViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listRentApplications(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<ApplicationViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/applications/rent',
@@ -525,15 +577,15 @@ limit?: number | null,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns TenancyViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listTenancies(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<TenancyViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<TenancyViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Admin/tenancies',

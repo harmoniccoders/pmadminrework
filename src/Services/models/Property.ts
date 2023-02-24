@@ -55,4 +55,6 @@ export type Property = {
     rentCollectionType?: RentCollectionType;
     rentCollectionTypeId?: number | null;
     inspections?: Array<Inspections> | null;
+    documentUrl?: string | null;
 };
+

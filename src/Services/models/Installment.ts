@@ -17,3 +17,4 @@ export type Installment = {
     rentRelief?: RentRelief;
     paidOn?: string;
 };
+

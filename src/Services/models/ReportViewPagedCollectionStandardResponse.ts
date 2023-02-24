@@ -16,3 +16,4 @@ export type ReportViewPagedCollectionStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

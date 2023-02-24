@@ -11,13 +11,13 @@ import { request as __request } from '../core/request';
 export class MediaService {
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns MediaViewStandardResponse Success
      * @throws ApiError
      */
     public static upload(
-requestBody?: MediaModel,
-): CancelablePromise<MediaViewStandardResponse> {
+        requestBody?: MediaModel,
+    ): CancelablePromise<MediaViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Media/upload',
@@ -27,13 +27,13 @@ requestBody?: MediaModel,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns MediaViewStandardResponse Success
      * @throws ApiError
      */
     public static deleteMedia(
-id: number,
-): CancelablePromise<MediaViewStandardResponse> {
+        id: number,
+    ): CancelablePromise<MediaViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Media/delete/{id}',

@@ -11,3 +11,4 @@ export type PropertyRequestInput = {
     numberOfBedRooms?: number;
     numberOfBathrooms?: number;
 };
+

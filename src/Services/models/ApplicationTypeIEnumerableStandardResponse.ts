@@ -16,3 +16,4 @@ export type ApplicationTypeIEnumerableStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

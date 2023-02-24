@@ -28,3 +28,4 @@ export type UserView = {
     bank?: string | null;
     accountNumber?: string | null;
 };
+

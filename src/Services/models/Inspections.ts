@@ -20,3 +20,4 @@ export type Inspections = {
     user?: User;
     property?: Property;
 };
+

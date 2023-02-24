@@ -16,3 +16,4 @@ export type UserViewPagedCollection = {
     self?: Link;
     value?: Array<UserView> | null;
 };
+

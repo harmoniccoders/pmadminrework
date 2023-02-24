@@ -24,3 +24,4 @@ export type Register = {
     passportPhotograph?: MediaModel;
     workId?: MediaModel;
 };
+

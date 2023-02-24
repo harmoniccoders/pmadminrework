@@ -12,3 +12,4 @@ export type MediaModel = {
     isDocument?: boolean;
     url?: string | null;
 };
+

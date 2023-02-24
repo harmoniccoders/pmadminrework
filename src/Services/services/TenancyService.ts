@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { BooleanStandardResponse } from '../models/BooleanStandardResponse';
 import type { StringStandardResponse } from '../models/StringStandardResponse';
 import type { TenancyViewIEnumerableStandardResponse } from '../models/TenancyViewIEnumerableStandardResponse';
 import type { TenancyViewStandardResponse } from '../models/TenancyViewStandardResponse';
@@ -34,13 +35,13 @@ export class TenancyService {
     }
 
     /**
-     * @param tenancyId 
+     * @param tenancyId
      * @returns StringStandardResponse Success
      * @throws ApiError
      */
     public static getTenancyAgreement(
-tenancyId: number,
-): CancelablePromise<StringStandardResponse> {
+        tenancyId: number,
+    ): CancelablePromise<StringStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Tenancy/agreemet/{tenancyId}',
@@ -51,16 +52,33 @@ tenancyId: number,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns TenancyViewStandardResponse Success
      * @throws ApiError
      */
     public static toggleRenewability(
-id: number,
-): CancelablePromise<TenancyViewStandardResponse> {
+        id: number,
+    ): CancelablePromise<TenancyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Tenancy/renewable/toggle/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param id
+     * @returns BooleanStandardResponse Success
+     * @throws ApiError
+     */
+    public static updateTenancyAgreement(
+        id: number,
+    ): CancelablePromise<BooleanStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/Tenancy/agreement/update/{id}',
             path: {
                 'id': id,
             },

@@ -16,3 +16,4 @@ export type TenantTypeIEnumerableStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

@@ -29,3 +29,4 @@ export type PaymentLog = {
     cardId?: number;
     card?: Card;
 };
+
