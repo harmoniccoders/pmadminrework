@@ -40,8 +40,6 @@ import {
 } from "Services";
 import { Widget } from "@uploadcare/react-widget";
 
-
-
 const moment = require("moment");
 
 interface Eprops {
@@ -63,81 +61,45 @@ function EnquirySingle({
 }: Eprops) {
   console.log({ application });
 
-	const widgetApi = useRef<any>();
-  const [documents, setDocuments] = useState<any>();
-  console.log(documents)
+  const widgetApi = useRef<any>();
 
-	const [uploadDoc, { loading:isLoading, data:isDatas , error:isError }] = useOperationMethod(
-		"Propertyupdate"
-	);
-  async function uploadDocument( data: PropertyModel) {
-   data.id = property.id;
-    data.name = property.name;
-    data.accountNumber = property.accountNumber;
-    data.address = property.address;
-    data.area = property.area;
-    data.budget = property.budget;
-    data.comment = property.comment;
-    data.isActive = property.isActive;
-    data.isForRent = property.isForRent;
-    data.isForSale = property.isForSale;
-    data.bank = property.bank;
-    data.description = property.description;
-    data.isDraft = property.isDraft;
-    data.isRequest = property.isRequest;
-    data.latitude = property.latitude;
-    data.lga = property.lga;
-    data.longitude = property.longitude;
-    data.mediaFiles = property.mediaFiles;
-    data.numberOfBathrooms = property.numberOfBathrooms;
-    data.numberOfBedrooms = property.numberOfBedrooms;
-    data.price = property.price;
-    data.propertyRequestId = property.propertyRequestId;
-    data.propertyRequestMatchId = property.propertyRequestMatchId;
-    data.propertyTypeId = property.propertyTypeId;
-    data.rentCollectionTypeId = property.rentCollectionTypeId;
-    data.requestId = property.requestId;
-    data.sellMyself = property.sellMyself;
-    data.state = property.state;
-    data.tenantTypeId = property.tenantTypeId;
-    data.title = property.title;
-   data.documentUrl = documents
-  
-		// try {
-		// 	const result = await (await uploadDoc(undefined, data)).data;
+  const [uploadDoc, { loading: isLoading, data: isDatas, error: isError }] =
+    useOperationMethod("Propertyupdate");
+  async function uploadDocument(data: PropertyModel, documents: string) {
+    data.documentUrl = documents;
+    console.log({ data });
 
-		// 	console.log({ result });
-		// 	if (result.status) {
-		// 		addToast("Success", {
-		// 			appearance: "success",
-		// 			autoDismiss: true,
-		// 		});
-		// 		// router.reload();
-		// 		return;
-		// 	}
-		// 	addToast(result.message, {
-		// 		appearance: "error",
-		// 		autoDismiss: true,
-		// 	});
-		// 	return;
-		// } catch (err) { }
+    try {
+      const result = await (await uploadDoc(undefined, data)).data;
 
-    console.log(data)
-    
-	
+      console.log({ result });
+      if (result.status) {
+        addToast("Success", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        router.reload();
+        return;
+      }
+      addToast(result.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    } catch (err: any) {
+      addToast(err?.body?.message || err.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
   }
-  const initializeDocuments = async (info: any) => { 
-    setDocuments(info.cdnUrl) 
-    console.log(info)
-    console.log(documents)
-    uploadDocument(property)
-    
-  }
-	
+  const initializeDocuments = async (info: any) => {
+    uploadDocument(property, info.cdnUrl);
+  };
+
   console.log({ property });
-  
 
-	// console.log({ data });
+  // console.log({ data });
 
   const {
     register,
@@ -194,7 +156,7 @@ function EnquirySingle({
       });
       return;
     } catch (err) {}
-  }
+  };
 
   function ListItem({ d }: any) {
     const [deleteInsp, { loading: isLoading, data: dataL, error: errorL }] =
@@ -244,7 +206,6 @@ function EnquirySingle({
       </Button>
     );
   }
-
 
   function TimeItem({ d, t }: any) {
     const [addTime, { loading: isLoaded }] = useOperationMethod(
@@ -315,107 +276,105 @@ function EnquirySingle({
     );
   }
 
-	return (
-		<Box bgColor="white" p="1rem" minH="80vh">
-			<Flex align="center" my="1rem" cursor="pointer" onClick={goBack}>
-				<FaChevronLeft fontSize="20px" />
-				<Text
-					fontSize="24px"
-					fontWeight="bold"
-					pl="1rem"
-					mb="0 !important"
-					textTransform="capitalize"
-				>
-					{property?.name}
-				</Text>
-			</Flex>
-			<HStack spacing={8} align="flex-start">
-				<Flex w="65%" justify="space-between" mt="0.5rem">
-					<VStack spacing="1rem" alignItems="flex-start">
-						<NameTag title="User" name={user?.fullName as string} />
-						<NameTag
-							title="Status"
-							name={data.active ? "Active" : "Inactive"}
-						/>
-						<NameTag title="State" name={property?.state as string} />
-						<NameTag title="Locality" name={property?.lga as string} />
-						<NameTag title="Area" name={property?.area as string} />
-						<NameTag
-							title="Inspection"
-							name={
-								data.inspection?.length > 0
-									? moment(
-											data.inspection[data.inspection.length - 1].date
-									  ).format("DD/MM/YY - LT")
-									: "-"
-							}
-						/>
-						<NameTag
-							title="Date Applied"
-							name={moment(data.dateCreated).format("DD/MM/YY - LT")}
-						/>
-					</VStack>
-					<VStack spacing="1.5rem" alignItems="flex-start">
-						<Box w="180px" onClick={openModal}>
-							<Flex
-								as="button"
-								w="full"
-								h="2.3rem"
-								borderRadius="3px"
-								border="2px solid rgba(25,25,25,1)"
-								align="center"
-								justify="center"
-								fontSize="14.5px"
-								fontWeight="bold"
-							>
-								View Property
-							</Flex>
-						</Box>
-						<Box w="180px"  >
-							<Flex
-							
-								as="button"
-								w="full"
-								h="2.3rem"
-								borderRadius="3px"
-								border="2px solid rgba(25,25,25,1)"
-								align="center"
-								justify="center"
-								fontSize="14.5px"
-								fontWeight="bold"
-								onClick={()=>widgetApi.current.openDialog()}
-							>
-								Upload Documents
-							</Flex>
-							<Widget
-								publicKey="fda3a71102659f95625f"
-								onChange={(info) => initializeDocuments(info)}
-								inputAcceptTypes={`.docx,.doc.pdf`}
+  return (
+    <Box bgColor="white" p="1rem" minH="80vh">
+      <Flex align="center" my="1rem" cursor="pointer" onClick={goBack}>
+        <FaChevronLeft fontSize="20px" />
+        <Text
+          fontSize="24px"
+          fontWeight="bold"
+          pl="1rem"
+          mb="0 !important"
+          textTransform="capitalize"
+        >
+          {property?.name}
+        </Text>
+      </Flex>
+      <HStack spacing={8} align="flex-start">
+        <Flex w="65%" justify="space-between" mt="0.5rem">
+          <VStack spacing="1rem" alignItems="flex-start">
+            <NameTag title="User" name={user?.fullName as string} />
+            <NameTag
+              title="Status"
+              name={data.active ? "Active" : "Inactive"}
+            />
+            <NameTag title="State" name={property?.state as string} />
+            <NameTag title="Locality" name={property?.lga as string} />
+            <NameTag title="Area" name={property?.area as string} />
+            <NameTag
+              title="Inspection"
+              name={
+                data.inspection?.length > 0
+                  ? moment(
+                      data.inspection[data.inspection.length - 1].date
+                    ).format("DD/MM/YY - LT")
+                  : "-"
+              }
+            />
+            <NameTag
+              title="Date Applied"
+              name={moment(data.dateCreated).format("DD/MM/YY - LT")}
+            />
+          </VStack>
+          <VStack spacing="1.5rem" alignItems="flex-start">
+            <Box w="180px" onClick={openModal}>
+              <Flex
+                as="button"
+                w="full"
+                h="2.3rem"
+                borderRadius="3px"
+                border="2px solid rgba(25,25,25,1)"
+                align="center"
+                justify="center"
+                fontSize="14.5px"
+                fontWeight="bold"
+              >
+                View Property
+              </Flex>
+            </Box>
+            <Box w="180px">
+              <Flex
+                as="button"
+                w="full"
+                h="2.3rem"
+                borderRadius="3px"
+                border="2px solid rgba(25,25,25,1)"
+                align="center"
+                justify="center"
+                fontSize="14.5px"
+                fontWeight="bold"
+                onClick={() => widgetApi.current.openDialog()}
+              >
+                Upload Documents
+              </Flex>
+              <Widget
+                publicKey="fda3a71102659f95625f"
+                onChange={(info) => initializeDocuments(info)}
+                inputAcceptTypes={`.docx,.doc.pdf`}
                 systemDialog
-                
-								//@ts-ignore
-								ref={widgetApi}
-											/>
-						</Box>
-						<Box w="180px" onClick={onOpen}>
-							<Flex
-								as="button"
-								w="full"
-								h="2.3rem"
-								borderRadius="3px"
-								border="2px solid rgba(25,25,25,1)"
-								align="center"
-								justify="center"
-								fontSize="14.5px"
-								fontWeight="bold"
-							>
-								View Application Form
-							</Flex>
-						</Box>
-					</VStack>
-				</Flex>
-				<Box w="35%">
-					{/* <Calendar value={new Date(data.dateCreated)} />
+                //@ts-ignore
+                ref={widgetApi}
+              />
+            </Box>
+            <Box w="180px" onClick={onOpen}>
+              <Flex
+                as="button"
+                w="full"
+                h="2.3rem"
+                borderRadius="3px"
+                border="2px solid rgba(25,25,25,1)"
+                align="center"
+                justify="center"
+                fontSize="14.5px"
+                fontWeight="bold"
+              >
+                View Application Form
+              </Flex>
+            </Box>
+          </VStack>
+        </Flex>
+        <Box w="35%">
+          {/* <Calendar value={new Date(data.dateCreated)} />
 					<TimeDisplay data={data} /> */}
           <Flex justify="space-between" align="center">
             <Text fontWeight="600" fontSize="1.2rem">

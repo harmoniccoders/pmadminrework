@@ -33,6 +33,7 @@ export function TableHead({ title }: { title: string }) {
 }
 
 export function TableData({ name }: { name: string }) {
+  // console.log(name);
   return (
     <Tooltip label={name} placement="top" hasArrow>
       <Td
@@ -46,7 +47,7 @@ export function TableData({ name }: { name: string }) {
         //   overflow="hidden"
         // textOverflow="ellipsis"
       >
-        {name ? name.substring(0, 20) : "N/A"}
+        {name ? name?.toString().substring(0, 20) : "N/A"}
       </Td>
     </Tooltip>
   );
