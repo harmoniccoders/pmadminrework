@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		
 	  return {
 		props: {
-		  admins: JSON.stringify(error),
+		  admins: [],
 		},
 	  };
 	}
