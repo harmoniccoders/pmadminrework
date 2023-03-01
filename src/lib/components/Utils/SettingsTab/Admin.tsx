@@ -9,14 +9,20 @@ import {
 	InputLeftElement,
 	Text,
 } from "@chakra-ui/react";
+import {useEffect} from 'react';
 import AddNewAdmin from "lib/components/Modals/AddNewAdmin";
 import Tab from "lib/components/Utilities/Tab";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import AdminProfile from "./AdminProfile";
 import { useRouter } from "next/router";
+import  {AdminlistResponse} from "types/api";
+import { AdminService, UserView } from "Services";
+import { DataAccess } from "lib/Utils/Api";
+import { GetServerSideProps } from "next";
+import { returnUserData } from "lib/components/Utilities/UserData";
 
-function Admin() {
+function Admin({admins}: any) {
 	const [currentTab, setCurrentTab] = useState("profile");
 	const router = useRouter();
 	const navigateTabs = (tabname: string) => {
@@ -53,6 +59,8 @@ function Admin() {
 						}}
 					/>
 				</InputGroup>
+				{/* {JSON.stringify(admins)} */}
+				{admins?.map((data: any, i:any)=>(
 				<Flex
 					borderTop="1px solid rgba(36,68,115,0.3)"
 					h="40px"
@@ -61,7 +69,8 @@ function Admin() {
 					alignItems="center"
 					transition="all .2s ease"
 					_hover={{ bgColor: "black" }}
-				>
+					// key={i}
+				>	
 					<Text
 						color="black"
 						fontSize="14px"
@@ -69,28 +78,11 @@ function Admin() {
 						pl="1.2rem"
 						_groupHover={{ color: "white" }}
 					>
-						Pade Omotosho
+						 {data.firstName}
 					</Text>
+					
 				</Flex>
-				<Flex
-					borderTop="1px solid rgba(36,68,115,0.3)"
-					h="40px"
-					role="group"
-					cursor="pointer"
-					alignItems="center"
-					transition="all .2s ease"
-					_hover={{ bgColor: "black" }}
-				>
-					<Text
-						color="black"
-						fontSize="14px"
-						fontWeight="bold"
-						pl="1.2rem"
-						_groupHover={{ color: "white" }}
-					>
-						Pade Omotosho
-					</Text>
-				</Flex>
+				 ))}
 			</Box>
 			<Box w="80%" bgColor="white" p="1.5rem" minH="90vh">
 				<Flex alignItems="center" fontWeight="bold" justify="space-between">
@@ -123,5 +115,4 @@ function Admin() {
 		</HStack>
 	);
 }
-
-export default Admin;
+  export default Admin;
