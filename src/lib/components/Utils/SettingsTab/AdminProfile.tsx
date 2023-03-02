@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useOperationMethod } from "react-openapi-client";
 import { useToasts } from "react-toast-notifications";
 import { Parameters } from "openapi-client-axios";
+import { AdminlistResponse } from "types/api";
 
 function AdminProfile() {
 	const { addToast } = useToasts();

@@ -66,6 +66,7 @@ requestBody?: Register,
      * @throws ApiError
      */
     public static listAdmins(
+        bearer: string,
 offset?: number | null,
 limit?: number | null,
 search?: string | null,
@@ -78,6 +79,9 @@ search?: string | null,
                 'Limit': limit,
                 'search': search,
             },
+            headers:{
+                Authorization: bearer
+            }
         });
     }
 

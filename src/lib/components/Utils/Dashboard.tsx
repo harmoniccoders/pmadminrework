@@ -108,7 +108,7 @@ function Dashboard({ data, users, trans }: DashboardProps) {
 							</Flex>
 							<Divider />
 							<OrderedList p="1rem" spacing="1rem">
-								{users.map((user: UserView, i: any) => (
+								{users?.map((user: UserView, i: any) => (
 									<ListItem textTransform="capitalize" key={i}>
 										<Flex alignItems="center">
 											<Circle

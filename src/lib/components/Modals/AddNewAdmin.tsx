@@ -48,7 +48,6 @@ function AddNewAdmin({ isOpen, onClose }: { isOpen: boolean; onClose: any }) {
 	const onSubmit = async (data: Register) => {
 		try {
 			const result = await (await addAdmin(undefined, data)).data;
-			console.log({ result });
 			if (result.status) {
 				onClose();
 				addToast(result.message, {
