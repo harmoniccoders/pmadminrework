@@ -28,8 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const _dataAccess = new DataAccess(bearer);
 
 	try {
-		console.log(" in profilee")
-	//   const admins = (await _dataAccess.get(`/api/Admin/list}`)).data;
+	// console.log(" in profilee")
 	const admins = await AdminService.listAdmins(bearer); 
 	  console.log("RETURNED DATA ", admins)
 	  return {

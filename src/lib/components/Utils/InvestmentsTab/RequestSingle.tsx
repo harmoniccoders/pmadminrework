@@ -30,7 +30,7 @@ import { useToasts } from "react-toast-notifications";
 import { PropertyRequestMatchView } from "Services";
 
 function RequestSingle({ data, propertyTitles, propertyTypes }: any) {
-	const matches = data.matches;
+	const matches = data?.matches;
 
 	const router = useRouter();
 	const goBack = () => {
