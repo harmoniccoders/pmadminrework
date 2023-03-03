@@ -16,7 +16,7 @@ import { InspectionDate } from "lib/components/Utilities/InspectionDate";
 import TimeDisplay from "lib/components/Utilities/TimeDisplay";
 import { DataAccess } from "lib/Utils/Api";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useForm } from "react-hook-form";
@@ -38,6 +38,8 @@ import {
   PropertyView,
   UserEnquiryView,
 } from "Services";
+import { Widget } from "@uploadcare/react-widget";
+
 const moment = require("moment");
 
 interface Eprops {
@@ -59,7 +61,43 @@ function EnquirySingle({
 }: Eprops) {
   console.log({ application });
 
-  console.log({ data });
+  const widgetApi = useRef<any>();
+
+  const [uploadDoc, { loading: isLoading, data: isDatas, error: isError }] =
+    useOperationMethod("Propertyupdate");
+  async function uploadDocument(data: PropertyModel, documents: string) {
+    data.documentUrl = documents;
+    try {
+      const result = await (await uploadDoc(undefined, data)).data;
+
+      console.log({ result });
+      if (result.status) {
+        addToast("Success", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        router.reload();
+        return;
+      }
+      addToast(result.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    } catch (err: any) {
+      addToast(err?.body?.message || err.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
+  }
+  const initializeDocuments = async (info: any) => {
+    uploadDocument(property, info.cdnUrl);
+  };
+
+  console.log({ data, property });
+
+  // console.log({ data });
 
   const {
     register,
@@ -74,7 +112,7 @@ function EnquirySingle({
     },
   });
 
-  const singleUser = application.value?.filter(
+  const singleUser = application?.value?.filter(
     (x: any) => x.user.id == data.userId
   )[0];
 
@@ -293,19 +331,30 @@ function EnquirySingle({
               </Flex>
             </Box>
             <Box w="180px">
-              <Flex
-                as="button"
+              <Button
                 w="full"
                 h="2.3rem"
                 borderRadius="3px"
-                border="2px solid rgba(25,25,25,1)"
-                align="center"
-                justify="center"
+                variant="outline"
+                border="2px solid"
+                borderColor="rgba(25,25,25,1)"
+                color="rgba(25,25,25,1)"
                 fontSize="14.5px"
                 fontWeight="bold"
+                isLoading={isLoading}
+                onClick={() => widgetApi.current.openDialog()}
+                _hover={{ variant: "outline" }}
               >
                 Upload Documents
-              </Flex>
+              </Button>
+              <Widget
+                publicKey="fda3a71102659f95625f"
+                onChange={(info) => initializeDocuments(info)}
+                inputAcceptTypes={`.docx,.doc.pdf`}
+                systemDialog
+                //@ts-ignore
+                ref={widgetApi}
+              />
             </Box>
             <Box w="180px" onClick={onOpen}>
               <Flex

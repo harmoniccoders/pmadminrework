@@ -22,251 +22,222 @@ import Cookies from "js-cookie";
 const moment = require("moment");
 
 const schema = yup.object().shape({
-	quote: yup.string().required(),
-	proposedDate: yup.string().required(),
+  quote: yup.string().required(),
+  proposedDate: yup.string().required(),
 });
 function SingleSession({ list, id, data }: any) {
-	console.log({ data });
-	const quote = data.cleaningQuotes[data.cleaningQuotes.length - 1];
-	// console.log({ quote });
+  console.log({ data });
+  const quote = data?.cleaningQuotes?.at(-1);
+  // console.log({ quote });
 
-	const [currentTab, setCurrentTab] = useState("sessions");
-	const router = useRouter();
-	const goBack = () => {
-		router.back();
-	};
-	const navigateTabs = (tabname: string) => {
-		router.push(tabname);
-	};
-	const { addToast } = useToasts();
+  const [currentTab, setCurrentTab] = useState("sessions");
+  const router = useRouter();
+  const goBack = () => {
+    router.back();
+  };
+  const navigateTabs = (tabname: string) => {
+    router.push(tabname);
+  };
+  const { addToast } = useToasts();
 
-	const [addQuotes, { loading, data: IsData, error }] =
-		useOperationMethod("Admincleanquote");
-	const {
-		register,
-		handleSubmit,
-		control,
-		formState: { errors, isValid },
-	} = useForm<CleaningQuoteModel>({
-		resolver: yupResolver(schema),
-		mode: "all",
-		defaultValues: {
-			cleaningId: id,
-		},
-	});
+  const [addQuotes, { loading, data: IsData, error }] =
+    useOperationMethod("Admincleanquote");
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<CleaningQuoteModel>({
+    resolver: yupResolver(schema),
+    mode: "all",
+    defaultValues: {
+      cleaningId: id,
+    },
+  });
 
-	const onSubmit = async (data: CleaningQuoteModel) => {
-		data.proposedDate = new Date(
-			data.proposedDate as unknown as Date
-		).toLocaleDateString();
+  const onSubmit = async (data: CleaningQuoteModel) => {
+    data.proposedDate = new Date(
+      data.proposedDate as unknown as Date
+    ).toLocaleDateString();
 
-		try {
-			const result = await (await addQuotes(undefined, data)).data;
+    try {
+      const result = await (await addQuotes(undefined, data)).data;
 
-			if (result.status) {
-				addToast("Quote Sent", {
-					appearance: "success",
-					autoDismiss: true,
-				});
-				router.reload();
-				return;
-			}
-			addToast(result.message, {
-				appearance: "error",
-				autoDismiss: true,
-			});
-			return;
-		} catch (err) {}
-	};
+      if (result.status) {
+        addToast("Quote Sent", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        router.reload();
+        return;
+      }
+      addToast(result.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    } catch (err) {}
+  };
 
-	const [property, setProperty] = useState<any>();
-	const [user, setUser] = useState<any>();
+  return (
+    <Box w="100%" p="0rem" minH="90vh">
+      <Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
+        <Box onClick={() => navigateTabs("/admin/cleaning/sessions")}>
+          <SecondaryTab
+            tabname="sessions"
+            num={list?.size}
+            icon="fa-arrow-down"
+            currentTab={currentTab}
+          />
+        </Box>
+        <Box onClick={() => navigateTabs("/admin/cleaning/cleaners")}>
+          <SecondaryTab
+            tabname="cleaner"
+            num={0}
+            icon="fa-users"
+            currentTab={currentTab}
+          />
+        </Box>
+      </Flex>
+      <HStack
+        align="flex-start"
+        minH="70vh"
+        bgColor="white"
+        py="2rem"
+        px="2.5rem"
+      >
+        <Box w="30%">
+          <Flex
+            align="center"
+            // my="1rem"
+            cursor="pointer"
+            onClick={goBack}
+            pb="1rem"
+          >
+            <FaChevronLeft fontSize="20px" />
+            <Text
+              fontSize="24px"
+              fontWeight="bold"
+              pl="1rem"
+              mb="0 !important"
+              textTransform="capitalize"
+            >
+              {data?.propertyType?.toLowerCase()}
+            </Text>
+          </Flex>
+          <Flex w="100%" justify="space-between">
+            <VStack spacing="1rem" alignItems="flex-start">
+              <NameTag title="User" name={data?.user?.fullName} />
+              <NameTag
+                title="Mobile Number"
+                name={data?.user?.phoneNumber || "-"}
+              />
+              <NameTag title="Email" name={data?.user?.email} />
+              <NameTag title="Purpose" name={data?.buildingType} />
+              <NameTag title="State" name={data?.buildingState} />
+              <NameTag title="Floors" name={data?.numberOfFloors} />
+              <NameTag title="Location" name={data?.location || "-"} />
+              <NameTag
+                title="Preferred Date"
+                name={moment(data?.dateNeeded).format("DD/MM/YY - LT")}
+              />
+            </VStack>
+          </Flex>
+        </Box>
+        <Box w="70%">
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+            <HStack w="full" align="flex-start" mt="3rem" spacing={8}>
+              <Box w="50%">
+                <Text fontSize="1.2rem" fontWeight="bold">
+                  Quotes
+                </Text>
 
-	useEffect(() => {
-		const fetchProperty = async () => {
-			const getPropertyTypes = async () => {
-				const bearer = `Bearer ${Cookies.get("adminToken")}`;
-				const _dataAccess = new DataAccess(bearer);
-				const result = await _dataAccess.get(`/api/Property/types`);
-				if (result.status) {
-					setProperty(result.data);
-				}
-			};
-			getPropertyTypes();
-			const getUser = async () => {
-				const bearer = `Bearer ${Cookies.get("adminToken")}`;
-				const _dataAccess = new DataAccess(bearer);
-				const result = await _dataAccess.get(`/api/admin/user/${data.userId}`);
-				if (result.status) {
-					setUser(result.data);
-				}
-			};
-			getUser();
-		};
-		fetchProperty();
-	}, []);
+                <VStack w="full" spacing="1.5rem">
+                  {data?.cleaningQuotes?.length > 0 && (
+                    <ApplicationBox label={""} detail={Naira(quote?.quote)} />
+                  )}
+                  <CurrencyField<CleaningQuoteModel>
+                    placeholder=""
+                    defaultValue=""
+                    register={register}
+                    error={errors.quote}
+                    name={"quote"}
+                    control={control}
+                    label="Enter Amount"
+                  />
+                  <Button
+                    variant="solid"
+                    type="submit"
+                    isLoading={loading}
+                    disabled={!isValid}
+                    w="full"
+                    height="3rem"
+                  >
+                    Send Quotes
+                  </Button>
+                </VStack>
+              </Box>
+              <Box w="50%">
+                <Text fontSize="1.2rem" fontWeight="bold">
+                  Proposed Date
+                </Text>
 
-	console.log({ user });
-	const propertyType = property?.filter(
-		(x: any) => x.id == data.propertyTypeId
-	)[0];
-	console.log({ propertyType });
-
-	return (
-		<Box w="100%" p="0rem" minH="90vh">
-			<Flex borderBottom="1px solid rgba(36,68,115,0.1)" mt=".5rem">
-				<Box onClick={() => navigateTabs("/admin/cleaning/sessions")}>
-					<SecondaryTab
-						tabname="sessions"
-						num={list.size}
-						icon="fa-arrow-down"
-						currentTab={currentTab}
-					/>
-				</Box>
-				<Box onClick={() => navigateTabs("/admin/cleaning/cleaners")}>
-					<SecondaryTab
-						tabname="cleaner"
-						num={0}
-						icon="fa-users"
-						currentTab={currentTab}
-					/>
-				</Box>
-			</Flex>
-			<HStack
-				align="flex-start"
-				minH="70vh"
-				bgColor="white"
-				py="2rem"
-				px="2.5rem"
-			>
-				<Box w="30%">
-					<Flex
-						align="center"
-						// my="1rem"
-						cursor="pointer"
-						onClick={goBack}
-						pb="1rem"
-					>
-						<FaChevronLeft fontSize="20px" />
-						<Text
-							fontSize="24px"
-							fontWeight="bold"
-							pl="1rem"
-							mb="0 !important"
-							textTransform="capitalize"
-						>
-							{propertyType?.name.toLowerCase()}
-						</Text>
-					</Flex>
-					<Flex w="100%" justify="space-between">
-						<VStack spacing="1rem" alignItems="flex-start">
-							<NameTag title="User" name={user?.fullName} />
-							<NameTag title="Mobile Number" name={user?.phoneNumber || "-"} />
-							<NameTag title="Email" name={user?.email} />
-							<NameTag title="Purpose" name={data?.buildingType} />
-							<NameTag title="State" name={data?.buildingState} />
-							<NameTag title="Floors" name={data?.numberOfFloors} />
-							<NameTag title="Location" name={data?.location || "-"} />
-							<NameTag
-								title="Preferred Date"
-								name={moment(data.dateNeeded).format("DD/MM/YY - LT")}
-							/>
-						</VStack>
-					</Flex>
-				</Box>
-				<Box w="70%">
-					<form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-						<HStack w="full" align="flex-start" mt="3rem" spacing={8}>
-							<Box w="50%">
-								<Text fontSize="1.2rem" fontWeight="bold">
-									Quotes
-								</Text>
-
-								<VStack w="full" spacing="1.5rem">
-									{data.cleaningQuotes.length > 0 && (
-										<ApplicationBox label={""} detail={Naira(quote?.quote)} />
-									)}
-									<CurrencyField<CleaningQuoteModel>
-										placeholder=""
-										defaultValue=""
-										register={register}
-										error={errors.quote}
-										name={"quote"}
-										control={control}
-										label="Enter Amount"
-									/>
-									<Button
-										variant="solid"
-										type="submit"
-										isLoading={loading}
-										disabled={!isValid}
-										w="full"
-										height="3rem"
-									>
-										Send Quotes
-									</Button>
-								</VStack>
-							</Box>
-							<Box w="50%">
-								<Text fontSize="1.2rem" fontWeight="bold">
-									Proposed Date
-								</Text>
-
-								<VStack w="full" spacing="1.5rem">
-									<PrimaryDate<CleaningQuoteModel>
-										label="Proposed Date"
-										name="proposedDate"
-										error={errors.proposedDate}
-										register={register}
-										control={control}
-										minDate={new Date()}
-										maxDate={new Date(2023, 10, 1)}
-										fontSize="sm"
-									/>
-								</VStack>
-							</Box>
-						</HStack>
-					</form>
-				</Box>
-			</HStack>
-		</Box>
-	);
+                <VStack w="full" spacing="1.5rem">
+                  <PrimaryDate<CleaningQuoteModel>
+                    label="Proposed Date"
+                    name="proposedDate"
+                    error={errors.proposedDate}
+                    register={register}
+                    control={control}
+                    minDate={new Date()}
+                    maxDate={new Date(2023, 10, 1)}
+                    fontSize="sm"
+                  />
+                </VStack>
+              </Box>
+            </HStack>
+          </form>
+        </Box>
+      </HStack>
+    </Box>
+  );
 }
 
 export default SingleSession;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const {
-		data: { user, redirect },
-	} = returnUserData(ctx);
-	if (redirect)
-		return {
-			redirect: {
-				permanent: false,
-				destination: "/admin",
-			},
-			props: {},
-		};
-	const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
-	const _dataAccess = new DataAccess(bearer);
-	const { id } = ctx.query;
-	try {
-		const data = (await _dataAccess.get(`/api/Admin/clean/requests/get/${id}`))
-			.data;
-
-		const list = (await _dataAccess.get(`/api/Admin/clean/requests/list`)).data;
-		return {
-			props: {
-				list,
-				data,
-				id,
-			},
-		};
-	} catch (error) {
-		return {
-			props: {
-				data: [],
-			},
-		};
-	}
+  const {
+    data: { user, redirect },
+  } = returnUserData(ctx);
+  if (redirect)
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/admin",
+      },
+      props: {},
+    };
+  const bearer = `Bearer ${ctx.req.cookies.adminToken}`;
+  const _dataAccess = new DataAccess(bearer);
+  const { id } = ctx.query;
+  //   console.log(id);
+  try {
+    const data = (await _dataAccess.get(`/api/Admin/clean/requests/get/${id}`))
+      .data;
+    console.log({ data });
+    const list = (await _dataAccess.get(`/api/Admin/clean/requests/list`)).data;
+    return {
+      props: {
+        list,
+        data,
+        id,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        data: [],
+      },
+    };
+  }
 };

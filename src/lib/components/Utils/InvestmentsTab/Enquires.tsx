@@ -59,7 +59,7 @@ function Enquires({ result }: any) {
             </Thead>
 
             <Tbody>
-              {data.map((item: any) => {
+              {data?.map((item: any) => {
                 return (
                   <Link
                     href={"/admin/listings/enquires/" + item.id}

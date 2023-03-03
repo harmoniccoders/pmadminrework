@@ -33,3 +33,4 @@ export type Transaction = {
     tenancyId?: number | null;
     tenancy?: Tenancy;
 };
+

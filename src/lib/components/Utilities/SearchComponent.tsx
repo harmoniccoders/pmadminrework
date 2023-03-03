@@ -72,7 +72,8 @@ function SearchComponent({ userId, border = true }: SearchProps) {
           fontSize: "14px",
           fontWeight: 600,
         }}
-        border={border ? "2px solid black" : "none"}
+        border={border ? "2px solid" : "none"}
+        borderColor="black"
         borderRadius="4px"
         boxShadow="0"
         fontSize="14px"

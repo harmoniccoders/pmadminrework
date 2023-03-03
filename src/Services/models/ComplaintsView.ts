@@ -9,3 +9,4 @@ export type ComplaintsView = {
     comment?: string | null;
     status?: string | null;
 };
+

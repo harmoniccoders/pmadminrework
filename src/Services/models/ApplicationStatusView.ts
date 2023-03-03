@@ -7,3 +7,4 @@ export type ApplicationStatusView = {
     hasPaid?: boolean;
     applicationStatus?: string | null;
 };
+

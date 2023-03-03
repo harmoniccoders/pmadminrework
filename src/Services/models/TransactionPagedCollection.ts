@@ -16,3 +16,4 @@ export type TransactionPagedCollection = {
     self?: Link;
     value?: Array<Transaction> | null;
 };
+

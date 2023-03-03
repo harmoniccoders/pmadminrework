@@ -16,3 +16,4 @@ export type RentCollectionTypeIEnumerableStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

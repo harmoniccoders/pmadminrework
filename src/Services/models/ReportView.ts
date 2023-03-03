@@ -6,6 +6,7 @@ import type { Property } from './Property';
 import type { User } from './User';
 
 export type ReportView = {
+    id?: number;
     property?: Property;
     user?: User;
     description?: string | null;
@@ -13,3 +14,4 @@ export type ReportView = {
     dateCreated?: string;
     email?: string | null;
 };
+

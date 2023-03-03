@@ -12,3 +12,4 @@ export type ComplaintsSubCategory = {
     complantsCategoryId?: number;
     complantsCategory?: ComplaintsCategory;
 };
+

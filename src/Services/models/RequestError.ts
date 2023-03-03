@@ -10,3 +10,4 @@ export type RequestError = {
     message?: string | null;
     errorResponseContent?: string | null;
 };
+

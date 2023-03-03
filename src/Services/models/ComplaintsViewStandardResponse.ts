@@ -16,3 +16,4 @@ export type ComplaintsViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

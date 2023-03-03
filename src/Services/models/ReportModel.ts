@@ -7,5 +7,6 @@ export type ReportModel = {
     userName?: string | null;
     email?: string | null;
     userId?: number;
-    description: string;
+    description?: string | null;
 };
+

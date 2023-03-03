@@ -16,3 +16,4 @@ export type TenancyViewPagedCollectionStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
+

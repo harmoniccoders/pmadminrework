@@ -26,3 +26,4 @@ export type Application = {
     payBackDate?: string;
     repaymentFrequency?: string | null;
 };
+

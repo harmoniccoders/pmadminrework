@@ -26,3 +26,4 @@ export type Cleaning = {
     status?: Status;
     cleaningQuotes?: Array<CleaningQuote> | null;
 };
+

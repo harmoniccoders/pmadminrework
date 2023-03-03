@@ -35,4 +35,6 @@ export type PropertyModel = {
     bank?: string | null;
     accountNumber?: string | null;
     propertyRequestMatchId?: number;
+    documentUrl?: string | null;
 };
+

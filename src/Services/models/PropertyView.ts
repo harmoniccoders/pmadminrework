@@ -37,4 +37,6 @@ export type PropertyView = {
     enquiries?: number;
     dateCreated?: string;
     propertyTypeId?: number;
+    documentUrl?: string | null;
 };
+

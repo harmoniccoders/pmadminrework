@@ -8,4 +8,7 @@ export type UpdateUserModel = {
     id?: number;
     phoneNumber?: string | null;
     profilePicture?: MediaModel;
+    bank?: string | null;
+    accountNumber?: string | null;
 };
+

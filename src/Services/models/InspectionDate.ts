@@ -16,3 +16,4 @@ export type InspectionDate = {
     times?: Array<InspectionTime> | null;
     inspections?: Array<Inspections> | null;
 };
+

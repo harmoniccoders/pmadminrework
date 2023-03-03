@@ -8,24 +8,25 @@
 @import url("css/loader.css");
 @import url("css/datepicker.css");
 @import url("css/smarttab.css");
+@import url("css/checkbox.css");
 
 form {
-	width: 100%;
+  width: 100%;
 }
 tr {
-	cursor: pointer;
+  cursor: pointer;
 }
 ::-webkit-scrollbar {
-	width: 4px;
-	height: 4px;
-	background-color: #dce1e7;
-	border-radius: 15px;
+  width: 4px;
+  height: 4px;
+  background-color: #dce1e7;
+  border-radius: 15px;
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: #0042ff;
-	border-radius: 15px;
+  background-color: #0042ff;
+  border-radius: 15px;
 }
 #nprogress .spinner {
-	display: none !important;
+  display: none !important;
 }

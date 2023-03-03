@@ -17,13 +17,13 @@ import { request as __request } from '../core/request';
 export class UserService {
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns any Success
      * @throws ApiError
      */
     public static register(
-requestBody?: Register,
-): CancelablePromise<any> {
+        requestBody?: Register,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/User/register',
@@ -33,13 +33,13 @@ requestBody?: Register,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static login(
-requestBody?: LoginModel,
-): CancelablePromise<UserViewStandardResponse> {
+        requestBody?: LoginModel,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/User/token',
@@ -49,15 +49,32 @@ requestBody?: LoginModel,
     }
 
     /**
-     * @param token 
-     * @param email 
+     * @param email
+     * @returns UserViewStandardResponse Success
+     * @throws ApiError
+     */
+    public static resendVerificationMail(
+        email: string | null,
+    ): CancelablePromise<UserViewStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/User/reverify/{email}',
+            path: {
+                'email': email,
+            },
+        });
+    }
+
+    /**
+     * @param token
+     * @param email
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static verify(
-token: string | null,
-email: string | null,
-): CancelablePromise<UserViewStandardResponse> {
+        token: string | null,
+        email: string | null,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/User/verifyUser/{token}/{email}',
@@ -69,13 +86,13 @@ email: string | null,
     }
 
     /**
-     * @param email 
+     * @param email
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static delete(
-email: string | null,
-): CancelablePromise<UserViewStandardResponse> {
+        email: string | null,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/User/delete/{email}',
@@ -86,13 +103,13 @@ email: string | null,
     }
 
     /**
-     * @param email 
+     * @param email
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static initiateReset(
-email: string | null,
-): CancelablePromise<UserViewStandardResponse> {
+        email: string | null,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/User/reset/initiate/{email}',
@@ -103,13 +120,13 @@ email: string | null,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static completeReset(
-requestBody?: PasswordReset,
-): CancelablePromise<UserViewStandardResponse> {
+        requestBody?: PasswordReset,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/User/reset/complete',
@@ -119,17 +136,17 @@ requestBody?: PasswordReset,
     }
 
     /**
-     * @param offset 
-     * @param limit 
-     * @param search 
+     * @param offset
+     * @param limit
+     * @param search
      * @returns UserViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listUsers(
-offset?: number | null,
-limit?: number | null,
-search?: string | null,
-): CancelablePromise<UserViewPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+        search?: string | null,
+    ): CancelablePromise<UserViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/User/list',
@@ -142,13 +159,13 @@ search?: string | null,
     }
 
     /**
-     * @param propertyId 
+     * @param propertyId
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static addEnquiry(
-propertyId: number,
-): CancelablePromise<UserViewStandardResponse> {
+        propertyId: number,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/User/enquire/{PropertyId}',
@@ -159,13 +176,13 @@ propertyId: number,
     }
 
     /**
-     * @param propertyId 
+     * @param propertyId
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static cancelUserEnquiry(
-propertyId: number,
-): CancelablePromise<UserViewStandardResponse> {
+        propertyId: number,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/User/enquire/cancel/{PropertyId}',
@@ -176,15 +193,15 @@ propertyId: number,
     }
 
     /**
-     * @param offset 
-     * @param limit 
+     * @param offset
+     * @param limit
      * @returns UserEnquiryPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listMyEnquiries(
-offset?: number | null,
-limit?: number | null,
-): CancelablePromise<UserEnquiryPagedCollectionStandardResponse> {
+        offset?: number | null,
+        limit?: number | null,
+    ): CancelablePromise<UserEnquiryPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/User/enquiries/user',
@@ -196,13 +213,13 @@ limit?: number | null,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static updateUser(
-requestBody?: UpdateUserModel,
-): CancelablePromise<UserViewStandardResponse> {
+        requestBody?: UpdateUserModel,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/api/User/update',
@@ -212,13 +229,13 @@ requestBody?: UpdateUserModel,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns UserViewStandardResponse Success
      * @throws ApiError
      */
     public static updatePassword(
-requestBody?: PasswordResetModel,
-): CancelablePromise<UserViewStandardResponse> {
+        requestBody?: PasswordResetModel,
+    ): CancelablePromise<UserViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/User/password/update',

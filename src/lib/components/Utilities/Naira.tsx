@@ -1,4 +1,3 @@
-export default function Naira(value: number) {
-    return `₦${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
-  }
-  
+export default function Naira(value: any) {
+  return `₦${value?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+}

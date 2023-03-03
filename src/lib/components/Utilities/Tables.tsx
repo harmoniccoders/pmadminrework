@@ -32,7 +32,7 @@ export function TableHead({ title }: { title: string }) {
   );
 }
 
-export function TableData({ name }: { name: string }) {
+export function TableData({ name }: { name: any }) {
   return (
     <Tooltip label={name} placement="top" hasArrow>
       <Td
@@ -46,7 +46,7 @@ export function TableData({ name }: { name: string }) {
         //   overflow="hidden"
         // textOverflow="ellipsis"
       >
-        {name ? name.substring(0, 20) : "N/A"}
+        {name ? name.toString().substring(0, 20) : "N/A"}
       </Td>
     </Tooltip>
   );
@@ -85,10 +85,10 @@ export function TableStatus({ name }: { name: string }) {
       pl="1rem"
       textTransform="capitalize"
       color={
-        name == "approved" || name == "RESOLVED"
+        name == "approved" || name == "completed"
           ? "#2FDF84"
           : name == "pending"
-          ? "brand.100"
+          ? "#FFC82C"
           : "#FF2929"
       }
     >

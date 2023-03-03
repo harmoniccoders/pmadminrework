@@ -71,7 +71,6 @@ export type { MetricsViewStandardResponse } from './models/MetricsViewStandardRe
 export type { NameModel } from './models/NameModel';
 export type { NextOfKin } from './models/NextOfKin';
 export type { NextOfKinModel } from './models/NextOfKinModel';
-export type { PagingOptions } from './models/PagingOptions';
 export type { PasswordReset } from './models/PasswordReset';
 export type { PasswordResetModel } from './models/PasswordResetModel';
 export type { PaymentLog } from './models/PaymentLog';
@@ -98,6 +97,8 @@ export type { PropertyView } from './models/PropertyView';
 export type { PropertyViewPagedCollection } from './models/PropertyViewPagedCollection';
 export type { PropertyViewPagedCollectionStandardResponse } from './models/PropertyViewPagedCollectionStandardResponse';
 export type { PropertyViewStandardResponse } from './models/PropertyViewStandardResponse';
+export type { ReceiptView } from './models/ReceiptView';
+export type { ReceiptViewStandardResponse } from './models/ReceiptViewStandardResponse';
 export type { Register } from './models/Register';
 export type { RentCollectionType } from './models/RentCollectionType';
 export type { RentCollectionTypeIEnumerableStandardResponse } from './models/RentCollectionTypeIEnumerableStandardResponse';

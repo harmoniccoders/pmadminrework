@@ -38,6 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const users = (await _dataAccess.get(`/api/User/list?${url}`)).data;
     const trans = (await _dataAccess.get(`/api/Admin/transactions/list?${url}`))
       .data;
+    // console.log({ trans });
 
     return {
       props: {
@@ -47,9 +48,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   } catch (error) {
+    console.log(error);
     return {
       props: {
         data: [],
+        trans: [],
+        users: [],
       },
     };
   }

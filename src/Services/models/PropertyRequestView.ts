@@ -19,3 +19,4 @@ export type PropertyRequestView = {
     user?: User;
     matches?: Array<PropertyRequestMatchView> | null;
 };
+

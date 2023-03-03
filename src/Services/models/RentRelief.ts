@@ -16,3 +16,4 @@ export type RentRelief = {
     user?: User;
     installments?: Array<Installment> | null;
 };
+

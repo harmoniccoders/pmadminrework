@@ -8,3 +8,4 @@ export type TenantType = {
     dateModified?: string;
     name?: string | null;
 };
+
