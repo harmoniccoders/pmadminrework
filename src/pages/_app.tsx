@@ -15,6 +15,7 @@ import Cookies from "js-cookie";
 import SimpleReactLightbox from "simple-react-lightbox";
 import NextNProgress from "nextjs-progressbar";
 import { OpenAPI } from "Services";
+import ErrorBoundary from "lib/components/Utilities/ErrorBoundary";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   let headers: HeadersInit;
@@ -56,7 +57,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             <SimpleReactLightbox>
               <Layout>
                 <NextNProgress color="#0042ff" />
-                <Component {...pageProps} />
+                <ErrorBoundary>
+                  <Component {...pageProps} />
+                </ErrorBoundary>
               </Layout>
             </SimpleReactLightbox>
           </ToastProvider>
