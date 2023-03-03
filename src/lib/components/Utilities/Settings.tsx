@@ -30,7 +30,7 @@ function Setting() {
 			</Flex>
 			<Box w="100%" bgColor="white" p="1.5rem" minH="90vh">
 				{currentTab == "fees" && <Fees />}
-				{currentTab == "admins" && <Admin />}
+				{/* {currentTab == "admins" && <Admin />} */}
 			</Box>
 		</Box>
 	);

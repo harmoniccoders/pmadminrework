@@ -75,7 +75,7 @@ function TransactionItem({
 			>
 				{amount}
 			</Text>
-			<SingleTransaction
+			{/* <SingleTransaction
 				title={title}
 				amount={amount}
 				isOpen={isOpen}
@@ -85,7 +85,7 @@ function TransactionItem({
 				recepient={recepient}
 				tranStatus={tranStatus}
 				refrenceId={refrenceId}
-			/>
+			/> */}
 		</Flex>
 	);
 }
