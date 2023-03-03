@@ -10,15 +10,15 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import moment from "moment";
-import { Transaction } from "Services";
+import { ComplaintsView, Transaction } from "Services";
 import Naira from "../Utilities/Naira";
 
 export interface items {
   isOpen: boolean;
   onClose: any;
-  data: Transaction | undefined;
+  data: ComplaintsView | undefined;
 }
-function SingleTransaction({ isOpen, onClose, data }: items) {
+function SingleComplaintModal({ isOpen, onClose, data }: items) {
   return (
     <Modal
       motionPreset="slideInBottom"
@@ -48,7 +48,7 @@ function SingleTransaction({ isOpen, onClose, data }: items) {
             fontWeight="semibold"
             px={5}
           >
-            {"Transaction Details"}
+            {"Complaint Information"}
           </Text>
         </ModalHeader>
         <ModalCloseButton />
@@ -61,14 +61,14 @@ function SingleTransaction({ isOpen, onClose, data }: items) {
                   fontWeight="medium"
                   color="rgba(15,15,15,.5)"
                 >
-                  Transaction Name
+                  Complaint Category
                 </Text>
                 <Text
                   fontSize="14px"
                   fontWeight="medium"
                   color="rgba(15,15,15,1)"
                 >
-                  Payment for {data?.property?.name}
+                  {data?.complaintsCategory}
                 </Text>
               </Box>
               <Box>
@@ -77,14 +77,14 @@ function SingleTransaction({ isOpen, onClose, data }: items) {
                   fontWeight="medium"
                   color="rgba(15,15,15,.5)"
                 >
-                  Paid by
+                  Complaints Sub-Category
                 </Text>
                 <Text
                   fontSize="14px"
                   fontWeight="medium"
                   color="rgba(15,15,15,1)"
                 >
-                  {data?.user?.firstName} {data?.user?.lastName}
+                  {data?.complaintsSubCategory}
                 </Text>
               </Box>
               <Box>
@@ -93,14 +93,14 @@ function SingleTransaction({ isOpen, onClose, data }: items) {
                   fontWeight="medium"
                   color="rgba(15,15,15,.5)"
                 >
-                  Amount
+                  Complaint Description
                 </Text>
                 <Text
                   fontSize="14px"
                   fontWeight="medium"
                   color="rgba(15,15,15,1)"
                 >
-                  {Naira(data?.amount || "0")}
+                  {data?.comment}
                 </Text>
               </Box>
               <Box>
@@ -109,78 +109,14 @@ function SingleTransaction({ isOpen, onClose, data }: items) {
                   fontWeight="medium"
                   color="rgba(15,15,15,.5)"
                 >
-                  Date
+                  Status
                 </Text>
                 <Text
                   fontSize="14px"
                   fontWeight="medium"
                   color="rgba(15,15,15,1)"
                 >
-                  {moment(data?.dateCreated).format("MMM DD, YYYY")}
-                </Text>
-              </Box>
-              <Box>
-                <Text
-                  fontSize="12px"
-                  fontWeight="medium"
-                  color="rgba(15,15,15,.5)"
-                >
-                  Time
-                </Text>
-                <Text
-                  fontSize="14px"
-                  fontWeight="medium"
-                  color="rgba(15,15,15,1)"
-                >
-                  {moment(data?.dateCreated).format("LT")}
-                </Text>
-              </Box>
-              <Box>
-                <Text
-                  fontSize="12px"
-                  fontWeight="medium"
-                  color="rgba(15,15,15,.5)"
-                >
-                  Recepient
-                </Text>
-                <Text
-                  fontSize="14px"
-                  fontWeight="medium"
-                  color="rgba(15,15,15,1)"
-                >
-                  {"Property Mataaz"}
-                </Text>
-              </Box>
-              <Box>
-                <Text
-                  fontSize="12px"
-                  fontWeight="medium"
-                  color="rgba(15,15,15,.5)"
-                >
-                  Transaction Status
-                </Text>
-                <Text
-                  fontSize="14px"
-                  fontWeight="medium"
-                  color="rgba(15,15,15,1)"
-                >
-                  {data?.status?.name}
-                </Text>
-              </Box>
-              <Box>
-                <Text
-                  fontSize="12px"
-                  fontWeight="medium"
-                  color="rgba(15,15,15,.5)"
-                >
-                  Transaction Reference ID
-                </Text>
-                <Text
-                  fontSize="14px"
-                  fontWeight="medium"
-                  color="rgba(15,15,15,1)"
-                >
-                  {data?.transactionReference}
+                  {data?.status}
                 </Text>
               </Box>
             </VStack>
@@ -190,4 +126,4 @@ function SingleTransaction({ isOpen, onClose, data }: items) {
     </Modal>
   );
 }
-export default SingleTransaction;
+export default SingleComplaintModal;

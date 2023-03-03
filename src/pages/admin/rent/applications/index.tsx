@@ -77,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		const data = (await _dataAccess.get(`/api/Admin/applications/rent?${url}`))
 			.data;
 		const rent = (
-			await _dataAccess.get(`/api/Admin/properties/list/rent?${url}`)
+			await _dataAccess.get(`/api/Admin/properties/rent/list?${url}`)
 		).data;
 
 		const tenancy = (await _dataAccess.get(`/api/Admin/tenancies?${url}`)).data;

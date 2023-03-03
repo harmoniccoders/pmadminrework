@@ -66,6 +66,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       )
     ).data;
 
+    console.log({ data });
+
     return {
       props: {
         data,
@@ -77,6 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   } catch (error) {
+    console.log(error);
     return {
       props: {
         data: [],

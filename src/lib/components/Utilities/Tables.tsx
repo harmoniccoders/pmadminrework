@@ -32,7 +32,7 @@ export function TableHead({ title }: { title: string }) {
   );
 }
 
-export function TableData({ name }: { name: string | undefined | number | null }) {
+export function TableData({ name }: { name: any }) {
   return (
     <Tooltip label={name} placement="top" hasArrow>
       <Td
@@ -85,10 +85,10 @@ export function TableStatus({ name }: { name: string }) {
       pl="1rem"
       textTransform="capitalize"
       color={
-        name == "approved" || name == "RESOLVED"
+        name == "approved" || name == "completed"
           ? "#2FDF84"
           : name == "pending"
-          ? "brand.100"
+          ? "#FFC82C"
           : "#FF2929"
       }
     >
