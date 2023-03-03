@@ -235,7 +235,7 @@ function Dashboard({ data, users, trans }: DashboardProps) {
               </Flex>
               <Divider />
               <OrderedList p="1rem" spacing="1rem">
-                {trans.map((tran: Transaction, i: any) => (
+                {trans?.map((tran: Transaction, i: any) => (
                   <ListItem key={i}>
                     <Flex alignItems="center">
                       <Circle

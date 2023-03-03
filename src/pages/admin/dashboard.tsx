@@ -10,8 +10,9 @@ interface DashboardProps {
   trans: any;
 }
 function dashboard({ data, users, trans }: DashboardProps) {
-  const userData = users?.slice(0, 10);
-  return <Dashboard data={data} users={userData} trans={trans} />;
+  const userData = users?.value?.slice(0, 10);
+  const transData = trans?.value.slice(0, 10);
+  return <Dashboard data={data} users={userData} trans={transData} />;
 }
 
 export default dashboard;
@@ -38,13 +39,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const users = (await _dataAccess.get(`/api/User/list?${url}`)).data;
     const trans = (await _dataAccess.get(`/api/Admin/transactions/list?${url}`))
       .data;
-    // console.log({ trans });
+    console.log({ trans });
 
     return {
       props: {
         data,
-        users: users.value,
-        trans: trans.value,
+        users,
+        trans,
       },
     };
   } catch (error) {
