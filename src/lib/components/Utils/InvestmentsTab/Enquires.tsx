@@ -44,7 +44,7 @@ function Enquires({ result }: any) {
         borderRadius="5"
         p=" 1rem 0"
       >
-        <TableContainer h="500px" overflowY="hidden">
+        <TableContainer overflowY="hidden">
           <Table variant="simple">
             <Thead>
               <Tr w="full" bgColor="rgba(0,0,0,.03)" h="3rem">
@@ -74,10 +74,10 @@ function Enquires({ result }: any) {
                       <TableData name={item.area} />
                       <TableData
                         name={
-                          item.inspection?.length > 0
+                          item.singleInspection !== null
                             ? moment(
-                                item.inspection.at(-1).inspectionDate.date
-                              ).format("LT - DD/MM/YY")
+                                item.singleInspection?.inspectionTime.time
+                              ).format("DD/MM/YY - LT")
                             : "-"
                         }
                       />
@@ -91,7 +91,9 @@ function Enquires({ result }: any) {
             </Tbody>
           </Table>
         </TableContainer>
-        <Pagination data={result} />
+        <Box mt="1rem">
+          <Pagination data={result} />
+        </Box>
       </Box>
     </>
   );

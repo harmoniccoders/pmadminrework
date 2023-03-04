@@ -302,10 +302,10 @@ function EnquirySingle({
             <NameTag
               title="Inspection"
               name={
-                data.inspection?.length > 0
-                  ? moment(
-                      data.inspection[data.inspection.length - 1].date
-                    ).format("DD/MM/YY - LT")
+                data.singleInspection !== null
+                  ? moment(data.singleInspection?.inspectionTime.time).format(
+                      "DD/MM/YY - LT"
+                    )
                   : "-"
               }
             />
