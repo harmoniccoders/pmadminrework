@@ -16,4 +16,3 @@ export type ReceiptViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

@@ -13,13 +13,13 @@ import { request as __request } from '../core/request';
 export class ReportService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns StringStandardResponse Success
      * @throws ApiError
      */
     public static createReport(
-        requestBody?: ReportModel,
-    ): CancelablePromise<StringStandardResponse> {
+requestBody?: ReportModel,
+): CancelablePromise<StringStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Report/create',
@@ -29,15 +29,15 @@ export class ReportService {
     }
 
     /**
-     * @param offset
-     * @param limit
+     * @param offset 
+     * @param limit 
      * @returns ReportViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static getReports(
-        offset?: number | null,
-        limit?: number | null,
-    ): CancelablePromise<ReportViewPagedCollectionStandardResponse> {
+offset?: number | null,
+limit?: number | null,
+): CancelablePromise<ReportViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Report/list',
@@ -49,13 +49,13 @@ export class ReportService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns ReportViewStandardResponse Success
      * @throws ApiError
      */
     public static getReportById(
-        id: number,
-    ): CancelablePromise<ReportViewStandardResponse> {
+id: number,
+): CancelablePromise<ReportViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Report/{id}',
@@ -66,13 +66,13 @@ export class ReportService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns StringStandardResponse Success
      * @throws ApiError
      */
     public static contactUs(
-        requestBody?: ReportModel,
-    ): CancelablePromise<StringStandardResponse> {
+requestBody?: ReportModel,
+): CancelablePromise<StringStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Report/contact',

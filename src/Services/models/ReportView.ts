@@ -14,4 +14,3 @@ export type ReportView = {
     dateCreated?: string;
     email?: string | null;
 };
-

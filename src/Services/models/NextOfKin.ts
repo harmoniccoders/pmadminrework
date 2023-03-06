@@ -14,4 +14,3 @@ export type NextOfKin = {
     relationship?: string | null;
     address?: string | null;
 };
-

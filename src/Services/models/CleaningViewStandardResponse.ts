@@ -9,4 +9,3 @@ export type CleaningViewStandardResponse = {
     data?: CleaningView;
     error?: RequestError;
 };
-

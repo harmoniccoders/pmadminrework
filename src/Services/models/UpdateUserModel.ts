@@ -11,4 +11,3 @@ export type UpdateUserModel = {
     bank?: string | null;
     accountNumber?: string | null;
 };
-

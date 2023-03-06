@@ -13,13 +13,13 @@ import { request as __request } from '../core/request';
 export class PaymentService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns StringStandardResponse Success
      * @throws ApiError
      */
     public static initiatePayment(
-        requestBody?: PaymentModel,
-    ): CancelablePromise<StringStandardResponse> {
+requestBody?: PaymentModel,
+): CancelablePromise<StringStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Payment/initiate',
@@ -29,15 +29,15 @@ export class PaymentService {
     }
 
     /**
-     * @param reference
-     * @param transactionId
+     * @param reference 
+     * @param transactionId 
      * @returns PaymentViewStandardResponse Success
      * @throws ApiError
      */
     public static getApiPaymentValidate(
-        reference: string | null,
-        transactionId: number,
-    ): CancelablePromise<PaymentViewStandardResponse> {
+reference: string | null,
+transactionId: number,
+): CancelablePromise<PaymentViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Payment/validate/{reference}/{transactionId}',
@@ -49,13 +49,13 @@ export class PaymentService {
     }
 
     /**
-     * @param propertyId
+     * @param propertyId 
      * @returns PaymentRatesViewStandardResponse Success
      * @throws ApiError
      */
     public static getRatesForProperty(
-        propertyId: number,
-    ): CancelablePromise<PaymentRatesViewStandardResponse> {
+propertyId: number,
+): CancelablePromise<PaymentRatesViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Payment/rates/{propertyId}',

@@ -16,4 +16,3 @@ export type CleaningQuote = {
     cleaningId?: number;
     cleaning?: Cleaning;
 };
-

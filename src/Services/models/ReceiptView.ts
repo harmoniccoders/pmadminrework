@@ -14,4 +14,3 @@ export type ReceiptView = {
     paymentDate?: string;
     amount?: string | null;
 };
-

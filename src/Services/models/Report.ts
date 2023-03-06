@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { Property } from './Property';
 import type { User } from './User';
 
 export type Report = {
@@ -13,5 +14,5 @@ export type Report = {
     user?: User;
     description?: string | null;
     email?: string | null;
+    property?: Property;
 };
-

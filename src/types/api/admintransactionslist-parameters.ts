@@ -6,4 +6,7 @@ export interface AdmintransactionslistParameters {
   Offset?: null | number;
   Limit?: null | number;
   search?: null | string;
+  StartDate?: string;
+  EndDate?: string;
+  Status?: null | string;
 }

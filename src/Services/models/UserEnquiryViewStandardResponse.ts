@@ -16,4 +16,3 @@ export type UserEnquiryViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

@@ -16,4 +16,3 @@ export type InspectionViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

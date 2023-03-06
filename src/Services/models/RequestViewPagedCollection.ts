@@ -16,4 +16,3 @@ export type RequestViewPagedCollection = {
     self?: Link;
     value?: Array<RequestView> | null;
 };
-

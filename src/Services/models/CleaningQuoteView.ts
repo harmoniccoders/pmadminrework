@@ -7,4 +7,3 @@ export type CleaningQuoteView = {
     quote?: number;
     proposedDate?: string;
 };
-

@@ -16,4 +16,3 @@ export type UserEnquiryViewPagedCollection = {
     self?: Link;
     value?: Array<UserEnquiryView> | null;
 };
-

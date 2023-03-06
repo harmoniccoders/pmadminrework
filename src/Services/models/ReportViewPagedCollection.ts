@@ -16,4 +16,3 @@ export type ReportViewPagedCollection = {
     self?: Link;
     value?: Array<ReportView> | null;
 };
-

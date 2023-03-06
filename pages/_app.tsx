@@ -5,9 +5,8 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { OpenAPIProvider } from "react-openapi-client";
 
-import customTheme from "../lib/styles/customTheme";
-import defaultSEOConfig from "../../next-seo.config";
-import "../lib/styles/globals.css";
+import defaultSEOConfig from "../next-seo.config";
+import "lib/styles/globals.css";
 import { ToastProvider } from "react-toast-notifications";
 import Layout from "lib/layout";
 import { UserProvider } from "lib/Utils/MainContext";
@@ -16,8 +15,13 @@ import SimpleReactLightbox from "simple-react-lightbox";
 import NextNProgress from "nextjs-progressbar";
 import { OpenAPI } from "Services";
 import ErrorBoundary from "lib/components/Utilities/ErrorBoundary";
+import customTheme from "lib/styles/customTheme";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASEURL as string;
+  OpenAPI.TOKEN = Cookies.get("adminToken") as string;
+  console.log(OpenAPI.TOKEN);
+
   let headers: HeadersInit;
 
   headers = {
@@ -30,8 +34,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       Authorization: `Bearer ${token}`,
     };
   }
-  OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASEURL as string;
-  OpenAPI.TOKEN = Cookies.get("token") as string;
 
   return (
     <ChakraProvider theme={customTheme}>

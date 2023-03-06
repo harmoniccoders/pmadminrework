@@ -7,4 +7,3 @@ export type CleaningQuoteModel = {
     proposedDate?: string;
     cleaningId?: number;
 };
-

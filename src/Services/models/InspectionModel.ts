@@ -8,4 +8,3 @@ export type InspectionModel = {
     userId?: number;
     propertyId?: number;
 };
-

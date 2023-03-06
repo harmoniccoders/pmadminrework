@@ -22,6 +22,6 @@
     "**/*.tsx",
     "src",
     "commitlint.config.js"
-  ],
+, "pages"  ],
   "exclude": ["node_modules", "script"]
 }

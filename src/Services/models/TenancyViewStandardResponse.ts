@@ -16,4 +16,3 @@ export type TenancyViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

@@ -16,4 +16,3 @@ export type PropertyViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

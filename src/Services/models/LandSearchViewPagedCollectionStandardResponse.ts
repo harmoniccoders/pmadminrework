@@ -9,4 +9,3 @@ export type LandSearchViewPagedCollectionStandardResponse = {
     data?: LandSearchViewPagedCollection;
     error?: RequestError;
 };
-

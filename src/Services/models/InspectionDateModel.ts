@@ -9,4 +9,3 @@ export type InspectionDateModel = {
     date?: string;
     times?: Array<InspectionTimeModel> | null;
 };
-

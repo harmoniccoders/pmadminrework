@@ -16,5 +16,5 @@ export type UserEnquiryView = {
     area?: string | null;
     dateCreated?: string;
     inspection?: Array<InspectionView> | null;
+    singleInspection?: InspectionView;
 };
-

@@ -2,6 +2,11 @@ import {
   Box,
   Flex,
   HStack,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Select,
   Table,
   TableContainer,
@@ -26,6 +31,10 @@ import TableNoContentWrapper from "./TableNoContentWrapper";
 const moment = require("moment");
 import { CSVLink } from "react-csv";
 import SingleTransaction from "../Modals/SingleTransaction";
+import { useRouter } from "next/router";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import { BsFilter } from "react-icons/bs";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 function AdminTransaction({ data }: any) {
   const result = data?.value;
@@ -99,6 +108,39 @@ function AdminTransaction({ data }: any) {
     setSelectedId([...selectedId, item]);
   };
 
+  const router = useRouter();
+  const filterStatus = (value: any) => {
+    router.push({
+      query: {
+        Status: value,
+      },
+    });
+  };
+
+  const [fromDate, setFromDate] = useState<any>(
+    new DateObject().subtract(4, "days")
+  );
+  const [toDate, setToDate] = useState<any>(new DateObject().add(4, "days"));
+
+  const [date, setDate] = useState<any>([
+    new DateObject().subtract(4, "days"),
+    new DateObject().add(4, "days"),
+  ]);
+
+  console.log("date[0].year");
+
+  function filterByDate() {
+    router.push({
+      query: {
+        StartDate: `${date[0].year}/${date[0].month}/${date[0].day}`,
+        EndDate: `${date[1].year}/${date[1].month}/${date[1].day}`,
+      },
+    });
+  }
+  function clearfilter() {
+    router.push({ query: { StartDate: "", EndDate: "" } });
+  }
+
   const csvReport = {
     data: selectedId,
     headers: thead,
@@ -135,8 +177,157 @@ function AdminTransaction({ data }: any) {
               <i className="far fa-file-export" style={{ color: "black" }}></i>
             </Flex>
           </CSVLink>
+          <Flex align="center">
+            {/* <HStack spacing={["0", ".5rem"]}>
+              <HStack>
+                <Text
+                  mb="0"
+                  fontSize=".8rem"
+                  fontWeight="600"
+                  display={["none", "block"]}
+                >
+                  From
+                </Text>
 
-          <Select
+                <Box marginInlineStart={["0 !important", ".5rem !important"]}>
+                  <DatePicker
+                    value={fromDate}
+                    onChange={setFromDate}
+                    format="MMM DD, YYYY"
+                    render={(value: any, openCalendar: any) => {
+                      return (
+                        <HStack
+                          w="fit-content"
+                          px="1rem"
+                          h="2.5rem"
+                          justifyContent="center"
+                          alignItems="center"
+                          border="2px solid"
+                          borderColor="black"
+                          color="black"
+                          boxShadow="sm"
+                          borderRadius="3px"
+                          cursor="pointer"
+                          fontSize=".9rem"
+                          onClick={(value) => openCalendar(value)}
+                        >
+                          <Text mb="0" whiteSpace="nowrap">
+                            {value}
+                          </Text>
+                          <Icon as={FaRegCalendarAlt} />
+                        </HStack>
+                      );
+                    }}
+                  />
+                </Box>
+              </HStack>
+              <HStack>
+                <Text
+                  mb="0"
+                  fontSize=".8rem"
+                  fontWeight="600"
+                  display={["none", "block"]}
+                >
+                  To
+                </Text>
+                <Text
+                  mb="0"
+                  fontSize=".8rem"
+                  fontWeight="600"
+                  display={["block", "none"]}
+                >
+                  -
+                </Text>
+
+                <DatePicker
+                  value={toDate}
+                  onChange={setToDate}
+                  format="MMM DD, YYYY"
+                  render={(value: any, openCalendar: any) => {
+                    return (
+                      <HStack
+                        w="fit-content"
+                        px="1rem"
+                        h="2.5rem"
+                        justifyContent="center"
+                        alignItems="center"
+                        border="2px solid"
+                        borderColor="black"
+                        color="black"
+                        boxShadow="sm"
+                        borderRadius="3px"
+                        cursor="pointer"
+                        fontSize=".9rem"
+                        onClick={openCalendar}
+                      >
+                        <Text mb="0" whiteSpace="nowrap">
+                          {value}
+                        </Text>
+                        <Icon as={FaRegCalendarAlt} />
+                      </HStack>
+                    );
+                  }}
+                />
+              </HStack>
+            </HStack> */}
+            <DatePicker
+              value={date}
+              onChange={setDate}
+              range
+              format="MMM DD, YYYY"
+              render={(stringDates: any, openCalendar: any) => {
+                const from = stringDates[0] || "";
+                const to = stringDates[1] || "";
+                const value = from && to ? from + " - " + to : from;
+                return (
+                  <HStack
+                    w="fit-content"
+                    px="1rem"
+                    h="2.5rem"
+                    justifyContent="center"
+                    alignItems="center"
+                    border="2px solid"
+                    borderColor="black"
+                    color="black"
+                    boxShadow="sm"
+                    borderRadius="3px"
+                    cursor="pointer"
+                    fontSize=".9rem"
+                    onClick={openCalendar}
+                  >
+                    <Text mb="0" whiteSpace="nowrap">
+                      {value}
+                    </Text>
+                    <Icon as={FaRegCalendarAlt} />
+                  </HStack>
+                );
+              }}
+            />
+
+            {/* <Tooltip hasArrow label="Click to apply filter"> */}
+            <Menu>
+              <MenuButton
+                ml=".5rem"
+                // bgColor="red"
+              >
+                <Icon as={BsFilter} />
+              </MenuButton>
+              <MenuList fontSize=".8rem">
+                <MenuItem onClick={filterByDate}>
+                  <Text fontWeight="500" color="brand.100" mb="0">
+                    Apply filter
+                  </Text>
+                </MenuItem>
+                <MenuItem onClick={clearfilter}>
+                  <Text fontWeight="500" color="brand.100" mb="0">
+                    Clear filter
+                  </Text>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+            {/* </Tooltip> */}
+          </Flex>
+          {/* <Select
             placeholder="5 aug 2020 - 7 aug 2020"
             borderRadius="3px"
             w="217px"
@@ -148,20 +339,21 @@ function AdminTransaction({ data }: any) {
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
-          </Select>
+          </Select> */}
           <Select
             w="99px"
             bgColor="white"
             borderRadius="3px"
             color="black"
-            placeholder="Filter"
             fontSize="12px"
             border="2px solid black !important"
             fontWeight="500"
+            onChange={(e) => filterStatus(e.target.value)}
           >
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+            <option value="failed">Failed</option>
           </Select>
         </HStack>
       </HStack>

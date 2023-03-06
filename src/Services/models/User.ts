@@ -70,4 +70,3 @@ export type User = {
     bank?: string | null;
     accountNumber?: string | null;
 };
-

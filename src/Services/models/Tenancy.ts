@@ -25,4 +25,3 @@ export type Tenancy = {
     status?: Status;
     agreed?: boolean;
 };
-

@@ -35,13 +35,13 @@ export class TenancyService {
     }
 
     /**
-     * @param tenancyId
+     * @param tenancyId 
      * @returns StringStandardResponse Success
      * @throws ApiError
      */
     public static getTenancyAgreement(
-        tenancyId: number,
-    ): CancelablePromise<StringStandardResponse> {
+tenancyId: number,
+): CancelablePromise<StringStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Tenancy/agreemet/{tenancyId}',
@@ -52,13 +52,13 @@ export class TenancyService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns TenancyViewStandardResponse Success
      * @throws ApiError
      */
     public static toggleRenewability(
-        id: number,
-    ): CancelablePromise<TenancyViewStandardResponse> {
+id: number,
+): CancelablePromise<TenancyViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Tenancy/renewable/toggle/{id}',
@@ -69,16 +69,33 @@ export class TenancyService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BooleanStandardResponse Success
      * @throws ApiError
      */
     public static updateTenancyAgreement(
-        id: number,
-    ): CancelablePromise<BooleanStandardResponse> {
+id: number,
+): CancelablePromise<BooleanStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Tenancy/agreement/update/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns TenancyViewStandardResponse Success
+     * @throws ApiError
+     */
+    public static getTenancy(
+id: number,
+): CancelablePromise<TenancyViewStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/Tenancy/{id}',
             path: {
                 'id': id,
             },

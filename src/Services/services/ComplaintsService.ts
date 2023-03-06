@@ -18,13 +18,13 @@ import { request as __request } from '../core/request';
 export class ComplaintsService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns ComplaintsViewStandardResponse Success
      * @throws ApiError
      */
     public static createComplaints(
-        requestBody?: ComplaintsModel,
-    ): CancelablePromise<ComplaintsViewStandardResponse> {
+requestBody?: ComplaintsModel,
+): CancelablePromise<ComplaintsViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Complaints/create',
@@ -34,15 +34,15 @@ export class ComplaintsService {
     }
 
     /**
-     * @param offset
-     * @param limit
+     * @param offset 
+     * @param limit 
      * @returns ComplaintsViewIEnumerableStandardResponse Success
      * @throws ApiError
      */
     public static listMyComplaints(
-        offset?: number | null,
-        limit?: number | null,
-    ): CancelablePromise<ComplaintsViewIEnumerableStandardResponse> {
+offset?: number | null,
+limit?: number | null,
+): CancelablePromise<ComplaintsViewIEnumerableStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Complaints/list',
@@ -54,17 +54,17 @@ export class ComplaintsService {
     }
 
     /**
-     * @param propertyId
-     * @param offset
-     * @param limit
+     * @param propertyId 
+     * @param offset 
+     * @param limit 
      * @returns ComplaintsViewPagedCollectionStandardResponse Success
      * @throws ApiError
      */
     public static listComplaints(
-        propertyId: number,
-        offset?: number | null,
-        limit?: number | null,
-    ): CancelablePromise<ComplaintsViewPagedCollectionStandardResponse> {
+propertyId: number,
+offset?: number | null,
+limit?: number | null,
+): CancelablePromise<ComplaintsViewPagedCollectionStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Complaints/property/{propertyId}/list',
@@ -79,13 +79,33 @@ export class ComplaintsService {
     }
 
     /**
-     * @param complaintsId
+     * @param offset 
+     * @param limit 
+     * @returns ComplaintsViewPagedCollectionStandardResponse Success
+     * @throws ApiError
+     */
+    public static listAllComplaints(
+offset?: number | null,
+limit?: number | null,
+): CancelablePromise<ComplaintsViewPagedCollectionStandardResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/Complaints/property/list/all',
+            query: {
+                'Offset': offset,
+                'Limit': limit,
+            },
+        });
+    }
+
+    /**
+     * @param complaintsId 
      * @returns ComplaintsViewStandardResponse Success
      * @throws ApiError
      */
     public static authorizeComplaints(
-        complaintsId: number,
-    ): CancelablePromise<ComplaintsViewStandardResponse> {
+complaintsId: number,
+): CancelablePromise<ComplaintsViewStandardResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Complaints/authorize/{complaintsId}',
@@ -96,13 +116,13 @@ export class ComplaintsService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns ComplaintsCategoryStandardResponse Success
      * @throws ApiError
      */
     public static createCategory(
-        requestBody?: NameModel,
-    ): CancelablePromise<ComplaintsCategoryStandardResponse> {
+requestBody?: NameModel,
+): CancelablePromise<ComplaintsCategoryStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Complaints/categories/create',
@@ -112,13 +132,13 @@ export class ComplaintsService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns ComplaintsSubCategoryStandardResponse Success
      * @throws ApiError
      */
     public static createSubcategory(
-        requestBody?: ComplaintsSubCategory,
-    ): CancelablePromise<ComplaintsSubCategoryStandardResponse> {
+requestBody?: ComplaintsSubCategory,
+): CancelablePromise<ComplaintsSubCategoryStandardResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Complaints/subcategory/create',

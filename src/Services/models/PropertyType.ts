@@ -8,4 +8,3 @@ export type PropertyType = {
     dateModified?: string;
     name?: string | null;
 };
-

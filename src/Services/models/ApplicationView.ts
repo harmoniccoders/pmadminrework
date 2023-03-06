@@ -16,4 +16,3 @@ export type ApplicationView = {
     reliefAmount?: number;
     dateCreated?: string;
 };
-

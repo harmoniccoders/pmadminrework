@@ -11,4 +11,3 @@ export type ComplaintsCategory = {
     name?: string | null;
     complaintsSubCategories?: Array<ComplaintsSubCategory> | null;
 };
-

@@ -8,4 +8,3 @@ export type RentCollectionType = {
     dateModified?: string;
     name?: string | null;
 };
-

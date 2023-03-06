@@ -16,4 +16,3 @@ export type PaymentViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

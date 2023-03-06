@@ -10,4 +10,3 @@ export type InspectionView = {
     inspectionTime?: InspectionTimeView;
     inspectionDate?: InspectionDateView;
 };
-

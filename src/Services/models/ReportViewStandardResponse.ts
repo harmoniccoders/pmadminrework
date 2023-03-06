@@ -16,4 +16,3 @@ export type ReportViewStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

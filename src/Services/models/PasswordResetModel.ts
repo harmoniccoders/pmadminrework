@@ -6,4 +6,3 @@ export type PasswordResetModel = {
     existingPassword?: string | null;
     newPassword?: string | null;
 };
-

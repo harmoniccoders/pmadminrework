@@ -14,4 +14,3 @@ export type CleaningModel = {
     fileNumber?: string | null;
     location?: string | null;
 };
-

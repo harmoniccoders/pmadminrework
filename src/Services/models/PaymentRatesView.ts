@@ -8,4 +8,3 @@ export type PaymentRatesView = {
     rates?: number;
     total?: number;
 };
-

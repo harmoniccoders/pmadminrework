@@ -57,4 +57,3 @@ export type Property = {
     inspections?: Array<Inspections> | null;
     documentUrl?: string | null;
 };
-

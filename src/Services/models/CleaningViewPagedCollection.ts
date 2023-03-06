@@ -16,4 +16,3 @@ export type CleaningViewPagedCollection = {
     self?: Link;
     value?: Array<CleaningView> | null;
 };
-

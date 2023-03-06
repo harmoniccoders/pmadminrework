@@ -37,4 +37,3 @@ export type PropertyModel = {
     propertyRequestMatchId?: number;
     documentUrl?: string | null;
 };
-

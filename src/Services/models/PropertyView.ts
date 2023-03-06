@@ -39,4 +39,3 @@ export type PropertyView = {
     propertyTypeId?: number;
     documentUrl?: string | null;
 };
-

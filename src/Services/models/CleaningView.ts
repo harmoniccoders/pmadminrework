@@ -24,4 +24,3 @@ export type CleaningView = {
     location?: string | null;
     cleaningQuotes?: Array<CleaningQuoteView> | null;
 };
-

@@ -14,4 +14,3 @@ export type BooleanStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

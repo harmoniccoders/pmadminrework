@@ -9,4 +9,3 @@ export type LandSearchViewStandardResponse = {
     data?: LandSearchView;
     error?: RequestError;
 };
-

@@ -16,4 +16,3 @@ export type UserEnquiryPagedCollectionStandardResponse = {
     statusCode?: string | null;
     errors?: any;
 };
-

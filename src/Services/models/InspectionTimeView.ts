@@ -7,4 +7,3 @@ export type InspectionTimeView = {
     time?: string;
     available?: boolean;
 };
-

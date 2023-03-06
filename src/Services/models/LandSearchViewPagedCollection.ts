@@ -16,4 +16,3 @@ export type LandSearchViewPagedCollection = {
     self?: Link;
     value?: Array<LandSearchView> | null;
 };
-

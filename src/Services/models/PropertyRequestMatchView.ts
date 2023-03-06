@@ -11,4 +11,3 @@ export type PropertyRequestMatchView = {
     propertyRequest?: PropertyRequest;
     status?: string | null;
 };
-

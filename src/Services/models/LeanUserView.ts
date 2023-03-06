@@ -21,4 +21,3 @@ export type LeanUserView = {
     dateOfBirth?: string;
     address?: string | null;
 };
-

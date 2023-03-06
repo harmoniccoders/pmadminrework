@@ -17,4 +17,3 @@ export type TenancyView = {
     renewable?: boolean;
     agreed?: boolean;
 };
-
